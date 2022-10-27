@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+<title>Title</title>
+</head>
+<body>
+<h1 class="auth-title">Редактирование</h1>
+
+<div th:text="${message}">
+  {
+</div>
+
+<form action="" method="post">
+  <div class="form-group">
+    <input class="input" type="text" name="address"
+           placeholder="Редактировать адрес" th:value="${building?.address}">
+  </div>
+
+  <div class="form-group">
+    <input class="input" type="text" name="name"
+           placeholder="Редактировать название" th:value="${building?.name}">
+  </div>
+
+  <div class="form-group">
+    <input class="input" type="date" name="constraction_start"
+           placeholder="Редактировать дату начала стройки" th:value="${building?.constraction_start_date}">
+  </div>
+
+  <div class="form-group">
+    <input class="input" type="date" name="expected_commissioning"
+           placeholder="Редактировать дату окончания стройки" th:value="${building?.expected_commissioning_date}">
+  </div>
+
+  <div class="form-group">
+    <input class="input" type="date" name="commissioning"
+           placeholder="Редактировать дату сдачи" th:value="${building?.commissioning_date}">
+  </div>
+
+  <button class="btn" type="submit">Редактировать</button>
+</form>
+<a href="/" >Главная</a>
+</body>
+</html>
