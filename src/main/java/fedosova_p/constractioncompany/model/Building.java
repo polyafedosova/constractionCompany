@@ -1,5 +1,7 @@
 package fedosova_p.constractioncompany.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -12,10 +14,13 @@ public class Building {
     private String address;
     private String name;
     @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-mm-dd")
     private Date constraction_start_date;
     @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-mm-dd")
     private Date expected_commissioning_date;
     @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-mm-dd")
     private Date commissioning_date;
 
     public Long getBuilding_id() {
