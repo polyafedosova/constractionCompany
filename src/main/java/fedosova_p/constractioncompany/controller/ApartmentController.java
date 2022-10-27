@@ -1,8 +1,8 @@
-package fedosova_p.copnstractioncompany.controller;
+package fedosova_p.constractioncompany.controller;
 
-import fedosova_p.copnstractioncompany.model.Apartment;
-import fedosova_p.copnstractioncompany.model.Building;
-import fedosova_p.copnstractioncompany.repository.ApartmentRepository;
+import fedosova_p.constractioncompany.model.Apartment;
+import fedosova_p.constractioncompany.model.Building;
+import fedosova_p.constractioncompany.repository.ApartmentRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

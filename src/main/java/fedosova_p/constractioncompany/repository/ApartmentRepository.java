@@ -1,7 +1,7 @@
-package fedosova_p.copnstractioncompany.repository;
+package fedosova_p.constractioncompany.repository;
 
-import fedosova_p.copnstractioncompany.model.Apartment;
-import fedosova_p.copnstractioncompany.model.Building;
+import fedosova_p.constractioncompany.model.Apartment;
+import fedosova_p.constractioncompany.model.Building;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

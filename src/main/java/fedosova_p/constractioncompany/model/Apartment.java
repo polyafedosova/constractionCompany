@@ -1,4 +1,4 @@
-package fedosova_p.copnstractioncompany.model;
+package fedosova_p.constractioncompany.model;
 
 import javax.persistence.*;
 
@@ -8,7 +8,6 @@ public class Apartment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long apartment_id;
-
     private int number;
     private int floor;
     private int entrance;
@@ -16,7 +15,7 @@ public class Apartment {
     private double living_area;
     private int number_rooms;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "buildings_id")
+    @JoinColumn(name = "building_id")
     private Building building;
 
     public Long getApartment_id() {

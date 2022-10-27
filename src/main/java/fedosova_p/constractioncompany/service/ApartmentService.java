@@ -1,7 +1,7 @@
-package fedosova_p.copnstractioncompany.service;
+package fedosova_p.constractioncompany.service;
 
-import fedosova_p.copnstractioncompany.model.Apartment;
-import fedosova_p.copnstractioncompany.repository.ApartmentRepository;
+import fedosova_p.constractioncompany.model.Apartment;
+import fedosova_p.constractioncompany.repository.ApartmentRepository;
 import org.springframework.stereotype.Service;
 
 @Service

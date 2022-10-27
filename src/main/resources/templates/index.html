@@ -8,14 +8,14 @@
 <div>Список строений</div>
 <ul>
     <th:block th:each="building: ${buildings}">
-        <a href="/apartments/" th:attrappend="href=${building?.building_id}">
         <li th:utext="${building?.address}">..</li>
+        <a href="/apartments/" th:attrappend="href=${building?.building_id}">
         <li th:utext="${building?.name}">..</li>
+        </a>
         <li th:utext="${building?.constraction_start_date}">..</li>
         <li th:utext="${building?.expected_commissioning_date}">..</li>
         <li th:utext="${building?.commissioning_date}">..</li>
         <p>-----------------------------------------</p>
-        </a>
     </th:block>
 </ul>
 </body>

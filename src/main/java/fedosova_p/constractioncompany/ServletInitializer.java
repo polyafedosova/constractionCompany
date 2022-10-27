@@ -1,4 +1,4 @@
-package fedosova_p.copnstractioncompany;
+package fedosova_p.constractioncompany;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;

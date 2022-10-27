@@ -1,7 +1,7 @@
-package fedosova_p.copnstractioncompany.service;
+package fedosova_p.constractioncompany.service;
 
-import fedosova_p.copnstractioncompany.model.Building;
-import fedosova_p.copnstractioncompany.repository.BuildingRepository;
+import fedosova_p.constractioncompany.model.Building;
+import fedosova_p.constractioncompany.repository.BuildingRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

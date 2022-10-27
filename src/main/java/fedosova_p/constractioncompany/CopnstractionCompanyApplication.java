@@ -1,4 +1,4 @@
-package fedosova_p.copnstractioncompany;
+package fedosova_p.constractioncompany;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

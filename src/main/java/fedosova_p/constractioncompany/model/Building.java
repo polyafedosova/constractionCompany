@@ -1,4 +1,4 @@
-package fedosova_p.copnstractioncompany.model;
+package fedosova_p.constractioncompany.model;
 
 import javax.persistence.*;
 import java.util.Date;

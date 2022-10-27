@@ -1,6 +1,6 @@
-package fedosova_p.copnstractioncompany.repository;
+package fedosova_p.constractioncompany.repository;
 
-import fedosova_p.copnstractioncompany.model.Building;
+import fedosova_p.constractioncompany.model.Building;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BuildingRepository extends JpaRepository<Building, Long> {
