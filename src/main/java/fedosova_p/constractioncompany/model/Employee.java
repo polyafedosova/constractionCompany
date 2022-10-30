@@ -1,5 +1,6 @@
 package fedosova_p.constractioncompany.model;
 
+import fedosova_p.constractioncompany.model.enums.Post;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;

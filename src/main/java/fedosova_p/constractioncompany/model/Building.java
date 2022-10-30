@@ -8,7 +8,8 @@ import java.util.Date;
 @Entity(name = "buildings")
 public class Building {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "menuSeq")
+    @SequenceGenerator(name = "menuSeq", initialValue = 10, allocationSize = 1, sequenceName = "MENU_SEQUENCE")
     private Long building_id;
 
     private String address;

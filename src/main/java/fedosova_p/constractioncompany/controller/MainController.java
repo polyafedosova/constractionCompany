@@ -32,20 +32,4 @@ public class MainController {
         model.addAttribute("buildings", listBuildings);
         return "index";
     }
-
-    @GetMapping("editBuilding/{building}")
-    public String getEditBuildingPage(Model model, @PathVariable(required = false) Building building) {
-        model.addAttribute("building", building);
-        return "buildingEdit";
-    }
-
-    @PostMapping("editBuilding/{building}")
-    public String editBuilding(Model model, @ModelAttribute Building building) {
-        model.addAttribute("building", building);
-        if (!buildingService.updateBuilding(building)) {
-            model.addAttribute("message", "Введены некорректные данные");
-        } else {
-            model.addAttribute("message", "Данные успешно изменены");
-        } return "buildingEdit";
-    }
 }

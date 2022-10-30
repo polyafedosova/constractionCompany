@@ -1,4 +1,4 @@
-package fedosova_p.constractioncompany.model;
+package fedosova_p.constractioncompany.model.enums;
 
 public enum Post {
     manager,

@@ -5,6 +5,24 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
+<div>
+    <form method="post" action="addBuilding">
+        <div th:text="${message}">
+            {
+        </div>
+        <input th:value="${buildingToAdd?.address}" type="text" name="address"
+               placeholder="Введите address">
+        <input th:value="${buildingToAdd?.name}" type="text" name="name"
+               placeholder="Введите name">
+        <input th:value="${buildingToAdd?.constraction_start_date}" type="date" name="constraction_start_date"
+               placeholder="Введите constraction_start_date">
+        <input th:value="${buildingToAdd?.expected_commissioning_date}" type="date" name="expected_commissioning_date"
+               placeholder="Введите expected_commissioning_date">
+        <input th:value="${buildingToAdd?.commissioning_date}" type="date" name="commissioning_date"
+               placeholder="Введите commissioning_date">
+        <button type="submit">Добавить</button>
+    </form>
+</div>
 <div>Список строений</div>
 <ul>
     <th:block th:each="building: ${buildings}">
@@ -19,6 +37,9 @@
             </a>
             <a href="/editBuilding/" th:attrappend="href=${building?.building_id}">
                 Редактировать строение
+            </a>
+            <a href="/deleteBuilding/" th:attrappend="href=${building?.building_id}">
+                Удалить строение
             </a>
         </div>
         <p>-----------------------------------------</p>
