@@ -1,10 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-
+<div>
+    <form method="post" action="building/addBuilding">
+        <div th:text="${message}">
+            {
+        </div>
+        <input th:value="${buildingToAdd?.address}" type="text" name="address"
+               placeholder="Введите адрес">
+        <input th:value="${buildingToAdd?.name}" type="text" name="name"
+               placeholder="Введите название комплекса">
+        <input th:value="${buildingToAdd?.constraction_start_date}" type="date" name="constraction_start_date"
+               placeholder="Введите дату начала строительства">
+        <input th:value="${buildingToAdd?.expected_commissioning_date}" type="date" name="expected_commissioning_date"
+               placeholder="Введите ожидаемую дату окончания строительства">
+        <input th:value="${buildingToAdd?.commissioning_date}" type="date" name="commissioning_date"
+               placeholder="Введите дату сдачи объекта">
+        <button type="submit">Добавить</button>
+    </form>
+</div>
+<div>Список строений</div>
+<ul>
+    <th:block th:each="building: ${buildings}">
+        <li th:utext="${building?.address}">..</li>
+        <li th:utext="${building?.name}">..</li>
+        <li th:utext="${building?.constraction_start_date}">..</li>
+        <li th:utext="${building?.expected_commissioning_date}">..</li>
+        <li th:utext="${building?.commissioning_date}">..</li>
+        <div>
+            <a href="/apartments/" th:attrappend="href=${building?.building_id}">
+                Посмотреть апартаменты
+            </a>
+            <a href="/editBuilding/" th:attrappend="href=${building?.building_id}">
+                Редактировать строение
+            </a>
+            <a href="/deleteBuilding/" th:attrappend="href=${building?.building_id}">
+                Удалить строение
+            </a>
+        </div>
+        <p>-----------------------------------------</p>
+    </th:block>
+</ul>
 </body>
 </html>

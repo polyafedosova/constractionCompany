@@ -72,6 +72,6 @@ public class ApartmentController {
         if (!apartmentService.deleteApartment(apartment)) {
             redirectAttributes.addFlashAttribute("message", "Неизвестная ошибка");
         } else redirectAttributes.addFlashAttribute("message", "Квартира успешно удалена");
-        return "redirect://apartments/{building}";
+        return "redirect:/apartments/{building}";
     }
 }

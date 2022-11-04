@@ -25,11 +25,4 @@ public class MainController {
         this.buildingService = buildingService;
         this.apartmentService = apartmentService;
     }
-
-    @GetMapping("/")
-    public String getMainPage(Model model) {
-        List<Building> listBuildings = new LinkedList<>(buildingService.getAll());
-        model.addAttribute("buildings", listBuildings);
-        return "index";
-    }
 }

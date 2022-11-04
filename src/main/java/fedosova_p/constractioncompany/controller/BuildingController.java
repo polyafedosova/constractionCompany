@@ -1,9 +1,7 @@
 package fedosova_p.constractioncompany.controller;
 
 import fedosova_p.constractioncompany.model.Building;
-import fedosova_p.constractioncompany.repository.BuildingRepository;
 import fedosova_p.constractioncompany.service.BuildingService;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +17,13 @@ public class BuildingController {
 
     public BuildingController(BuildingService buildingService) {
         this.buildingService = buildingService;
+    }
+
+    @GetMapping("building")
+    public String getBuildings(Model model) {
+        List<Building> listBuildings = new LinkedList<>(buildingService.getAll());
+        model.addAttribute("buildings", listBuildings);
+        return "buildingsList";
     }
 
     @GetMapping("editBuilding/{building}")
@@ -37,7 +42,7 @@ public class BuildingController {
         } return "buildingEdit";
     }
 
-    @PostMapping("addBuilding")
+    @PostMapping("building/addBuilding")
     public String addBuilding(Model model, @ModelAttribute Building building,
                               RedirectAttributes redirectAttributes) {
         List<Building> listBuildings = new LinkedList<>(buildingService.getAll());
@@ -45,15 +50,15 @@ public class BuildingController {
         if (!buildingService.isDataCorrectly(building)) {
             redirectAttributes.addFlashAttribute("message", "Введены некорректные данные");
             redirectAttributes.addFlashAttribute("buildingToAdd", building);
-            return "redirect:/";
+            return "redirect:/building";
         }
         if (!buildingService.saveBuilding(building)) {
             redirectAttributes.addFlashAttribute("message", "Данное строение уже существует");
             redirectAttributes.addFlashAttribute("buildingToAdd", building);
-            return "redirect:/";
+            return "redirect:/building";
         }
         redirectAttributes.addFlashAttribute("message", "Строение успешно добавлено");
-        return "redirect:/";
+        return "redirect:/building";
     }
 
     @GetMapping("deleteBuilding/{building}")
@@ -61,6 +66,6 @@ public class BuildingController {
         if (!buildingService.deleteBuilding(building)) {
             redirectAttributes.addFlashAttribute("message", "Неизвестная ошибка");
         } else redirectAttributes.addFlashAttribute("message", "Строение успешно удалено");
-        return "redirect:/";
+        return "redirect:/building";
     }
 }
