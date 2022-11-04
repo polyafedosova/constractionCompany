@@ -6,7 +6,7 @@
 </head>
 <body>
 <div>
-    <form method="post" action="building/addBuilding">
+    <form method="post" action="addBuilding">
         <div th:text="${message}">
             {
         </div>
@@ -32,13 +32,13 @@
         <li th:utext="${building?.expected_commissioning_date}">..</li>
         <li th:utext="${building?.commissioning_date}">..</li>
         <div>
-            <a href="/apartments/" th:attrappend="href=${building?.building_id}">
+            <a href="/apartments/" th:attrprepend="href=${building?.building_id}">
                 Посмотреть апартаменты
             </a>
-            <a href="/editBuilding/" th:attrappend="href=${building?.building_id}">
+            <a href="/editBuilding/" th:attrprepend="href=${building?.building_id}">
                 Редактировать строение
             </a>
-            <a href="/deleteBuilding/" th:attrappend="href=${building?.building_id}">
+            <a href="/deleteBuilding/" th:attrprepend="href=${building?.building_id}">
                 Удалить строение
             </a>
         </div>

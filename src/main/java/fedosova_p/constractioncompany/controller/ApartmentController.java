@@ -23,7 +23,7 @@ public class ApartmentController {
         this.apartmentService = apartmentService;
     }
 
-    @GetMapping("apartments/{building}")
+    @GetMapping("building/{building}/apartments")
     public String getApartments(Model model, @PathVariable Building building) {
         List<Apartment> apartmentList = new LinkedList<>(apartmentRepository.findByBuilding(building));
         model.addAttribute("apartments", apartmentList);
@@ -31,13 +31,13 @@ public class ApartmentController {
         return "apartmentsList";
     }
 
-    @GetMapping("editApartment/{apartment}")
+    @GetMapping("{apartment}/editApartment")
     public String getEditApartmentPage(Model model, @PathVariable(required = false) Apartment apartment) {
         model.addAttribute("apartment", apartment);
         return "apartmentEdit";
     }
 
-    @PostMapping("editApartment/{apartment}")
+    @PostMapping("{apartment}/editApartment")
     public String editApartment(Model model, @ModelAttribute Apartment apartment) {
         model.addAttribute("apartment", apartment);
         if (!apartmentService.updateApartment(apartment)) {
@@ -67,11 +67,11 @@ public class ApartmentController {
         return "redirect:/apartments/{building}";
     }
 
-    @GetMapping("deleteApartment/{apartment}")
+    @GetMapping("{apartment}/deleteApartment")
     public String deleteApartment(@PathVariable Apartment apartment, RedirectAttributes redirectAttributes) {
         if (!apartmentService.deleteApartment(apartment)) {
             redirectAttributes.addFlashAttribute("message", "Неизвестная ошибка");
         } else redirectAttributes.addFlashAttribute("message", "Квартира успешно удалена");
-        return "redirect:/apartments/{building}";
+        return "redirect:{building}/apartments";
     }
 }

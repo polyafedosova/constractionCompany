@@ -26,13 +26,13 @@ public class BuildingController {
         return "buildingsList";
     }
 
-    @GetMapping("editBuilding/{building}")
+    @GetMapping("{building}/editBuilding")
     public String getEditBuildingPage(Model model, @PathVariable(required = false) Building building) {
         model.addAttribute("building", building);
         return "buildingEdit";
     }
 
-    @PostMapping("editBuilding/{building}")
+    @PostMapping("{building}/editBuilding")
     public String editBuilding(Model model, @ModelAttribute Building building) {
         model.addAttribute("building", building);
         if (!buildingService.updateBuilding(building)) {
@@ -61,7 +61,7 @@ public class BuildingController {
         return "redirect:/building";
     }
 
-    @GetMapping("deleteBuilding/{building}")
+    @GetMapping("{building}/deleteBuilding")
     public String deleteBuilding(@PathVariable Building building, RedirectAttributes redirectAttributes) {
         if (!buildingService.deleteBuilding(building)) {
             redirectAttributes.addFlashAttribute("message", "Неизвестная ошибка");

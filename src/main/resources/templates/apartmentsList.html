@@ -44,10 +44,10 @@
     <li th:utext="${apartment?.living_area}">..</li>
     <li th:utext="${apartment?.number_rooms}">..</li>
     <div>
-      <a href="/editApartment/" th:attrappend="href=${apartment?.apartment_id}">
+      <a href="/editApartment/" th:attrprepend="href=${apartment?.apartment_id}">
         Редактировать квартиру
       </a>
-      <a href="/deleteApartment/" th:attrappend="href=${apartment?.apartment_id}">
+      <a href="/deleteApartment/" th:attrprepend="href=${apartment?.apartment_id}">
         Удалить квартиру
       </a>
     </div>
