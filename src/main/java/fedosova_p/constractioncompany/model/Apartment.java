@@ -6,7 +6,8 @@ import javax.persistence.*;
 public class Apartment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "genSeq")
+    @SequenceGenerator(name = "genSeq", initialValue = 1733, allocationSize = 1, sequenceName = "GENERATOR_SEQUENCE")
     private Long apartment_id;
     private int number;
     private int floor;

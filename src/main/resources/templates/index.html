@@ -11,15 +11,15 @@
             {
         </div>
         <input th:value="${buildingToAdd?.address}" type="text" name="address"
-               placeholder="Введите address">
+               placeholder="Введите адрес">
         <input th:value="${buildingToAdd?.name}" type="text" name="name"
-               placeholder="Введите name">
+               placeholder="Введите название комплекса">
         <input th:value="${buildingToAdd?.constraction_start_date}" type="date" name="constraction_start_date"
-               placeholder="Введите constraction_start_date">
+               placeholder="Введите дату начала строительства">
         <input th:value="${buildingToAdd?.expected_commissioning_date}" type="date" name="expected_commissioning_date"
-               placeholder="Введите expected_commissioning_date">
+               placeholder="Введите ожидаемую дату окончания строительства">
         <input th:value="${buildingToAdd?.commissioning_date}" type="date" name="commissioning_date"
-               placeholder="Введите commissioning_date">
+               placeholder="Введите дату сдачи объекта">
         <button type="submit">Добавить</button>
     </form>
 </div>

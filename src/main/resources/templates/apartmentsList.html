@@ -14,6 +14,26 @@
     <li th:utext="${building?.commissioning_date}">..</li>
   </ul>
 </div>
+<div>
+  <form method="post" th:action="@{/building/__${building?.building_id}__/addApartment}">
+    <div th:text="${message}">
+      {
+    </div>
+    <input th:value="${apartmentToAdd?.number}" type="text" name="number"
+           placeholder="Введите номер квартиры">
+    <input th:value="${apartmentToAdd?.floor}" type="text" name="floor"
+           placeholder="Введите этаж">
+    <input th:value="${apartmentToAdd?.entrance}" type="text" name="entrance"
+           placeholder="Введите подъезд">
+    <input th:value="${apartmentToAdd?.total_area}" type="text" name="total_area"
+           placeholder="Введите общую площадь">
+    <input th:value="${apartmentToAdd?.living_area}" type="text" name="living_area"
+           placeholder="Введите жилую площадь">
+    <input th:value="${apartmentToAdd?.number_rooms}" type="number" name="number_rooms"
+           placeholder="Введите количество комнат">
+    <button type="submit">Добавить</button>
+  </form>
+</div>
 <div>Список апартаментов</div>
 <ul>
   <th:block th:each="apartment: ${apartments}">
@@ -23,6 +43,14 @@
     <li th:utext="${apartment?.total_area}">..</li>
     <li th:utext="${apartment?.living_area}">..</li>
     <li th:utext="${apartment?.number_rooms}">..</li>
+    <div>
+      <a href="/editApartment/" th:attrappend="href=${apartment?.apartment_id}">
+        Редактировать квартиру
+      </a>
+      <a href="/deleteApartment/" th:attrappend="href=${apartment?.apartment_id}">
+        Удалить квартиру
+      </a>
+    </div>
     <p>-----------------------------------------</p>
   </th:block>
 </ul>
