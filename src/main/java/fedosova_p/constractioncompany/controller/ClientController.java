@@ -1,38 +1,42 @@
 package fedosova_p.constractioncompany.controller;
 
 import fedosova_p.constractioncompany.model.Building;
-import fedosova_p.constractioncompany.service.BuildingService;
+import fedosova_p.constractioncompany.model.Client;
+import fedosova_p.constractioncompany.service.ClientService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.LinkedList;
 import java.util.List;
 
 @Controller
-public class BuildingController {
+public class ClientController {
 
-    private final BuildingService buildingService;
+    private final ClientService clientService;
 
-    public BuildingController(BuildingService buildingService) {
-        this.buildingService = buildingService;
+    public ClientController(ClientService clientService) {
+        this.clientService = clientService;
     }
 
-    @GetMapping("buildings")
-    public String getBuildings(Model model) {
-        List<Building> listBuildings = new LinkedList<>(buildingService.getAll());
-        model.addAttribute("buildings", listBuildings);
-        return "buildingsList";
+    @GetMapping("clients")
+    public String getClient(Model model) {
+        List<Client> listBuildings = new LinkedList<>(clientService.getAll());
+        model.addAttribute("clients", listBuildings);
+        return "clientsList";
     }
 
-    @GetMapping("buildings/{building}/editBuilding")
+    /* @GetMapping("buildings/{building}/editBuilding")
     public String getEditBuildingPage(Model model, @PathVariable(required = false) Building building) {
         model.addAttribute("building", building);
         return "buildingEdit";
     }
 
-    @PostMapping("buildings/{building}/editBuilding")
+    @PostMapping("building/{building}/editBuilding")
     public String editBuilding(Model model, @ModelAttribute Building building) {
         model.addAttribute("building", building);
         if (!buildingService.updateBuilding(building)) {
@@ -42,7 +46,7 @@ public class BuildingController {
         } return "buildingEdit";
     }
 
-    @PostMapping("buildings/addBuilding")
+    @PostMapping("building/addBuilding")
     public String addBuilding(Model model, @ModelAttribute Building building,
                               RedirectAttributes redirectAttributes) {
         List<Building> listBuildings = new LinkedList<>(buildingService.getAll());
@@ -50,22 +54,22 @@ public class BuildingController {
         if (!buildingService.isDataCorrectly(building)) {
             redirectAttributes.addFlashAttribute("message", "Введены некорректные данные");
             redirectAttributes.addFlashAttribute("buildingToAdd", building);
-            return "redirect:/buildings";
+            return "redirect:/building";
         }
         if (!buildingService.saveBuilding(building)) {
             redirectAttributes.addFlashAttribute("message", "Данное строение уже существует");
             redirectAttributes.addFlashAttribute("buildingToAdd", building);
-            return "redirect:/buildings";
+            return "redirect:/building";
         }
         redirectAttributes.addFlashAttribute("message", "Строение успешно добавлено");
-        return "redirect:/buildings";
+        return "redirect:/building";
     }
 
-    @GetMapping("buildings/{building}/deleteBuilding")
+    @GetMapping("building/{building}/deleteBuilding")
     public String deleteBuilding(@PathVariable Building building, RedirectAttributes redirectAttributes) {
         if (!buildingService.deleteBuilding(building)) {
             redirectAttributes.addFlashAttribute("message", "Неизвестная ошибка");
         } else redirectAttributes.addFlashAttribute("message", "Строение успешно удалено");
-        return "redirect:/buildings";
-    }
+        return "redirect:/building";
+    }*/
 }

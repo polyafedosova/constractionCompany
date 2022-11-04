@@ -15,7 +15,7 @@
   </ul>
 </div>
 <div>
-  <form method="post" th:action="@{/building/__${building?.building_id}__/addApartment}">
+  <form method="post" th:action="@{/building/__${building?.building_id}__/apartments/addApartment}">
     <div th:text="${message}">
       {
     </div>
@@ -29,7 +29,7 @@
            placeholder="Введите общую площадь">
     <input th:value="${apartmentToAdd?.living_area}" type="text" name="living_area"
            placeholder="Введите жилую площадь">
-    <input th:value="${apartmentToAdd?.number_rooms}" type="number" name="number_rooms"
+    <input th:value="${apartmentToAdd?.number_rooms}" type="number" min=1 max=5 name="number_rooms"
            placeholder="Введите количество комнат">
     <button type="submit">Добавить</button>
   </form>
@@ -44,10 +44,10 @@
     <li th:utext="${apartment?.living_area}">..</li>
     <li th:utext="${apartment?.number_rooms}">..</li>
     <div>
-      <a href="/editApartment/" th:attrprepend="href=${apartment?.apartment_id}">
+      <a href="/editApartment" th:attrprepend="href='apartments/'+${apartment?.apartment_id}">
         Редактировать квартиру
       </a>
-      <a href="/deleteApartment/" th:attrprepend="href=${apartment?.apartment_id}">
+      <a href="/deleteApartment" th:attrprepend="href='apartments/'+${apartment?.apartment_id}">
         Удалить квартиру
       </a>
     </div>

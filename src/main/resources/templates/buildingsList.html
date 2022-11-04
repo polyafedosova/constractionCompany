@@ -32,13 +32,13 @@
         <li th:utext="${building?.expected_commissioning_date}">..</li>
         <li th:utext="${building?.commissioning_date}">..</li>
         <div>
-            <a href="/apartments/" th:attrprepend="href=${building?.building_id}">
+            <a href="/apartments" th:attrprepend="href='buildings/'+${building?.building_id}">
                 Посмотреть апартаменты
             </a>
-            <a href="/editBuilding/" th:attrprepend="href=${building?.building_id}">
+            <a href="/editBuilding" th:attrprepend="href='buildings/'+${building?.building_id}">
                 Редактировать строение
             </a>
-            <a href="/deleteBuilding/" th:attrprepend="href=${building?.building_id}">
+            <a href="/deleteBuilding" th:attrprepend="href='buildings/'+${building?.building_id}">
                 Удалить строение
             </a>
         </div>

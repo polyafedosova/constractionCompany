@@ -31,13 +31,13 @@ public class ApartmentController {
         return "apartmentsList";
     }
 
-    @GetMapping("{apartment}/editApartment")
+    @GetMapping("building/{building}/apartments/{apartment}/editApartment")
     public String getEditApartmentPage(Model model, @PathVariable(required = false) Apartment apartment) {
         model.addAttribute("apartment", apartment);
         return "apartmentEdit";
     }
 
-    @PostMapping("{apartment}/editApartment")
+    @PostMapping("building/{building}/apartments/{apartment}/editApartment")
     public String editApartment(Model model, @ModelAttribute Apartment apartment) {
         model.addAttribute("apartment", apartment);
         if (!apartmentService.updateApartment(apartment)) {
@@ -47,7 +47,7 @@ public class ApartmentController {
         } return "apartmentEdit";
     }
 
-    @PostMapping("building/{building}/addApartment")
+    @PostMapping("building/{building}/apartments/addApartment")
     public String addApartment(Model model, @ModelAttribute Apartment apartment,
                               RedirectAttributes redirectAttributes, @PathVariable Building building) {
         apartment.setBuilding(building);
@@ -56,22 +56,22 @@ public class ApartmentController {
         if (!apartmentService.isDataCorrectly(apartment)) {
             redirectAttributes.addFlashAttribute("message", "Введены некорректные данные");
             redirectAttributes.addFlashAttribute("apartmentToAdd", apartment);
-            return "redirect:/apartments/{building}";
+            return "redirect:/building/{building}/apartments";
         }
         if (!apartmentService.saveApartment(apartment)) {
             redirectAttributes.addFlashAttribute("message", "Данная квартира уже существует");
             redirectAttributes.addFlashAttribute("apartmentToAdd", apartment);
-            return "redirect:/apartments/{building}";
+            return "redirect:/building/{building}/apartments";
         }
         redirectAttributes.addFlashAttribute("message", "Квартира успешно добавлена");
-        return "redirect:/apartments/{building}";
+        return "redirect:/building/{building}/apartments";
     }
 
-    @GetMapping("{apartment}/deleteApartment")
+    @GetMapping("building/{building}/apartments/{apartment}/deleteApartment")
     public String deleteApartment(@PathVariable Apartment apartment, RedirectAttributes redirectAttributes) {
         if (!apartmentService.deleteApartment(apartment)) {
             redirectAttributes.addFlashAttribute("message", "Неизвестная ошибка");
         } else redirectAttributes.addFlashAttribute("message", "Квартира успешно удалена");
-        return "redirect:{building}/apartments";
+        return "redirect:/building/{building}/apartments";
     }
 }
