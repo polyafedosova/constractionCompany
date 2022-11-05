@@ -30,46 +30,46 @@ public class ClientController {
         return "clientsList";
     }
 
-    /* @GetMapping("buildings/{building}/editBuilding")
-    public String getEditBuildingPage(Model model, @PathVariable(required = false) Building building) {
-        model.addAttribute("building", building);
-        return "buildingEdit";
+    @GetMapping("clients/{client}/editClient")
+    public String getEditClientPage(Model model, @PathVariable(required = false) Client client) {
+        model.addAttribute("client", client);
+        return "clientEdit";
     }
 
-    @PostMapping("building/{building}/editBuilding")
-    public String editBuilding(Model model, @ModelAttribute Building building) {
-        model.addAttribute("building", building);
-        if (!buildingService.updateBuilding(building)) {
+    @PostMapping("clients/{client}/editClient")
+    public String editClient(Model model, @ModelAttribute Client client) {
+        model.addAttribute("client", client);
+        if (!clientService.updateClient(client)) {
             model.addAttribute("message", "Введены некорректные данные");
         } else {
             model.addAttribute("message", "Данные успешно изменены");
-        } return "buildingEdit";
+        } return "clientEdit";
     }
 
-    @PostMapping("building/addBuilding")
-    public String addBuilding(Model model, @ModelAttribute Building building,
+    @PostMapping("clients/addClient")
+    public String addClient(Model model, @ModelAttribute Client client,
                               RedirectAttributes redirectAttributes) {
-        List<Building> listBuildings = new LinkedList<>(buildingService.getAll());
-        model.addAttribute("buildings", listBuildings);
-        if (!buildingService.isDataCorrectly(building)) {
+        List<Client> listClients = new LinkedList<>(clientService.getAll());
+        model.addAttribute("clients", listClients);
+        if (!clientService.isDataCorrectly(client)) {
             redirectAttributes.addFlashAttribute("message", "Введены некорректные данные");
-            redirectAttributes.addFlashAttribute("buildingToAdd", building);
-            return "redirect:/building";
+            redirectAttributes.addFlashAttribute("clientToAdd", client);
+            return "redirect:/clients";
         }
-        if (!buildingService.saveBuilding(building)) {
-            redirectAttributes.addFlashAttribute("message", "Данное строение уже существует");
-            redirectAttributes.addFlashAttribute("buildingToAdd", building);
-            return "redirect:/building";
+        if (!clientService.saveClient(client)) {
+            redirectAttributes.addFlashAttribute("message", "Данный клиент уже существует");
+            redirectAttributes.addFlashAttribute("clientToAdd", client);
+            return "redirect:/clients";
         }
-        redirectAttributes.addFlashAttribute("message", "Строение успешно добавлено");
-        return "redirect:/building";
+        redirectAttributes.addFlashAttribute("message", "Клиент успешно добавлен");
+        return "redirect:/clients";
     }
 
-    @GetMapping("building/{building}/deleteBuilding")
-    public String deleteBuilding(@PathVariable Building building, RedirectAttributes redirectAttributes) {
-        if (!buildingService.deleteBuilding(building)) {
+    @GetMapping("clients/{client}/deleteClient")
+    public String deleteClient(@PathVariable Client client, RedirectAttributes redirectAttributes) {
+        if (!clientService.deleteClient(client)) {
             redirectAttributes.addFlashAttribute("message", "Неизвестная ошибка");
         } else redirectAttributes.addFlashAttribute("message", "Строение успешно удалено");
-        return "redirect:/building";
-    }*/
+        return "redirect:/clients";
+    }
 }
