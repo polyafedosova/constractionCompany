@@ -6,6 +6,12 @@
 </head>
 <body>
 <div>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Выход"/>
+    </form>
+    <a th:if="${employee?.isAdmin()}" href="/admin/addEmployee"> Хуй</a>
+</div>
+<div>
     <a href="/buildings">
         Список домов
     </a>

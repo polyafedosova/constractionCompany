@@ -12,6 +12,12 @@
 </div>
 
 <form action="" method="post">
+  <!--CSRF Token-->
+  <input
+          type="hidden"
+          th:name="${_csrf.parameterName}"
+          th:value="${_csrf.token}" />
+
   <div class="form-group">
     <input class="input" type="text" name="full_name"
            placeholder="Редактировать ФИО" th:value="${client?.full_name}">

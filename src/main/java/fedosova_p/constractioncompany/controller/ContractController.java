@@ -2,36 +2,41 @@ package fedosova_p.constractioncompany.controller;
 
 import fedosova_p.constractioncompany.model.Apartment;
 import fedosova_p.constractioncompany.model.Building;
-import fedosova_p.constractioncompany.repository.ApartmentRepository;
-import fedosova_p.constractioncompany.service.ApartmentService;
+import fedosova_p.constractioncompany.model.Client;
+import fedosova_p.constractioncompany.model.Contract;
+import fedosova_p.constractioncompany.repository.ContractRepository;
+import fedosova_p.constractioncompany.service.ContractService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.LinkedList;
 import java.util.List;
 
 @Controller
-public class ApartmentController {
+public class ContractController {
 
-    private ApartmentRepository apartmentRepository;
-    private ApartmentService apartmentService;
+    private final ContractService contractService;
+    private final ContractRepository contractRepository;
 
-    public ApartmentController(ApartmentRepository apartmentRepository, ApartmentService apartmentService) {
-        this.apartmentRepository = apartmentRepository;
-        this.apartmentService = apartmentService;
+    public ContractController(ContractService contractService, ContractRepository contractRepository) {
+        this.contractService = contractService;
+        this.contractRepository = contractRepository;
     }
 
-    @GetMapping("buildings/{building}/apartments")
-    public String getApartments(Model model, @PathVariable Building building) {
-        List<Apartment> apartmentsList = new LinkedList<>(apartmentRepository.findByBuilding(building));
-        model.addAttribute("apartments", apartmentsList);
-        model.addAttribute("building", building);
-        return "apartmentsList";
+    @GetMapping("clients/{client}/contracts")
+    public String getClientContracts(Model model, @PathVariable Client client) {
+        List<Contract> clientsContractsList = new LinkedList<>(contractRepository.findByClient(client));
+        model.addAttribute("contracts", clientsContractsList);
+        model.addAttribute("client", client);
+        return "clientContractsList";
     }
 
-    @GetMapping("buildings/{building}/apartments/{apartment}/editApartment")
+    /*@GetMapping("buildings/{building}/apartments/{apartment}/editApartment")
     public String getEditApartmentPage(Model model, @PathVariable(required = false) Apartment apartment) {
         model.addAttribute("apartment", apartment);
         return "apartmentEdit";
@@ -49,7 +54,7 @@ public class ApartmentController {
 
     @PostMapping("buildings/{building}/apartments/addApartment")
     public String addApartment(Model model, @ModelAttribute Apartment apartment,
-                              RedirectAttributes redirectAttributes, @PathVariable Building building) {
+                               RedirectAttributes redirectAttributes, @PathVariable Building building) {
         apartment.setBuilding(building);
         List<Apartment> listApartments = new LinkedList<>(apartmentService.getAll());
         model.addAttribute("apartment", listApartments);
@@ -73,5 +78,5 @@ public class ApartmentController {
             redirectAttributes.addFlashAttribute("message", "Неизвестная ошибка");
         } else redirectAttributes.addFlashAttribute("message", "Квартира успешно удалена");
         return "redirect:/buildings/{building}/apartments";
-    }
+    }*/
 }

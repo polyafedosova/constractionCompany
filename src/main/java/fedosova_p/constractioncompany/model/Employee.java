@@ -1,16 +1,30 @@
 package fedosova_p.constractioncompany.model;
 
 import fedosova_p.constractioncompany.model.enums.Post;
+import fedosova_p.constractioncompany.model.enums.Role;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 
 @Entity(name = "employees")
-public class Employee {
+public class Employee implements UserDetails {
+
+    private String username;
+    private String password;
+
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "employee_id"))
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "emSeq")
+    @SequenceGenerator(name = "emSeq", initialValue = 201, allocationSize = 1, sequenceName = "EMPLOYEE_SEQUENCE")
     private Long employee_id;
 
     private String full_name;
@@ -71,5 +85,60 @@ public class Employee {
 
     public void setPost(Post post) {
         this.post = post;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public boolean isAdmin() {
+        return roles.contains(Role.ADMIN);
     }
 }

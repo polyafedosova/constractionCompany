@@ -15,7 +15,13 @@
   </ul>
 </div>
 <div>
-  <form method="post" th:action="@{/building/__${building?.building_id}__/apartments/addApartment}">
+  <form method="post" th:action="@{/buildings/__${building?.building_id}__/apartments/addApartment}">
+    <!--CSRF Token-->
+    <input
+            type="hidden"
+            th:name="${_csrf.parameterName}"
+            th:value="${_csrf.token}" />
+
     <div th:text="${message}">
       {
     </div>
@@ -44,7 +50,7 @@
     <li th:utext="${apartment?.living_area}">..</li>
     <li th:utext="${apartment?.number_rooms}">..</li>
     <div>
-      <a href="/editApartment" th:attrprepend="href='apartments/'+${apartment?.apartment_id}">
+      <a th:href="@{/buildings/__${building?.building_id}__/apartments/__${apartment?.apartment_id}__/editApartment}">
         Редактировать квартиру
       </a>
       <a href="/deleteApartment" th:attrprepend="href='apartments/'+${apartment?.apartment_id}">
