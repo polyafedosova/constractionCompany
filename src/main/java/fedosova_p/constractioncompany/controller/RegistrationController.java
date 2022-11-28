@@ -1,12 +1,11 @@
 package fedosova_p.constractioncompany.controller;
 
 import fedosova_p.constractioncompany.model.Employee;
+import fedosova_p.constractioncompany.model.enums.Role;
 import fedosova_p.constractioncompany.service.EmployeeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/admin")
@@ -24,8 +23,9 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public String addEmployee(Model model, Employee employee) {
+    public String addEmployee(Model model, @ModelAttribute Employee employee, @RequestParam String employeeRole) {
         model.addAttribute("employee", employee);
+        employee.addRole(Role.values()[Integer.parseInt(employeeRole)]);
         return "registration";
     }
 

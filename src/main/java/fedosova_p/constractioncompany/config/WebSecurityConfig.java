@@ -27,7 +27,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests()
                 .antMatchers("/buildings/", "/clients/").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers("/admin/").hasAnyAuthority("ADMIN")
-                .antMatchers("/", "/static/**").permitAll()
+                .antMatchers("/", "/static/**", "/registration").permitAll()
                 .anyRequest().authenticated()
                 .and()
 

@@ -18,22 +18,22 @@
           th:name="${_csrf.parameterName}"
           th:value="${_csrf.token}" />
 
-  <div class="form-group">
+  <div class="form-group"> ФИО:
     <input class="input" type="text" name="full_name"
            placeholder="Редактировать ФИО" th:value="${client?.full_name}">
   </div>
 
-  <div class="form-group">
+  <div class="form-group"> Телефон:
     <input class="input" type="text" name="phone_number"
            placeholder="Редактировать номер телефона" th:value="${client?.phone_number}">
   </div>
 
-  <div class="form-group">
+  <div class="form-group"> Дата рождения:
     <input class="input" type="date" name="birth_date"
            placeholder="Редактировать дату рождения" th:value="${client?.birth_date}">
   </div>
 
-  <div class="form-group">
+  <div class="form-group"> Серия и номер паспорта:
     <input class="input" type="text" name="passport"
            placeholder="Редактировать серию и номер паспорта" th:value="${client?.passport}">
   </div>

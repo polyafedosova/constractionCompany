@@ -43,12 +43,12 @@
 <div>Список апартаментов</div>
 <ul>
   <th:block th:each="apartment: ${apartments}">
-    <li th:utext="${apartment?.number}">..</li>
-    <li th:utext="${apartment?.floor}">..</li>
-    <li th:utext="${apartment?.entrance}">..</li>
-    <li th:utext="${apartment?.total_area}">..</li>
-    <li th:utext="${apartment?.living_area}">..</li>
-    <li th:utext="${apartment?.number_rooms}">..</li>
+    Номер:<li th:utext="${apartment?.number}">..</li>
+    Этаж: <li th:utext="${apartment?.floor}">..</li>
+    Подъезд: <li th:utext="${apartment?.entrance}">..</li>
+    Общая площадь: <li th:utext="${apartment?.total_area}">..</li>
+    Жилая площадь: <li th:utext="${apartment?.living_area}">..</li>
+    Количество комнат: <li th:utext="${apartment?.number_rooms}">..</li>
     <div>
       <a th:href="@{/buildings/__${building?.building_id}__/apartments/__${apartment?.apartment_id}__/editApartment}">
         Редактировать квартиру

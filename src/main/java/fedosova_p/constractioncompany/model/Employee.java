@@ -13,8 +13,8 @@ import java.util.Set;
 
 @Entity(name = "employees")
 public class Employee implements UserDetails {
-
     private String username;
+
     private String password;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
@@ -138,6 +138,9 @@ public class Employee implements UserDetails {
         this.roles = roles;
     }
 
+    public void addRole(Role role) {
+        this.roles.add(role);
+    }
     public boolean isAdmin() {
         return roles.contains(Role.ADMIN);
     }

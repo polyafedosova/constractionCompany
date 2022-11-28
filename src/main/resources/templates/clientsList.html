@@ -29,10 +29,10 @@
 <div>Список клиентов</div>
 <ul>
     <th:block th:each="client: ${clients}">
-        <li th:utext="${client?.full_name}">..</li>
-        <li th:utext="${client?.phone_number}">..</li>
-        <li th:utext="${client?.birth_date}">..</li>
-        <li th:utext="${client?.passport}">..</li>
+        ФИО: <li th:utext="${client?.full_name}">..</li>
+        Телефон: <li th:utext="${client?.phone_number}">..</li>
+        Дата рождения: <li th:utext="${client?.birth_date}">..</li>
+        Серия и номер паспорта: <li th:utext="${client?.passport}">..</li>
         <div>
             <a href="/contracts" th:attrprepend="href='clients/'+${client?.client_id}">
                 Контракты клиента

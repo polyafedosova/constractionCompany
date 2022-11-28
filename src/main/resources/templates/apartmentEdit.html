@@ -17,32 +17,32 @@
             type="hidden"
             th:name="${_csrf.parameterName}"
             th:value="${_csrf.token}" />
-    <div class="form-group">
+    <div class="form-group"> Номер квартиры
         <input class="input" type="text" name="number"
                placeholder="Редактировать номер квартиры" th:value="${apartment?.number}">
     </div>
 
-    <div class="form-group">
+    <div class="form-group"> Этаж
         <input class="input" type="text" name="floor"
                placeholder="Редактировать этаж" th:value="${apartment?.floor}">
     </div>
 
-    <div class="form-group">
+    <div class="form-group"> Подъезд
         <input class="input" type="text" name="entrance"
                placeholder="Редактировать подъезд" th:value="${apartment?.entrance}">
     </div>
 
-    <div class="form-group">
+    <div class="form-group"> Общая площадь
         <input class="input" type="text" name="total_area"
                placeholder="Редактировать общую площадь" th:value="${apartment?.total_area}">
     </div>
 
-    <div class="form-group">
+    <div class="form-group"> Жилая площадь
         <input class="input" type="text" name="living_area"
                placeholder="Редактировать жилую площадь" th:value="${apartment?.living_area}">
     </div>
 
-    <div class="form-group">
+    <div class="form-group"> Количество комнат
         <input class="input" type="number" min=1 max=5 name="number_rooms"
                placeholder="Редактировать количество комнат" th:value="${apartment?.number_rooms}">
     </div>

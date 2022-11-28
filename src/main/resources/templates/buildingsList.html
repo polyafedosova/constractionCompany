@@ -32,11 +32,11 @@
 <div>Список строений</div>
 <ul>
     <th:block th:each="building: ${buildings}">
-        <li th:utext="${building?.address}">..</li>
-        <li th:utext="${building?.name}">..</li>
-        <li th:utext="${building?.constraction_start_date}">..</li>
-        <li th:utext="${building?.expected_commissioning_date}">..</li>
-        <li th:utext="${building?.commissioning_date}">..</li>
+        Адрес: <li th:utext="${building?.address}">..</li>
+        Название: <li th:utext="${building?.name}">..</li>
+        Дата начала строительства: <li th:utext="${building?.constraction_start_date}">..</li>
+        Предполагаемая дата окончания строительства: <li th:utext="${building?.expected_commissioning_date}">..</li>
+        Дата сдачи объекта: <li th:utext="${building?.commissioning_date}">..</li>
         <div>
             <a href="/apartments" th:attrprepend="href='buildings/'+${building?.building_id}">
                 Посмотреть апартаменты
