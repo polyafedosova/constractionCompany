@@ -18,14 +18,24 @@
           th:name="${_csrf.parameterName}"
           th:value="${_csrf.token}" />
 
-  <div class="form-group"> ФИО:
-    <input class="input" type="text" name="full_name"
-           placeholder="Редактировать ФИО" th:value="${client?.full_name}">
+  <div class="form-group"> Фамилия:
+    <input class="input" type="text" name="second_name"
+           placeholder="Редактировать фамилию" th:value="${client?.second_name}">
+  </div>
+
+  <div class="form-group"> Имя:
+    <input class="input" type="text" name="first_name"
+           placeholder="Редактировать имя" th:value="${client?.first_name}">
+  </div>
+
+  <div class="form-group"> Отчество:
+    <input class="input" type="text" name="middle_name"
+           placeholder="Редактировать отчество" th:value="${client?.middle_name}">
   </div>
 
   <div class="form-group"> Телефон:
-    <input class="input" type="text" name="phone_number"
-           placeholder="Редактировать номер телефона" th:value="${client?.phone_number}">
+    <input class="input" type="text" name="phone"
+           placeholder="Редактировать номер телефона" th:value="${client?.phone}">
   </div>
 
   <div class="form-group"> Дата рождения:

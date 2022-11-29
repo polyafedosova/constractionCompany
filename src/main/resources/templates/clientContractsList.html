@@ -7,8 +7,10 @@
 <body>
 <div>
     <ul>
-        ФИО:<li th:utext="${client?.full_name}">..</li>
-        Телефон: <li th:utext="${client?.phone_number}">..</li>
+        Фамилия:<li th:utext="${client?.second_name}">..</li>
+        Имя:<li th:utext="${client?.first_name}">..</li>
+        Отчество:<li th:utext="${client?.middle_name}">..</li>
+        Телефон: <li th:utext="${client?.phone}">..</li>
         Дата рождения: <li th:utext="${client?.birth_date}">..</li>
         Номер и серия паспорта: <li th:utext="${client?.passport}">..</li>
     </ul>

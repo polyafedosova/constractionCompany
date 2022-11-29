@@ -17,9 +17,19 @@
           type="hidden"
           th:name="${_csrf.parameterName}"
           th:value="${_csrf.token}" />
-  <div class="form-group"> Адрес
-    <input class="input" type="text" name="address"
-           placeholder="Редактировать адрес" th:value="${building?.address}">
+  <div class="form-group"> Город
+    <input class="input" type="text" name="city"
+           placeholder="Редактировать город" th:value="${building?.city}">
+  </div>
+
+  <div class="form-group"> Улица
+    <input class="input" type="text" name="street"
+           placeholder="Редактировать улицу" th:value="${building?.street}">
+  </div>
+
+  <div class="form-group"> Номер дома
+    <input class="input" type="text" name="number"
+           placeholder="Редактировать номер дома" th:value="${building?.number}">
   </div>
 
   <div class="form-group"> Название

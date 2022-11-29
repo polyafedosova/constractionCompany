@@ -8,11 +8,13 @@ import java.util.Date;
 @Entity(name = "buildings")
 public class Building {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "menuSeq")
-    @SequenceGenerator(name = "menuSeq", initialValue = 10, allocationSize = 1, sequenceName = "MENU_SEQUENCE")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "buildingSeq")
+    @SequenceGenerator(name = "buildingSeq", initialValue = 10, allocationSize = 1, sequenceName = "building_SEQUENCE")
     private Long building_id;
 
-    private String address;
+    private String city;
+    private String street;
+    private String number;
     private String name;
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-mm-dd")
@@ -32,12 +34,28 @@ public class Building {
         this.building_id = building_id;
     }
 
-    public String getAddress() {
-        return address;
+    public String getCity() {
+        return city;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     public String getName() {

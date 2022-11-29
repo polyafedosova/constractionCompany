@@ -25,9 +25,9 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests()
-                .antMatchers("/buildings/", "/clients/").hasAnyAuthority("ADMIN", "USER")
-                .antMatchers("/admin/").hasAnyAuthority("ADMIN")
-                .antMatchers("/", "/static/**", "/registration").permitAll()
+                .antMatchers("/clients/").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers("/admin/",  "/registration").hasAnyAuthority("ADMIN")
+                .antMatchers("/", "/buildings/**", "/static/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
 

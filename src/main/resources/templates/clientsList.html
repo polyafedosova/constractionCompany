@@ -15,9 +15,13 @@
         <div th:text="${message}">
             {
         </div>
-        <input th:value="${buildingToAdd?.full_name}" type="text" name="full_name"
-               placeholder="Введите ФИО">
-        <input th:value="${buildingToAdd?.phone_number}" type="text" name="phone_number"
+        <input th:value="${buildingToAdd?.second_name}" type="text" name="second_name"
+               placeholder="Введите фамилию">
+        <input th:value="${buildingToAdd?.first_name}" type="text" name="first_name"
+               placeholder="Введите имя">
+        <input th:value="${buildingToAdd?.middle_name}" type="text" name="middle_name"
+               placeholder="Введите отчество">
+        <input th:value="${buildingToAdd?.phone}" type="text" name="phone"
                placeholder="Введите номер телефона">
         <input th:value="${buildingToAdd?.birth_date}" type="date" name="birth_date"
                placeholder="Введите дату рождения">
@@ -29,8 +33,10 @@
 <div>Список клиентов</div>
 <ul>
     <th:block th:each="client: ${clients}">
-        ФИО: <li th:utext="${client?.full_name}">..</li>
-        Телефон: <li th:utext="${client?.phone_number}">..</li>
+        Фамилия: <li th:utext="${client?.second_name}">..</li>
+        Имя: <li th:utext="${client?.first_name}">..</li>
+        Отчество: <li th:utext="${client?.middle_name}">..</li>
+        Телефон: <li th:utext="${client?.phone}">..</li>
         Дата рождения: <li th:utext="${client?.birth_date}">..</li>
         Серия и номер паспорта: <li th:utext="${client?.passport}">..</li>
         <div>
