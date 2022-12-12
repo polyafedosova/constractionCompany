@@ -1,6 +1,5 @@
 package fedosova_p.constractioncompany.controller;
 
-import fedosova_p.constractioncompany.model.Building;
 import fedosova_p.constractioncompany.model.Client;
 import fedosova_p.constractioncompany.service.ClientService;
 import org.springframework.stereotype.Controller;
@@ -25,8 +24,8 @@ public class ClientController {
 
     @GetMapping("clients")
     public String getClient(Model model) {
-        List<Client> listBuildings = new LinkedList<>(clientService.getAll());
-        model.addAttribute("clients", listBuildings);
+        List<Client> listClients = new LinkedList<>(clientService.getAll());
+        model.addAttribute("clients", listClients);
         return "clientsList";
     }
 
@@ -69,7 +68,7 @@ public class ClientController {
     public String deleteClient(@PathVariable Client client, RedirectAttributes redirectAttributes) {
         if (!clientService.deleteClient(client)) {
             redirectAttributes.addFlashAttribute("message", "Неизвестная ошибка");
-        } else redirectAttributes.addFlashAttribute("message", "Строение успешно удалено");
+        } else redirectAttributes.addFlashAttribute("message", "Клиент успешно удален");
         return "redirect:/clients";
     }
 }

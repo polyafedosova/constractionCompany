@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -25,8 +24,8 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests()
-                .antMatchers("/clients/").hasAnyAuthority("ADMIN", "USER")
-                .antMatchers("/admin/",  "/registration").hasAnyAuthority("ADMIN")
+                .antMatchers("/clients/", "/contracts/").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers("/admin/", "/employees/").hasAnyAuthority("ADMIN")
                 .antMatchers("/", "/buildings/**", "/static/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -36,7 +35,10 @@ public class WebSecurityConfig {
                         .defaultSuccessUrl("/")
                         .permitAll()
                 )
-                .logout(LogoutConfigurer::permitAll);
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/")
+                        .permitAll()
+                );
 
         return http.build();
     }

@@ -42,6 +42,11 @@
     <button type="submit">Добавить</button>
   </form>
 </div>
+<!--<div>
+  <a th:href="@{/buildings/__${building.building_id}__/apartments?doneStatus=true}">Сданные квартиры</a>
+  <a th:href="@{/buildings/__${building.building_id}__/apartments}">Сбросить фильтр</a>
+</div>
+-->
 <div>Список апартаментов</div>
 <ul>
   <th:block th:each="apartment: ${apartments}">

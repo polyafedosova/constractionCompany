@@ -2,8 +2,8 @@ package fedosova_p.constractioncompany.controller;
 
 import fedosova_p.constractioncompany.model.Apartment;
 import fedosova_p.constractioncompany.model.Building;
-import fedosova_p.constractioncompany.repository.ApartmentRepository;
 import fedosova_p.constractioncompany.service.ApartmentService;
+import fedosova_p.constractioncompany.service.ContractService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,17 +15,32 @@ import java.util.List;
 @Controller
 public class ApartmentController {
 
-    private ApartmentRepository apartmentRepository;
-    private ApartmentService apartmentService;
+    private final ApartmentService apartmentService;
+    private final ContractService contractService;
 
-    public ApartmentController(ApartmentRepository apartmentRepository, ApartmentService apartmentService) {
-        this.apartmentRepository = apartmentRepository;
+    public ApartmentController(ApartmentService apartmentService, ContractService contractService) {
         this.apartmentService = apartmentService;
+        this.contractService = contractService;
     }
+
+    /*@GetMapping("buildings/{building}/apartments")
+    public String getApartments(Model model, @PathVariable Building building,
+                                @RequestParam(required = false) String doneStatus) {
+        List<Apartment> apartmentsList = new LinkedList<>(apartmentService.findByBuilding(building));
+        if (doneStatus != null) {
+            List<Apartment> doneApartments = contractService.getApartments(building);
+            model.addAttribute("apartments", doneApartments);
+            model.addAttribute("building", building);
+            return "apartmentsList";
+        }
+        model.addAttribute("apartments", apartmentsList);
+        model.addAttribute("building", building);
+        return "apartmentsList";
+    }*/
 
     @GetMapping("buildings/{building}/apartments")
     public String getApartments(Model model, @PathVariable Building building) {
-        List<Apartment> apartmentsList = new LinkedList<>(apartmentRepository.findByBuilding(building));
+        List<Apartment> apartmentsList = new LinkedList<>(apartmentService.findByBuilding(building));
         model.addAttribute("apartments", apartmentsList);
         model.addAttribute("building", building);
         return "apartmentsList";

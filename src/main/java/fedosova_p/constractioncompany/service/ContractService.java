@@ -1,16 +1,18 @@
 package fedosova_p.constractioncompany.service;
 
-import fedosova_p.constractioncompany.model.Apartment;
-import fedosova_p.constractioncompany.model.Contract;
+import fedosova_p.constractioncompany.model.*;
+import fedosova_p.constractioncompany.model.enums.Status;
 import fedosova_p.constractioncompany.repository.ContractRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ContractService {
 
-    private ContractRepository contractRepository;
+    private final ContractRepository contractRepository;
 
     public ContractService(ContractRepository contractRepository) {
         this.contractRepository = contractRepository;
@@ -47,5 +49,35 @@ public class ContractService {
             contractRepository.deleteById(contract.getContract_id());
             return true;
         } return false;
+    }
+
+    public List<Contract> getDoneContracts() {
+        return contractRepository.findByStatus(Status.done);
+    }
+
+    public List<Apartment> getApartments(Building building) {
+        List<Apartment> apartments = new LinkedList<>();
+        for (Contract contract : getDoneContracts()) {
+            if (Objects.equals(building.getBuilding_id(), contract.getApartment().getBuilding().getBuilding_id())) {
+                apartments.add(contract.getApartment());
+            }
+        }
+        return apartments;
+    }
+
+    public List<Contract> findByApartment(Apartment apartment) {
+        return contractRepository.findByApartment(apartment);
+    }
+    public List<Contract> findByClient(Client client) {
+        return contractRepository.findByClient(client);
+    }
+    public Contract findOneByClient(Client client) {
+        return contractRepository.findOneByClient(client);
+    }
+    public List<Contract> findByEmployee(Employee employee) {
+        return contractRepository.findByEmployee(employee);
+    }
+    public List<Contract> findByStatus(Status status) {
+        return contractRepository.findByStatus(status);
     }
 }

@@ -1,7 +1,5 @@
 package fedosova_p.constractioncompany.service;
 
-import com.sun.xml.bind.v2.TODO;
-import fedosova_p.constractioncompany.model.Apartment;
 import fedosova_p.constractioncompany.model.Building;
 import fedosova_p.constractioncompany.repository.BuildingRepository;
 import org.springframework.stereotype.Service;
@@ -11,7 +9,7 @@ import java.util.List;
 @Service
 public class BuildingService {
 
-    private BuildingRepository buildingRepository;
+    private final BuildingRepository buildingRepository;
 
     public BuildingService(BuildingRepository buildingRepository) {
         this.buildingRepository = buildingRepository;

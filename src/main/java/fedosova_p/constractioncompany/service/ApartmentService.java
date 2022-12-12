@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public class ApartmentService {
 
-    private ApartmentRepository apartmentRepository;
+    private final ApartmentRepository apartmentRepository;
 
     public ApartmentService(ApartmentRepository apartmentRepository) {
         this.apartmentRepository = apartmentRepository;
@@ -47,5 +47,9 @@ public class ApartmentService {
             apartmentRepository.deleteById(apartment.getApartment_id());
             return true;
         } return false;
+    }
+
+    public List<Apartment> findByBuilding(Building building) {
+        return apartmentRepository.findByBuilding(building);
     }
 }

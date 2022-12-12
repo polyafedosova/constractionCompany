@@ -1,13 +1,16 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="">
     <title>Getting Started: Serving Web Content</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
 <div>
-    <form th:action="@{/logout}" method="post">
+    <form th:if="!${employee?.isEnabled()}" th:action="@{/login}" method="post">
+        <input type="submit" value="Вход"/>
+    </form>
+    <form th:if="${employee?.isEnabled()}" th:action="@{/logout}" method="post">
         <input type="submit" value="Выход"/>
     </form>
     <!--<a th:if="${employee?.isAdmin()}" href="/admin/addEmployee"> Зарегестрировать нового сотрудника</a>-->
@@ -16,8 +19,14 @@
     <a href="/buildings">
         Список домов
     </a>
-    <a href="/clients">
+    <a th:if="${employee?.isEnabled()}" href="/clients">
         Список клиентов
+    </a>
+    <a th:if="${employee?.isEnabled()}" href="/employees">
+        Список сотрудников
+    </a>
+    <a th:if="${employee?.isEnabled()}" href="/contracts">
+        Мои контракты
     </a>
 </div>
 </body>

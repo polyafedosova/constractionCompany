@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name = "employees")
@@ -23,13 +24,15 @@ public class Employee implements UserDetails {
     private Set<Role> roles;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "emSeq")
-    @SequenceGenerator(name = "emSeq", initialValue = 201, allocationSize = 1, sequenceName = "EMPLOYEE_SEQUENCE")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "employeeSeq")
+    @SequenceGenerator(name = "employeeSeq", initialValue = 201, allocationSize = 1, sequenceName = "EMPLOYEE_SEQUENCE")
     private Long employee_id;
 
-    private String full_name;
+    private String second_name;
+    private String first_name;
+    private String middle_name;
 
-    private String phone_number;
+    private String phone;
 
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-mm-dd")
@@ -47,20 +50,36 @@ public class Employee implements UserDetails {
         this.employee_id = employee_id;
     }
 
-    public String getFull_name() {
-        return full_name;
+    public String getSecond_name() {
+        return second_name;
     }
 
-    public void setFull_name(String full_name) {
-        this.full_name = full_name;
+    public void setSecond_name(String second_name) {
+        this.second_name = second_name;
     }
 
-    public String getPhone_number() {
-        return phone_number;
+    public String getFirst_name() {
+        return first_name;
     }
 
-    public void setPhone_number(String phone_number) {
-        this.phone_number = phone_number;
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
+
+    public String getMiddle_name() {
+        return middle_name;
+    }
+
+    public void setMiddle_name(String middle_name) {
+        this.middle_name = middle_name;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone_number) {
+        this.phone = phone_number;
     }
 
     public Date getBirth_date() {
@@ -139,6 +158,7 @@ public class Employee implements UserDetails {
     }
 
     public void addRole(Role role) {
+        if (this.roles == null) this.roles = new HashSet<>();
         this.roles.add(role);
     }
     public boolean isAdmin() {

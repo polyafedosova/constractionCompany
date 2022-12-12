@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div th:text="${message}">
+    {
+</div>
+<a href="/employees/registration">
+    Зарегистировать нового сотрудника
+</a>
+<div>Сотрудники компании</div>
+<ul>
+    <th:block th:each="employee: ${employees}">
+        Фамилия: <li th:utext="${employee?.second_name}">..</li>
+        Имя: <li th:utext="${employee?.first_name}">..</li>
+        Отчество: <li th:utext="${employee?.middle_name}">..</li>
+        Телефон: <li th:utext="${employee?.phone}">..</li>
+        Дата рождения: <li th:utext="${employee?.birth_date}">..</li>
+        Серия и номер паспорта: <li th:utext="${employee?.passport}">..</li>
+        Должность: <li th:utext="${employee?.post}">..</li>
+        <div>
+            <a href="/contracts" th:attrprepend="href='employees/'+${employee?.employee_id}">
+                Контракты сотрудника
+            </a>
+            <a href="/editEmployee" th:attrprepend="href='employees/'+${employee?.employee_id}">
+                Редактировать данные сотрудника
+            </a>
+            <a href="/deleteEmployee" th:attrprepend="href='employees/'+${employee?.employee_id}">
+                Удалить данные о сотруднике
+            </a>
+        </div>
+        <p>-----------------------------------------</p>
+    </th:block>
+</ul>
+</body>
+</html>

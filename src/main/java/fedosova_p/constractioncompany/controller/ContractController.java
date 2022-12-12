@@ -1,17 +1,18 @@
 package fedosova_p.constractioncompany.controller;
 
-import fedosova_p.constractioncompany.model.Apartment;
-import fedosova_p.constractioncompany.model.Building;
 import fedosova_p.constractioncompany.model.Client;
 import fedosova_p.constractioncompany.model.Contract;
-import fedosova_p.constractioncompany.repository.ContractRepository;
+import fedosova_p.constractioncompany.model.Employee;
+import fedosova_p.constractioncompany.model.enums.Status;
+import fedosova_p.constractioncompany.model.enums.Type;
+import fedosova_p.constractioncompany.service.ApartmentService;
+import fedosova_p.constractioncompany.service.ClientService;
 import fedosova_p.constractioncompany.service.ContractService;
+import fedosova_p.constractioncompany.service.EmployeeService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.LinkedList;
@@ -20,63 +21,82 @@ import java.util.List;
 @Controller
 public class ContractController {
 
+    private final ApartmentService apartmentService;
+    private final ClientService clientService;
+    private final EmployeeService employeeService;
     private final ContractService contractService;
-    private final ContractRepository contractRepository;
 
-    public ContractController(ContractService contractService, ContractRepository contractRepository) {
+    public ContractController(ApartmentService apartmentService, ClientService clientService, EmployeeService employeeService, ContractService contractService) {
+        this.apartmentService = apartmentService;
+        this.clientService = clientService;
+        this.employeeService = employeeService;
         this.contractService = contractService;
-        this.contractRepository = contractRepository;
     }
 
     @GetMapping("clients/{client}/contracts")
     public String getClientContracts(Model model, @PathVariable Client client) {
-        List<Contract> clientsContractsList = new LinkedList<>(contractRepository.findByClient(client));
+        List<Contract> clientsContractsList = new LinkedList<>(contractService.findByClient(client));
         model.addAttribute("contracts", clientsContractsList);
         model.addAttribute("client", client);
-        return "clientContractsList";
+        return "contracts";
     }
 
-    /*@GetMapping("buildings/{building}/apartments/{apartment}/editApartment")
-    public String getEditApartmentPage(Model model, @PathVariable(required = false) Apartment apartment) {
-        model.addAttribute("apartment", apartment);
-        return "apartmentEdit";
+    @GetMapping("contracts")
+    public String getContracts(Model model, @AuthenticationPrincipal Employee employee) {
+        List<Contract> clientsContractsList = new LinkedList<>(contractService.findByEmployee(employee));
+        model.addAttribute("contracts", clientsContractsList);
+        model.addAttribute("employee", employee);
+        return "contracts";
     }
 
-    @PostMapping("buildings/{building}/apartments/{apartment}/editApartment")
-    public String editApartment(Model model, @ModelAttribute Apartment apartment) {
-        model.addAttribute("apartment", apartment);
-        if (!apartmentService.updateApartment(apartment)) {
+    @GetMapping("employees/{employee}/contracts")
+    public String getEmployeeContracts(Model model, @PathVariable Employee employee) {
+        List<Contract> clientsContractsList = new LinkedList<>(contractService.findByEmployee(employee));
+        model.addAttribute("contracts", clientsContractsList);
+        model.addAttribute("employee", employee);
+        return "contracts";
+    }
+
+    @GetMapping("contracts/{contract}/deleteContract")
+    public String deleteContract(@PathVariable Contract contract, RedirectAttributes redirectAttributes) {
+        if (!contractService.deleteContract(contract)) {
+            redirectAttributes.addFlashAttribute("message", "Неизвестная ошибка");
+        } else redirectAttributes.addFlashAttribute("message", "Контракт успешно удален");
+        return "redirect:/contracts";
+    }
+
+    @GetMapping("contracts/{contract}/editContract")
+    public String getEditEmployeePage(Model model, @PathVariable(required = false) Contract contract) {
+        model.addAttribute("contract", contract);
+        return "contractEdit";
+    }
+
+    @PostMapping("contracts/{contract}/editContract")
+    public String editContract(Model model, @ModelAttribute Contract contract,
+                               @RequestParam String statusC, @RequestParam String typeC) {
+        model.addAttribute("contract", contract);
+        contract.setStatus(Status.values()[Integer.parseInt(statusC)]);
+        contract.setType(Type.values()[Integer.parseInt(typeC)]);
+        if (!contractService.updateContract(contract)) {
             model.addAttribute("message", "Введены некорректные данные");
         } else {
             model.addAttribute("message", "Данные успешно изменены");
-        } return "apartmentEdit";
+        } return "contractEdit";
     }
 
-    @PostMapping("buildings/{building}/apartments/addApartment")
-    public String addApartment(Model model, @ModelAttribute Apartment apartment,
-                               RedirectAttributes redirectAttributes, @PathVariable Building building) {
-        apartment.setBuilding(building);
-        List<Apartment> listApartments = new LinkedList<>(apartmentService.getAll());
-        model.addAttribute("apartment", listApartments);
-        if (!apartmentService.isDataCorrectly(apartment)) {
-            redirectAttributes.addFlashAttribute("message", "Введены некорректные данные");
-            redirectAttributes.addFlashAttribute("apartmentToAdd", apartment);
-            return "redirect:/buildings/{building}/apartments";
-        }
-        if (!apartmentService.saveApartment(apartment)) {
-            redirectAttributes.addFlashAttribute("message", "Данная квартира уже существует");
-            redirectAttributes.addFlashAttribute("apartmentToAdd", apartment);
-            return "redirect:/buildings/{building}/apartments";
-        }
-        redirectAttributes.addFlashAttribute("message", "Квартира успешно добавлена");
-        return "redirect:/buildings/{building}/apartments";
+    @PostMapping("contracts/addContracts")
+    public String addContracts(Model model, @ModelAttribute Contract contract,
+                               @RequestParam String statusC, @RequestParam String typeC,
+                               @RequestParam String apartment_id, @RequestParam String client_id,
+                               @RequestParam String employee_id) {
+        model.addAttribute("contract", contract);
+        contract.setStatus(Status.values()[Integer.parseInt(statusC)]);
+        contract.setType(Type.values()[Integer.parseInt(typeC)]);
+        contract.setApartment(apartmentService.findById(Long.parseLong(apartment_id)));
+        contract.setClient(clientService.findById(Long.parseLong(client_id)));
+        contract.setEmployee(employeeService.findById(Long.parseLong(employee_id)));
+        if (!contractService.saveContract(contract)) model.addAttribute("message", "Введены некоректные данные");
+        else model.addAttribute("message", "Данные успешно сохранились");
+        return "contracts";
     }
-
-    @GetMapping("buildings/{building}/apartments/{apartment}/deleteApartment")
-    public String deleteApartment(@PathVariable Apartment apartment, RedirectAttributes redirectAttributes) {
-        if (!apartmentService.deleteApartment(apartment)) {
-            redirectAttributes.addFlashAttribute("message", "Неизвестная ошибка");
-        } else redirectAttributes.addFlashAttribute("message", "Квартира успешно удалена");
-        return "redirect:/buildings/{building}/apartments";
-    }*/
 }

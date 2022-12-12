@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Getting Started: Serving Web Content</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div>
+  <form method="post" action="/employees/registration">
+    <!--CSRF Token-->
+    <input
+            type="hidden"
+            th:name="${_csrf.parameterName}"
+            th:value="${_csrf.token}" />
+
+    <div th:text="${message}">
+      {
+    </div>
+    <input th:value="${employeeToAdd?.second_name}" type="text" name="second_name"
+           placeholder="Введите фамилию">
+    <input th:value="${employeeToAdd?.first_name}" type="text" name="first_name"
+           placeholder="Введите имя">
+    <input th:value="${employeeToAdd?.middle_name}" type="text" name="middle_name"
+           placeholder="Введите отчество">
+    <input th:value="${employeeToAdd?.phone}" type="text" name="phone"
+           placeholder="Введите название номер телефона">
+    <input th:value="${employeeToAdd?.birth_date}" type="date" name="birth_date"
+           placeholder="Введите дату рождения">
+    <input th:value="${employeeToAdd?.passport}" type="text" name="passport"
+           placeholder="Введите серию и номер паспорта">
+    <select th:value="${employeeToAdd?.post}" name="post_em">
+      <option disabled>Выберите должность</option>
+      <option selected value="0">Менеджер</option>
+      <option value="1">Консультант по продажам</option>
+      <option value="2">Главный консультант</option>
+      <option value="3">Руководитель отдела</option>
+    </select>
+    <input th:value="${employeeToAdd?.username}" type="text" name="username"
+           placeholder="Введите логин">
+    <input th:value="${employeeToAdd?.password}" type="text" name="password"
+           placeholder="Введите пароль">
+    <input type="checkbox" name="isAdmin" id="isAdmin">
+    <label for="isAdmin">Админ</label>
+    <button type="submit">Добавить</button>
+  </form>
+</div>
+</body>
+</html>
