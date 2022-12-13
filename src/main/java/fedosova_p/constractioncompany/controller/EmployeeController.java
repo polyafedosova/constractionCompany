@@ -27,6 +27,16 @@ public class EmployeeController {
         return "employeesList";
     }
 
+    @GetMapping("employees/findEmployee")
+    public String findEmployee(Model model, @ModelAttribute Employee employee,
+                               @RequestParam String post_em, @RequestParam(required = false) String isAdmin,
+                               RedirectAttributes redirectAttributes) {
+        List<Employee> listEmployees = new LinkedList<>(employeeService.findByFirstName(employee.getSecond_name(),
+                employee.getFirst_name()));
+        model.addAttribute("employees", listEmployees);
+        return "employeesList";
+    }
+
     @GetMapping("employees/{employee}/editEmployee")
     public String getEditEmployeePage(Model model, @PathVariable(required = false) Employee employee) {
         model.addAttribute("employee", employee);

@@ -1,10 +1,17 @@
 package fedosova_p.constractioncompany.model.enums;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-
 public enum Status {
-    done,
-    in_progress,
-    fail
+    done("завершен"),
+    in_progress("в процессе"),
+    fail("сорван");
+
+    private final String value;
+
+    Status(String value) {
+        this.value = value;
+    }
+
+    public String getValue() {
+        return value;
+    }
 }

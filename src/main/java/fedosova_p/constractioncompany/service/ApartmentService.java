@@ -2,6 +2,7 @@ package fedosova_p.constractioncompany.service;
 
 import fedosova_p.constractioncompany.model.Apartment;
 import fedosova_p.constractioncompany.model.Building;
+import fedosova_p.constractioncompany.model.enums.Status;
 import fedosova_p.constractioncompany.repository.ApartmentRepository;
 import org.springframework.stereotype.Service;
 
@@ -51,5 +52,9 @@ public class ApartmentService {
 
     public List<Apartment> findByBuilding(Building building) {
         return apartmentRepository.findByBuilding(building);
+    }
+
+    public List<Apartment> findByStatus(Building building, Status status) {
+        return apartmentRepository.findByStatus(building, status);
     }
 }

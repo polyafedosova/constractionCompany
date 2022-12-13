@@ -2,6 +2,7 @@ package fedosova_p.constractioncompany.controller;
 
 import fedosova_p.constractioncompany.model.Apartment;
 import fedosova_p.constractioncompany.model.Building;
+import fedosova_p.constractioncompany.model.enums.Status;
 import fedosova_p.constractioncompany.service.ApartmentService;
 import fedosova_p.constractioncompany.service.ContractService;
 import org.springframework.stereotype.Controller;
@@ -43,6 +44,20 @@ public class ApartmentController {
         List<Apartment> apartmentsList = new LinkedList<>(apartmentService.findByBuilding(building));
         model.addAttribute("apartments", apartmentsList);
         model.addAttribute("building", building);
+        model.addAttribute("currentStatus", Status.in_progress);
+        model.addAttribute("statuses", Status.values());
+        return "apartmentsList";
+    }
+
+    @GetMapping("buildings/{building}/apartments/findApartment")
+    public String findApartments(Model model, @PathVariable Building building,
+                                 @RequestParam String status) {
+        List<Apartment> apartmentList = new LinkedList<>(apartmentService.findByStatus(building,
+                Status.values()[Integer.parseInt(status)]));
+        model.addAttribute("apartments", apartmentList);
+        model.addAttribute("building", building);
+        model.addAttribute("currentStatus", Status.values()[Integer.parseInt(status)]);
+        model.addAttribute("statuses", Status.values());
         return "apartmentsList";
     }
 

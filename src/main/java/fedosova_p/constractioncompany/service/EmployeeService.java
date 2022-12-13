@@ -68,4 +68,8 @@ public class EmployeeService implements UserDetailsService {
             return true;
         } return false;
     }
+
+    public List<Employee> findByFirstName(String secondName, String firstName) {
+        return employeeRepository.findByFirstNameLike(secondName, firstName);
+    }
 }

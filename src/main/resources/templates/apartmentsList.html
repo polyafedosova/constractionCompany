@@ -42,6 +42,27 @@
     <button type="submit">Добавить</button>
   </form>
 </div>
+<div>
+  <form method="get" th:action="@{/buildings/__${building?.building_id}__/apartments/findApartment}">
+    <!--CSRF Token-->
+    <input
+            type="hidden"
+            th:name="${_csrf.parameterName}"
+            th:value="${_csrf.token}" />
+
+    <div th:text="${message}">
+      {
+    </div>
+    <select th:if="${not #lists.isEmpty(statuses)}" name="status">
+      <option th:each="status : ${statuses}"
+              th:value="${status?.ordinal()}"
+              th:text="${status?.value}"
+              th:selected="${status == currentStatus}">
+      </option>
+    </select>
+    <button type="submit">Найти</button>
+  </form>
+</div>
 <!--<div>
   <a th:href="@{/buildings/__${building.building_id}__/apartments?doneStatus=true}">Сданные квартиры</a>
   <a th:href="@{/buildings/__${building.building_id}__/apartments}">Сбросить фильтр</a>
