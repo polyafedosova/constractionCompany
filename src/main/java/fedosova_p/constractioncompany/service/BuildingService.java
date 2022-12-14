@@ -48,4 +48,9 @@ public class BuildingService {
             return true;
         } return false;
     }
+
+    /*public List<Building> find(String city, String street, String number, String name,
+                               Date consStart, Date consEnd, Date expStart, Date expEnd, int b) {
+        return buildingRepository.find(city, street, number, name, consStart, consEnd, expStart, expEnd, b);
+    };*/
 }

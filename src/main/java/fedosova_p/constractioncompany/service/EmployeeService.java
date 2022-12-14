@@ -1,6 +1,7 @@
 package fedosova_p.constractioncompany.service;
 
 import fedosova_p.constractioncompany.model.Employee;
+import fedosova_p.constractioncompany.model.enums.Post;
 import fedosova_p.constractioncompany.model.enums.Role;
 import fedosova_p.constractioncompany.repository.EmployeeRepository;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -69,7 +71,9 @@ public class EmployeeService implements UserDetailsService {
         } return false;
     }
 
-    public List<Employee> findByFirstName(String secondName, String firstName) {
-        return employeeRepository.findByFirstNameLike(secondName, firstName);
+    public List<Employee> find(String secondName, String firstName, String middleName,
+                               String phone, Date start, Date end, String passport, String username, Post post) {
+        return employeeRepository.find(secondName, firstName, middleName, phone,
+                start, end, passport, username, post);
     }
 }

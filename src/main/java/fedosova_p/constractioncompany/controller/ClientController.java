@@ -1,15 +1,15 @@
 package fedosova_p.constractioncompany.controller;
 
 import fedosova_p.constractioncompany.model.Client;
+import fedosova_p.constractioncompany.model.Employee;
 import fedosova_p.constractioncompany.service.ClientService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,6 +25,17 @@ public class ClientController {
     @GetMapping("clients")
     public String getClient(Model model) {
         List<Client> listClients = new LinkedList<>(clientService.getAll());
+        model.addAttribute("clients", listClients);
+        return "clientsList";
+    }
+
+    @GetMapping("clients/findClient")
+    public String findClient(Model model, @ModelAttribute Client client, @RequestParam String dateStart,
+                               @RequestParam String dateEnd) throws ParseException {
+        List<Client> listClients = new LinkedList<>(clientService.find(client.getSecond_name(),
+                client.getFirst_name(), client.getMiddle_name(), client.getPhone(),
+                new SimpleDateFormat("yyyy-MM-dd").parse(dateStart), new SimpleDateFormat("yyyy-MM-dd").parse(dateEnd),
+                client.getPassport()));
         model.addAttribute("clients", listClients);
         return "clientsList";
     }

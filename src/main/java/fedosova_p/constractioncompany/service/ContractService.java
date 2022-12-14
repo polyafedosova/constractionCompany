@@ -80,4 +80,6 @@ public class ContractService {
     public List<Contract> findByStatus(Status status) {
         return contractRepository.findByStatus(status);
     }
+
+
 }

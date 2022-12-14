@@ -22,31 +22,36 @@
         <div th:text="${message}">
             {
         </div>
-        <input th:value="${employeeToAdd?.second_name}" type="text" name="second_name"
+        <input th:value="${employeeToFind?.second_name}" type="text" name="second_name"
                placeholder="Введите фамилию">
-        <input th:value="${employeeToAdd?.first_name}" type="text" name="first_name"
+        <input th:value="${employeeToFind?.first_name}" type="text" name="first_name"
                placeholder="Введите имя">
-        <input th:value="${employeeToAdd?.middle_name}" type="text" name="middle_name"
+        <input th:value="${employeeToFind?.middle_name}" type="text" name="middle_name"
                placeholder="Введите отчество">
-        <input th:value="${employeeToAdd?.phone}" type="text" name="phone"
+        <input th:value="${employeeToFind?.phone}" type="text" name="phone"
                placeholder="Введите название номер телефона">
-        <input th:value="${employeeToAdd?.birth_date}" type="date" name="birth_date"
-               placeholder="Введите дату рождения">
-        <input th:value="${employeeToAdd?.passport}" type="text" name="passport"
+        <input th:value="${employeeToFind?.dateStart}" type="date" name="dateStart"
+               placeholder="Введите начало промежутка даты рождения">
+        <input th:value="${employeeToFind?.dateEnd}" type="date" name="dateEnd"
+               placeholder="Введите конец промежутка даты рождения">
+        <input th:value="${employeeToFind?.passport}" type="text" name="passport"
                placeholder="Введите серию и номер паспорта">
-        <select th:value="${employeeToAdd?.post}" name="post_em">
-            <option disabled>Выберите должность</option>
-            <option selected value="0">Менеджер</option>
+        <select th:value="${employeeToFind?.post}" name="post_em">
+            <option selected disabled>Выберите должность</option>
+            <option value="0">Менеджер</option>
             <option value="1">Консультант по продажам</option>
             <option value="2">Главный консультант</option>
             <option value="3">Руководитель отдела</option>
         </select>
-        <input th:value="${employeeToAdd?.username}" type="text" name="username"
+        <input th:value="${employeeToFind?.username}" type="text" name="username"
                placeholder="Введите логин">
         <input type="checkbox" name="isAdmin" id="isAdmin">
         <label for="isAdmin">Админ</label>
         <button type="submit">Найти</button>
     </form>
+    <a href="/employees">
+        Сбросить фильтры
+    </a>
 </div>
 <div>Сотрудники компании</div>
 <ul>

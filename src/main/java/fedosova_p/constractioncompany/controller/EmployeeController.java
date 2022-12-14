@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,12 +29,14 @@ public class EmployeeController {
         return "employeesList";
     }
 
+    //@RequestParam String post_em, @RequestParam(required = false) String isAdmin
     @GetMapping("employees/findEmployee")
-    public String findEmployee(Model model, @ModelAttribute Employee employee,
-                               @RequestParam String post_em, @RequestParam(required = false) String isAdmin,
-                               RedirectAttributes redirectAttributes) {
-        List<Employee> listEmployees = new LinkedList<>(employeeService.findByFirstName(employee.getSecond_name(),
-                employee.getFirst_name()));
+    public String findEmployee(Model model, @ModelAttribute Employee employee, @RequestParam String dateStart,
+                               @RequestParam String dateEnd, @RequestParam String post_em) throws ParseException {
+        List<Employee> listEmployees = new LinkedList<>(employeeService.find(employee.getSecond_name(),
+                employee.getFirst_name(), employee.getMiddle_name(), employee.getPhone(),
+                new SimpleDateFormat("yyyy-MM-dd").parse(dateStart), new SimpleDateFormat("yyyy-MM-dd").parse(dateEnd),
+                employee.getPassport(), employee.getUsername(), (Post.values()[Integer.parseInt(post_em)])));
         model.addAttribute("employees", listEmployees);
         return "employeesList";
     }

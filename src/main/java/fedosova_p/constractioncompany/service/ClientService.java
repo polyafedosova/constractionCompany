@@ -1,9 +1,11 @@
 package fedosova_p.constractioncompany.service;
 
 import fedosova_p.constractioncompany.model.Client;
+import fedosova_p.constractioncompany.model.Employee;
 import fedosova_p.constractioncompany.repository.ClientRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -47,5 +49,11 @@ public class ClientService {
             clientRepository.deleteById(client.getClient_id());
             return true;
         } return false;
+    }
+
+    public List<Client> find(String secondName, String firstName, String middleName,
+                                          String phone, Date start, Date end, String passport) {
+        return clientRepository.find(secondName, firstName, middleName, phone,
+                start, end, passport);
     }
 }

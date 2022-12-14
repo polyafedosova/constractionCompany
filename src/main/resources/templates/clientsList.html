@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
+<div>Добавить клиента</div>
 <div>
     <form method="post" action="clients/addClient">
         <!--CSRF Token-->
@@ -29,6 +30,38 @@
                placeholder="Введите серию и номер паспорта">
         <button type="submit">Добавить</button>
     </form>
+</div>
+<div>Найти клиента</div>
+<div>
+    <form method="get" action="/clients/findClient">
+        <!--CSRF Token-->
+        <input
+                type="hidden"
+                th:name="${_csrf.parameterName}"
+                th:value="${_csrf.token}" />
+
+        <div th:text="${message}">
+            {
+        </div>
+        <input th:value="${clientToFind?.second_name}" type="text" name="second_name"
+               placeholder="Введите фамилию">
+        <input th:value="${clientToFind?.first_name}" type="text" name="first_name"
+               placeholder="Введите имя">
+        <input th:value="${clientToFind?.middle_name}" type="text" name="middle_name"
+               placeholder="Введите отчество">
+        <input th:value="${clientToFind?.phone}" type="text" name="phone"
+               placeholder="Введите название номер телефона">
+        <input th:value="${clientToFind?.dateStart}" type="date" name="dateStart"
+               placeholder="Введите начало промежутка даты рождения">
+        <input th:value="${clientToFind?.dateEnd}" type="date" name="dateEnd"
+               placeholder="Введите конец промежутка даты рождения">
+        <input th:value="${clientToFind?.passport}" type="text" name="passport"
+               placeholder="Введите серию и номер паспорта">
+        <button type="submit">Найти</button>
+    </form>
+    <a href="/clients">
+        Сбросить фильтры
+    </a>
 </div>
 <div>Список клиентов</div>
 <ul>
