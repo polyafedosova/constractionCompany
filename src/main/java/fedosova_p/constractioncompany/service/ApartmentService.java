@@ -54,7 +54,17 @@ public class ApartmentService {
         return apartmentRepository.findByBuilding(building);
     }
 
-    public List<Apartment> findByStatus(Building building, Status status) {
+    public List<Apartment> find(Building building, Status status, String number, String floor, String entrance,
+                                String totalAreaStart, String totalAreaEnd, String livingAreaStart, String livingAreaEnd,
+                                String numberRooms) {
+        if (!number.equals("")) return apartmentRepository.findByBuildingAndNumber(building, Integer.parseInt(number));
+        if (!floor.equals("")) return apartmentRepository.findByBuildingAndFloor(building, Integer.parseInt(floor));
+        if (!entrance.equals("")) return apartmentRepository.findByBuildingAndEntrance(building, Integer.parseInt(entrance));
+        if (!numberRooms.equals("")) return apartmentRepository.findByBuildingAndNumber_rooms(building, Integer.parseInt(numberRooms));
+        if (!totalAreaStart.equals("") && !totalAreaEnd.equals(""))
+            return apartmentRepository.findByTotal_areaBetween(building, Double.parseDouble(totalAreaStart), Double.parseDouble(totalAreaEnd));
+        if (!livingAreaStart.equals("") && !livingAreaEnd.equals(""))
+            return apartmentRepository.findByTotal_areaBetween(building, Double.parseDouble(livingAreaStart), Double.parseDouble(livingAreaEnd));
         return apartmentRepository.findByStatus(building, status);
     }
 }

@@ -24,21 +24,6 @@ public class ApartmentController {
         this.contractService = contractService;
     }
 
-    /*@GetMapping("buildings/{building}/apartments")
-    public String getApartments(Model model, @PathVariable Building building,
-                                @RequestParam(required = false) String doneStatus) {
-        List<Apartment> apartmentsList = new LinkedList<>(apartmentService.findByBuilding(building));
-        if (doneStatus != null) {
-            List<Apartment> doneApartments = contractService.getApartments(building);
-            model.addAttribute("apartments", doneApartments);
-            model.addAttribute("building", building);
-            return "apartmentsList";
-        }
-        model.addAttribute("apartments", apartmentsList);
-        model.addAttribute("building", building);
-        return "apartmentsList";
-    }*/
-
     @GetMapping("buildings/{building}/apartments")
     public String getApartments(Model model, @PathVariable Building building) {
         List<Apartment> apartmentsList = new LinkedList<>(apartmentService.findByBuilding(building));
@@ -51,9 +36,13 @@ public class ApartmentController {
 
     @GetMapping("buildings/{building}/apartments/findApartment")
     public String findApartments(Model model, @PathVariable Building building,
-                                 @RequestParam String status) {
-        List<Apartment> apartmentList = new LinkedList<>(apartmentService.findByStatus(building,
-                Status.values()[Integer.parseInt(status)]));
+                                 @RequestParam String number, @RequestParam String floor, @RequestParam String entrance,
+                                 @RequestParam String status, @RequestParam String totalAreaStart,
+                                 @RequestParam String totalAreaEnd, @RequestParam String livingAreaStart,
+                                 @RequestParam String livingAreaEnd, @RequestParam String numberRooms) {
+        List<Apartment> apartmentList = new LinkedList<>(apartmentService.find(building,
+                Status.values()[Integer.parseInt(status)], number, floor, entrance, totalAreaStart, totalAreaEnd,
+                livingAreaStart, livingAreaEnd, numberRooms));
         model.addAttribute("apartments", apartmentList);
         model.addAttribute("building", building);
         model.addAttribute("currentStatus", Status.values()[Integer.parseInt(status)]);

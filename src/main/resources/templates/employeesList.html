@@ -30,23 +30,12 @@
                placeholder="Введите отчество">
         <input th:value="${employeeToFind?.phone}" type="text" name="phone"
                placeholder="Введите название номер телефона">
-        <input th:value="${employeeToFind?.dateStart}" type="date" name="dateStart"
+        <input th:value="1900-01-01" type="date" name="dateStart"
                placeholder="Введите начало промежутка даты рождения">
-        <input th:value="${employeeToFind?.dateEnd}" type="date" name="dateEnd"
+        <input th:value="2023-01-01" type="date" name="dateEnd"
                placeholder="Введите конец промежутка даты рождения">
         <input th:value="${employeeToFind?.passport}" type="text" name="passport"
                placeholder="Введите серию и номер паспорта">
-        <select th:value="${employeeToFind?.post}" name="post_em">
-            <option selected disabled>Выберите должность</option>
-            <option value="0">Менеджер</option>
-            <option value="1">Консультант по продажам</option>
-            <option value="2">Главный консультант</option>
-            <option value="3">Руководитель отдела</option>
-        </select>
-        <input th:value="${employeeToFind?.username}" type="text" name="username"
-               placeholder="Введите логин">
-        <input type="checkbox" name="isAdmin" id="isAdmin">
-        <label for="isAdmin">Админ</label>
         <button type="submit">Найти</button>
     </form>
     <a href="/employees">

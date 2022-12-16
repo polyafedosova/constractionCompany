@@ -4,6 +4,7 @@ import fedosova_p.constractioncompany.model.Building;
 import fedosova_p.constractioncompany.repository.BuildingRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -49,8 +50,13 @@ public class BuildingService {
         } return false;
     }
 
-    /*public List<Building> find(String city, String street, String number, String name,
-                               Date consStart, Date consEnd, Date expStart, Date expEnd, int b) {
-        return buildingRepository.find(city, street, number, name, consStart, consEnd, expStart, expEnd, b);
-    };*/
+    public List<Building> find(String city, String street, String number, String name,
+                               Date consStart, Date consEnd, boolean b) {
+        if (b) {
+            return buildingRepository.find(city, street, number, name, consStart, consEnd);
+        } else {
+            return buildingRepository.findIsCommission(city, street, number, name, consStart, consEnd);
+
+        }
+    }
 }

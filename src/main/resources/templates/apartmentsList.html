@@ -53,6 +53,22 @@
     <div th:text="${message}">
       {
     </div>
+    <input type="text" name="number"
+           placeholder="Введите номер квартиры">
+    <input type="text" name="floor"
+           placeholder="Введите этаж">
+    <input type="text" name="entrance"
+           placeholder="Введите подъезд">
+    <input type="text" name="totalAreaStart"
+           placeholder="Введите общую площадь">
+    <input type="text" name="totalAreaEnd"
+           placeholder="Введите общую площадь">
+    <input type="text" name="livingAreaStart"
+           placeholder="Введите общую площадь">
+    <input type="text" name="livingAreaEnd"
+           placeholder="Введите общую площадь">
+    <input type="number" min=1 max=5 name="numberRooms"
+           placeholder="Введите количество комнат">
     <select th:if="${not #lists.isEmpty(statuses)}" name="status">
       <option th:each="status : ${statuses}"
               th:value="${status?.ordinal()}"
@@ -62,6 +78,9 @@
     </select>
     <button type="submit">Найти</button>
   </form>
+  <a href="">
+    Сбросить фильтры
+  </a>
 </div>
 <!--<div>
   <a th:href="@{/buildings/__${building.building_id}__/apartments?doneStatus=true}">Сданные квартиры</a>

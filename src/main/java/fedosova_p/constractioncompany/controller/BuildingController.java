@@ -7,6 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,6 +24,26 @@ public class BuildingController {
     @GetMapping("buildings")
     public String getBuildings(Model model) {
         List<Building> listBuildings = new LinkedList<>(buildingService.getAll());
+        model.addAttribute("buildings", listBuildings);
+        return "buildingsList";
+    }
+
+    @GetMapping("buildings/findBuilding")
+    public String findBuilding(Model model, @ModelAttribute Building building, @RequestParam String dateStart,
+                               @RequestParam String dateEnd, @RequestParam(required = false) String isCommission) throws ParseException {
+        if (isCommission == null) {
+            List<Building> listBuildings = new LinkedList<>(buildingService.find(building.getCity(),
+                    building.getStreet(), building.getNumber(), building.getName(),
+                    new SimpleDateFormat("yyyy-MM-dd").parse(dateStart), new SimpleDateFormat("yyyy-MM-dd").parse(dateEnd),
+                    true));
+            model.addAttribute("buildings", listBuildings);
+            return "buildingsList";
+        }
+        List<Building> listBuildings = new LinkedList<>(buildingService.find(building.getCity(),
+                building.getStreet(), building.getNumber(), building.getName(),
+                new SimpleDateFormat("yyyy-MM-dd").parse(dateStart), new SimpleDateFormat("yyyy-MM-dd").parse(dateEnd),
+                false));
+
         model.addAttribute("buildings", listBuildings);
         return "buildingsList";
     }

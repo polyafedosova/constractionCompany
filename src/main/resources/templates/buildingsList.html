@@ -33,6 +33,37 @@
         <button type="submit">Добавить</button>
     </form>
 </div>
+<div>
+    <form method="get" action="/buildings/findBuilding">
+        <!--CSRF Token-->
+        <input
+                type="hidden"
+                th:name="${_csrf.parameterName}"
+                th:value="${_csrf.token}" />
+
+        <div th:text="${message}">
+            {
+        </div>
+        <input th:value="${buildingToFind?.city}" type="text" name="city"
+               placeholder="Введите город">
+        <input th:value="${buildingToFind?.street}" type="text" name="street"
+               placeholder="Введите улицу">
+        <input th:value="${buildingToFind?.number}" type="text" name="number"
+               placeholder="Введите номер дома">
+        <input th:value="${buildingToFind?.name}" type="text" name="name"
+               placeholder="Введите название ЖК">
+        <input th:value="1900-01-01" type="date" name="dateStart"
+               placeholder="Введите начало промежутка даты начала строительства">
+        <input th:value="2023-01-01" type="date" name="dateEnd"
+               placeholder="Введите конец промежутка даты начала строительства">
+        <input type="checkbox" name="isCommission" id="isCommission">
+        <label for="isCommission">Дом сдан</label>
+        <button type="submit">Найти</button>
+    </form>
+    <a href="/buildings">
+        Сбросить фильтры
+    </a>
+</div>
 <div>Список строений</div>
 <ul>
     <th:block th:each="building: ${buildings}">

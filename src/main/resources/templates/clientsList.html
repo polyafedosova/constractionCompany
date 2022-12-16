@@ -51,9 +51,9 @@
                placeholder="Введите отчество">
         <input th:value="${clientToFind?.phone}" type="text" name="phone"
                placeholder="Введите название номер телефона">
-        <input th:value="${clientToFind?.dateStart}" type="date" name="dateStart"
+        <input th:value="1900-01-01" type="date" name="dateStart"
                placeholder="Введите начало промежутка даты рождения">
-        <input th:value="${clientToFind?.dateEnd}" type="date" name="dateEnd"
+        <input th:value="2023-01-01" type="date" name="dateEnd"
                placeholder="Введите конец промежутка даты рождения">
         <input th:value="${clientToFind?.passport}" type="text" name="passport"
                placeholder="Введите серию и номер паспорта">

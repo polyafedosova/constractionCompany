@@ -32,11 +32,11 @@ public class EmployeeController {
     //@RequestParam String post_em, @RequestParam(required = false) String isAdmin
     @GetMapping("employees/findEmployee")
     public String findEmployee(Model model, @ModelAttribute Employee employee, @RequestParam String dateStart,
-                               @RequestParam String dateEnd, @RequestParam String post_em) throws ParseException {
+                               @RequestParam String dateEnd) throws ParseException {
         List<Employee> listEmployees = new LinkedList<>(employeeService.find(employee.getSecond_name(),
                 employee.getFirst_name(), employee.getMiddle_name(), employee.getPhone(),
                 new SimpleDateFormat("yyyy-MM-dd").parse(dateStart), new SimpleDateFormat("yyyy-MM-dd").parse(dateEnd),
-                employee.getPassport(), employee.getUsername(), (Post.values()[Integer.parseInt(post_em)])));
+                employee.getPassport()));
         model.addAttribute("employees", listEmployees);
         return "employeesList";
     }

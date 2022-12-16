@@ -1,9 +1,16 @@
 package fedosova_p.constractioncompany.model.enums;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-
 public enum Type {
-    sale,
-    rent
+    sale("продажа"),
+    rent("аренда");
+
+    private final String value;
+
+    Type(String value) {
+        this.value = value;
+    }
+
+    public String getValue() {
+        return value;
+    }
 }

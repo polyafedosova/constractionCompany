@@ -72,8 +72,8 @@ public class EmployeeService implements UserDetailsService {
     }
 
     public List<Employee> find(String secondName, String firstName, String middleName,
-                               String phone, Date start, Date end, String passport, String username, Post post) {
+                               String phone, Date start, Date end, String passport) {
         return employeeRepository.find(secondName, firstName, middleName, phone,
-                start, end, passport, username, post);
+                start, end, passport);
     }
 }
