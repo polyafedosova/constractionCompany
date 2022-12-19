@@ -12,10 +12,14 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface ContractRepository extends JpaRepository<Contract, Long>  {
 
+    @Query("select c from contracts c where c.apartment = ?1")
     Page<Contract> findByApartment(Apartment apartment, Pageable pageable);
+    @Query("select c from contracts c where c.client = ?1")
     Page<Contract> findByClient(Client client, Pageable pageable);
     Contract findOneByClient(Client client);
+    @Query("select c from contracts c where c.employee = ?1")
     Page<Contract> findByEmployee(Employee employee, Pageable pageable);
+    @Query("select c from contracts c where c.status = ?1")
     Page<Contract> findByStatus(Status status, Pageable pageable);
     @Query("select c from contracts c")
     Page<Contract> findAllPage(Pageable pageable);

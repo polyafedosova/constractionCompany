@@ -1,16 +1,26 @@
 package fedosova_p.constractioncompany.controller;
 
+import fedosova_p.constractioncompany.lib.PageableLib;
+import fedosova_p.constractioncompany.model.Client;
 import fedosova_p.constractioncompany.model.Contract;
+import fedosova_p.constractioncompany.model.Employee;
 import fedosova_p.constractioncompany.model.enums.Status;
 import fedosova_p.constractioncompany.model.enums.Type;
 import fedosova_p.constractioncompany.service.ApartmentService;
 import fedosova_p.constractioncompany.service.ClientService;
 import fedosova_p.constractioncompany.service.ContractService;
 import fedosova_p.constractioncompany.service.EmployeeService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 public class ContractController {
@@ -26,32 +36,43 @@ public class ContractController {
         this.employeeService = employeeService;
         this.contractService = contractService;
     }
-    /*
 
     @GetMapping("clients/{client}/contracts")
-    public String getClientContracts(Model model, @PathVariable Client client) {
-        List<Contract> clientsContractsList = new LinkedList<>(contractService.findByClient(client));
-        model.addAttribute("contracts", clientsContractsList);
+    public String getClientContracts(Model model, @PathVariable Client client,
+                                     @PageableDefault(sort = { "contract_id" }, direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<Contract> page = contractService.findByClient(client, pageable);
+        List<Integer> body = PageableLib.getCountPage(page);
+        model.addAttribute("page", page);
+        model.addAttribute("body", body);
+        model.addAttribute("url", "/clients/" + client.getClient_id() + "/contracts?");
         model.addAttribute("client", client);
         return "contracts";
     }
 
     @GetMapping("contracts")
-    public String getContracts(Model model, @AuthenticationPrincipal Employee employee) {
-        List<Contract> clientsContractsList = new LinkedList<>(contractService.findByEmployee(employee));
-        model.addAttribute("contracts", clientsContractsList);
+    public String getContracts(Model model, @AuthenticationPrincipal Employee employee,
+                               @PageableDefault(sort = { "contract_id" }, direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<Contract> page = contractService.findByEmployee(employee, pageable);
+        List<Integer> body = PageableLib.getCountPage(page);
+        model.addAttribute("page", page);
+        model.addAttribute("body", body);
+        model.addAttribute("url", "/contracts?");
         model.addAttribute("employee", employee);
         return "contracts";
     }
 
     @GetMapping("employees/{employee}/contracts")
-    public String getEmployeeContracts(Model model, @PathVariable Employee employee) {
-        List<Contract> clientsContractsList = new LinkedList<>(contractService.findByEmployee(employee));
-        model.addAttribute("contracts", clientsContractsList);
+    public String getEmployeeContracts(Model model, @PathVariable Employee employee,
+                                       @PageableDefault(sort = { "contract_id" }, direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<Contract> page = contractService.findByEmployee(employee, pageable);
+        List<Integer> body = PageableLib.getCountPage(page);
+        model.addAttribute("page", page);
+        model.addAttribute("body", body);
+        model.addAttribute("url", "/employees/" + employee.getEmployee_id() + "/contracts?");
         model.addAttribute("employee", employee);
         return "contracts";
     }
-    */
+
 
     @GetMapping("contracts/{contract}/deleteContract")
     public String deleteContract(@PathVariable Contract contract, RedirectAttributes redirectAttributes) {
