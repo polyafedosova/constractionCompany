@@ -53,21 +53,21 @@
     <div th:text="${message}">
       {
     </div>
-    <input type="text" name="number"
+    <input th:value="${number}" type="text" name="number"
            placeholder="Введите номер квартиры">
-    <input type="text" name="floor"
+    <input th:value="${floor}" type="text" name="floor"
            placeholder="Введите этаж">
-    <input type="text" name="entrance"
+    <input th:value="${entrance}" type="text" name="entrance"
            placeholder="Введите подъезд">
-    <input type="text" name="totalAreaStart"
+    <input th:value="${totalAreaStart}" type="text" name="totalAreaStart"
            placeholder="Введите общую площадь">
-    <input type="text" name="totalAreaEnd"
+    <input th:value="${totalAreaEnd}" type="text" name="totalAreaEnd"
            placeholder="Введите общую площадь">
-    <input type="text" name="livingAreaStart"
+    <input th:value="${livingAreaStart}" type="text" name="livingAreaStart"
            placeholder="Введите общую площадь">
-    <input type="text" name="livingAreaEnd"
+    <input th:value="${livingAreaEnd}" type="text" name="livingAreaEnd"
            placeholder="Введите общую площадь">
-    <input type="number" min=1 max=5 name="numberRooms"
+    <input th:value="${numberRooms}" type="number" min=1 max=5 name="numberRooms"
            placeholder="Введите количество комнат">
     <select th:if="${not #lists.isEmpty(statuses)}" name="status">
       <option th:each="status : ${statuses}"
@@ -88,8 +88,35 @@
 </div>
 -->
 <div>Список апартаментов</div>
+
+<div>
+  <ul class="pagination">
+    <li class="page-item disabled">
+      <a class="page-link" href="#" tabindex="-1">Страницы</a>
+    </li>
+
+    <th:block th:each="p: ${body}">
+      <div th:if="${page.getNumber()} == ${p - 1}">
+        <li class="page-item active">
+          <a class="page-link" tabindex="-1" th:text="${p}">.</a>
+        </li>
+      </div>
+      <div th:if="${page.getNumber()} != ${p - 1} and -1 != ${p}">
+        <li class="page-item">
+          <a class="page-link" th:href="@{__${url}__page=__${p - 1}__}" tabindex="-1" th:text="${p}">.</a>
+        </li>
+      </div>
+      <div th:if="-1 == ${p}">
+        <li class="page-item disabled">
+          <a class="page-link" tabindex="-1">...</a>
+        </li>
+      </div>
+    </th:block>
+  </ul>
+</div>
+
 <ul>
-  <th:block th:each="apartment: ${apartments}">
+  <th:block th:each="apartment: ${page?.content}">
     Номер:<li th:utext="${apartment?.number}">..</li>
     Этаж: <li th:utext="${apartment?.floor}">..</li>
     Подъезд: <li th:utext="${apartment?.entrance}">..</li>
@@ -107,5 +134,32 @@
     <p>-----------------------------------------</p>
   </th:block>
 </ul>
+
+<div>
+  <ul class="pagination">
+    <li class="page-item disabled">
+      <a class="page-link" href="#" tabindex="-1">Страницы</a>
+    </li>
+
+    <th:block th:each="p: ${body}">
+      <div th:if="${page.getNumber()} == ${p - 1}">
+        <li class="page-item active">
+          <a class="page-link" tabindex="-1" th:text="${p}">.</a>
+        </li>
+      </div>
+      <div th:if="${page.getNumber()} != ${p - 1} and -1 != ${p}">
+        <li class="page-item">
+          <a class="page-link" th:href="@{__${url}__page=__${p - 1}__}" tabindex="-1" th:text="${p}">.</a>
+        </li>
+      </div>
+      <div th:if="-1 == ${p}">
+        <li class="page-item disabled">
+          <a class="page-link" tabindex="-1">...</a>
+        </li>
+      </div>
+    </th:block>
+  </ul>
+</div>
+
 </body>
 </html>

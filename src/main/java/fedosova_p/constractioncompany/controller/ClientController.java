@@ -1,8 +1,12 @@
 package fedosova_p.constractioncompany.controller;
 
+import fedosova_p.constractioncompany.lib.PageableLib;
 import fedosova_p.constractioncompany.model.Client;
-import fedosova_p.constractioncompany.model.Employee;
 import fedosova_p.constractioncompany.service.ClientService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +14,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.LinkedList;
 import java.util.List;
 
 @Controller
@@ -23,20 +26,36 @@ public class ClientController {
     }
 
     @GetMapping("clients")
-    public String getClient(Model model) {
-        List<Client> listClients = new LinkedList<>(clientService.getAll());
-        model.addAttribute("clients", listClients);
+    public String getClient(Model model,
+                            @PageableDefault(sort = { "client_id" }, direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<Client> page = clientService.getAll(pageable);
+        List<Integer> body = PageableLib.getCountPage(page);
+        model.addAttribute("page", page);
+        model.addAttribute("body", body);
+        model.addAttribute("url", "/clients?");
         return "clientsList";
     }
 
     @GetMapping("clients/findClient")
-    public String findClient(Model model, @ModelAttribute Client client, @RequestParam String dateStart,
-                               @RequestParam String dateEnd) throws ParseException {
-        List<Client> listClients = new LinkedList<>(clientService.find(client.getSecond_name(),
+    public String findClient(Model model, @ModelAttribute Client client, @RequestParam String dateStart, @RequestParam String dateEnd,
+                             @PageableDefault(sort = { "client_id" }, direction = Sort.Direction.DESC) Pageable pageable
+    ) throws ParseException {
+        Page<Client> page = clientService.find(client.getSecond_name(),
                 client.getFirst_name(), client.getMiddle_name(), client.getPhone(),
                 new SimpleDateFormat("yyyy-MM-dd").parse(dateStart), new SimpleDateFormat("yyyy-MM-dd").parse(dateEnd),
-                client.getPassport()));
-        model.addAttribute("clients", listClients);
+                client.getPassport(), pageable);
+        List<Integer> body = PageableLib.getCountPage(page);
+        model.addAttribute("page", page);
+        model.addAttribute("body", body);
+        model.addAttribute("url", "/clients/findClient?second_name=" +
+                client.getSecond_name() + "&first_name=" +
+                client.getFirst_name() + "&middle_name=" +
+                client.getMiddle_name() + "&phone=" +
+                client.getPhone() + "&dateStart=" + dateStart +
+                "&dateEnd=" + dateEnd + "&passport=" + client.getPassport() + "&");
+        model.addAttribute("clientToFind", client);
+        model.addAttribute("dateStart", dateStart);
+        model.addAttribute("dateEnd", dateEnd);
         return "clientsList";
     }
 
@@ -57,10 +76,8 @@ public class ClientController {
     }
 
     @PostMapping("clients/addClient")
-    public String addClient(Model model, @ModelAttribute Client client,
+    public String addClient(@ModelAttribute Client client,
                               RedirectAttributes redirectAttributes) {
-        List<Client> listClients = new LinkedList<>(clientService.getAll());
-        model.addAttribute("clients", listClients);
         if (!clientService.isDataCorrectly(client)) {
             redirectAttributes.addFlashAttribute("message", "Введены некорректные данные");
             redirectAttributes.addFlashAttribute("clientToAdd", client);

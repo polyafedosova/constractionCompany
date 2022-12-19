@@ -1,12 +1,12 @@
 package fedosova_p.constractioncompany.service;
 
 import fedosova_p.constractioncompany.model.Client;
-import fedosova_p.constractioncompany.model.Employee;
 import fedosova_p.constractioncompany.repository.ClientRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
 
 @Service
 public class ClientService {
@@ -17,8 +17,8 @@ public class ClientService {
         this.clientRepository = clientRepository;
     }
 
-    public List<Client> getAll() {
-        return clientRepository.findAll();
+    public Page<Client> getAll(Pageable pageable) {
+        return clientRepository.findAllPage(pageable);
     }
 
     public Client findById(Long client_ID) {
@@ -51,9 +51,9 @@ public class ClientService {
         } return false;
     }
 
-    public List<Client> find(String secondName, String firstName, String middleName,
-                                          String phone, Date start, Date end, String passport) {
+    public Page<Client> find(String secondName, String firstName, String middleName,
+                             String phone, Date start, Date end, String passport, Pageable pageable) {
         return clientRepository.find(secondName, firstName, middleName, phone,
-                start, end, passport);
+                start, end, passport, pageable);
     }
 }

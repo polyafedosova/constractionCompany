@@ -43,8 +43,35 @@
     </a>
 </div>
 <div>Сотрудники компании</div>
+
+<div>
+    <ul class="pagination">
+        <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Страницы</a>
+        </li>
+
+        <th:block th:each="p: ${body}">
+            <div th:if="${page.getNumber()} == ${p - 1}">
+                <li class="page-item active">
+                    <a class="page-link" tabindex="-1" th:text="${p}">.</a>
+                </li>
+            </div>
+            <div th:if="${page.getNumber()} != ${p - 1} and -1 != ${p}">
+                <li class="page-item">
+                    <a class="page-link" th:href="@{__${url}__page=__${p - 1}__}" tabindex="-1" th:text="${p}">.</a>
+                </li>
+            </div>
+            <div th:if="-1 == ${p}">
+                <li class="page-item disabled">
+                    <a class="page-link" tabindex="-1">...</a>
+                </li>
+            </div>
+        </th:block>
+    </ul>
+</div>
+
 <ul>
-    <th:block th:each="employee: ${employees}">
+    <th:block th:each="employee: ${page?.content}">
         Фамилия: <li th:utext="${employee?.second_name}">..</li>
         Имя: <li th:utext="${employee?.first_name}">..</li>
         Отчество: <li th:utext="${employee?.middle_name}">..</li>
@@ -66,5 +93,32 @@
         <p>-----------------------------------------</p>
     </th:block>
 </ul>
+
+<div>
+    <ul class="pagination">
+        <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Страницы</a>
+        </li>
+
+        <th:block th:each="p: ${body}">
+            <div th:if="${page.getNumber()} == ${p - 1}">
+                <li class="page-item active">
+                    <a class="page-link" tabindex="-1" th:text="${p}">.</a>
+                </li>
+            </div>
+            <div th:if="${page.getNumber()} != ${p - 1} and -1 != ${p}">
+                <li class="page-item">
+                    <a class="page-link" th:href="@{__${url}__page=__${p - 1}__}" tabindex="-1" th:text="${p}">.</a>
+                </li>
+            </div>
+            <div th:if="-1 == ${p}">
+                <li class="page-item disabled">
+                    <a class="page-link" tabindex="-1">...</a>
+                </li>
+            </div>
+        </th:block>
+    </ul>
+</div>
+
 </body>
 </html>

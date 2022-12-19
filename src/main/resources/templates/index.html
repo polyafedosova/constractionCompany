@@ -2,32 +2,45 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <link rel="stylesheet" href="">
+    <link rel="stylesheet" type="text/css" media="all"  href="../static/css/index.css"/>
+
     <title>Getting Started: Serving Web Content</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<div>
-    <form th:if="!${employee?.isEnabled()}" th:action="@{/login}" method="post">
-        <input type="submit" value="Вход"/>
-    </form>
-    <form th:if="${employee?.isEnabled()}" th:action="@{/logout}" method="post">
-        <input type="submit" value="Выход"/>
-    </form>
-    <!--<a th:if="${employee?.isAdmin()}" href="/admin/addEmployee"> Зарегестрировать нового сотрудника</a>-->
-</div>
-<div>
-    <a href="/buildings">
-        Список домов
-    </a>
-    <a th:if="${employee?.isEnabled()}" href="/clients">
-        Список клиентов
-    </a>
-    <a th:if="${employee?.isEnabled()}" href="/employees">
-        Список сотрудников
-    </a>
-    <a th:if="${employee?.isEnabled()}" href="/contracts">
-        Мои контракты
-    </a>
-</div>
+<header>
+    <div class="navbar">
+        <div class="navbar-menu">
+            <a href="/buildings">
+                Список домов
+            </a>
+            <a th:if="${employee?.isEnabled()}" href="/clients">
+                Список клиентов
+            </a>
+            <a th:if="${employee?.isEnabled()}" href="/employees">
+                Список сотрудников
+            </a>
+            <a th:if="${employee?.isEnabled()}" href="/contracts">
+                Мои контракты
+            </a>
+        </div>
+        <div class="login-form">
+            <form th:if="!${employee?.isEnabled()}" th:action="@{/login}" method="post">
+                <input type="submit" value="Вход"/>
+            </form>
+            <form th:if="${employee?.isEnabled()}" th:action="@{/logout}" method="post">
+                <input type="submit" value="Выход"/>
+            </form>
+            <!--<a th:if="${employee?.isAdmin()}" href="/admin/addEmployee"> Зарегестрировать нового сотрудника</a>-->
+        </div>
+    </div>
+    <div class="container-header">
+        <div class="hello-block">
+            <h1>Чем больше шкаф - тем громче падает</h1>
+            <p>какой-нибудь текст</p>
+        </div>
+    </div>
+</header>
+
 </body>
 </html>

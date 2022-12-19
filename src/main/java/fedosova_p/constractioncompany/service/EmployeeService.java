@@ -1,9 +1,10 @@
 package fedosova_p.constractioncompany.service;
 
 import fedosova_p.constractioncompany.model.Employee;
-import fedosova_p.constractioncompany.model.enums.Post;
 import fedosova_p.constractioncompany.model.enums.Role;
 import fedosova_p.constractioncompany.repository.EmployeeRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,7 +12,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
 
 @Service
 public class EmployeeService implements UserDetailsService {
@@ -33,8 +33,8 @@ public class EmployeeService implements UserDetailsService {
         return employee;
     }
 
-    public List<Employee> getAll() {
-        return employeeRepository.findAll();
+    public Page<Employee> getAll(Pageable pageable) {
+        return employeeRepository.findAllPage(pageable);
     }
 
     public Employee findById(Long employee_ID) {
@@ -71,9 +71,9 @@ public class EmployeeService implements UserDetailsService {
         } return false;
     }
 
-    public List<Employee> find(String secondName, String firstName, String middleName,
-                               String phone, Date start, Date end, String passport) {
+    public Page<Employee> find(String secondName, String firstName, String middleName,
+                               String phone, Date start, Date end, String passport, Pageable pageable) {
         return employeeRepository.find(secondName, firstName, middleName, phone,
-                start, end, passport);
+                start, end, passport, pageable);
     }
 }

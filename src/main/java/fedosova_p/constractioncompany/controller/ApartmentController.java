@@ -1,16 +1,20 @@
 package fedosova_p.constractioncompany.controller;
 
+import fedosova_p.constractioncompany.lib.PageableLib;
 import fedosova_p.constractioncompany.model.Apartment;
 import fedosova_p.constractioncompany.model.Building;
 import fedosova_p.constractioncompany.model.enums.Status;
 import fedosova_p.constractioncompany.service.ApartmentService;
 import fedosova_p.constractioncompany.service.ContractService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.LinkedList;
 import java.util.List;
 
 @Controller
@@ -25,12 +29,16 @@ public class ApartmentController {
     }
 
     @GetMapping("buildings/{building}/apartments")
-    public String getApartments(Model model, @PathVariable Building building) {
-        List<Apartment> apartmentsList = new LinkedList<>(apartmentService.findByBuilding(building));
-        model.addAttribute("apartments", apartmentsList);
+    public String getApartments(Model model, @PathVariable Building building,
+                                @PageableDefault(sort = { "apartment_id" }, direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<Apartment> page = apartmentService.findByBuilding(building, pageable);
+        List<Integer> body = PageableLib.getCountPage(page);
         model.addAttribute("building", building);
-        model.addAttribute("currentStatus", Status.in_progress);
+        model.addAttribute("page", page);
+        model.addAttribute("body", body);
         model.addAttribute("statuses", Status.values());
+
+        model.addAttribute("url", "/buildings/" + building.getBuilding_id() + "/apartments?");
         return "apartmentsList";
     }
 
@@ -39,12 +47,31 @@ public class ApartmentController {
                                  @RequestParam String number, @RequestParam String floor, @RequestParam String entrance,
                                  @RequestParam String status, @RequestParam String totalAreaStart,
                                  @RequestParam String totalAreaEnd, @RequestParam String livingAreaStart,
-                                 @RequestParam String livingAreaEnd, @RequestParam String numberRooms) {
-        List<Apartment> apartmentList = new LinkedList<>(apartmentService.find(building,
+                                 @RequestParam String livingAreaEnd, @RequestParam String numberRooms,
+                                 @PageableDefault(sort = { "apartment_id" }, direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<Apartment> page = apartmentService.find(building,
                 Status.values()[Integer.parseInt(status)], number, floor, entrance, totalAreaStart, totalAreaEnd,
-                livingAreaStart, livingAreaEnd, numberRooms));
-        model.addAttribute("apartments", apartmentList);
+                livingAreaStart, livingAreaEnd, numberRooms, pageable);
+        List<Integer> body = PageableLib.getCountPage(page);
         model.addAttribute("building", building);
+        model.addAttribute("page", page);
+        model.addAttribute("body", body);
+        model.addAttribute("url", "/buildings/" + building.getBuilding_id() + "/apartments/findApartment?number=" +
+                number + "&floor=" +
+                floor + "&entrance=" +
+                entrance + "&totalAreaStart=" +
+                totalAreaStart + "&totalAreaEnd=" +
+                totalAreaEnd + "&livingAreaStart=" +
+                livingAreaStart + "&livingAreaEnd=" +
+                livingAreaEnd + "&numberRooms=" + numberRooms + "&status=" + status + "&");
+        model.addAttribute("number", number);
+        model.addAttribute("floor", floor);
+        model.addAttribute("entrance", entrance);
+        model.addAttribute("totalAreaStart", totalAreaStart);
+        model.addAttribute("totalAreaEnd", totalAreaEnd);
+        model.addAttribute("livingAreaStart", livingAreaStart);
+        model.addAttribute("livingAreaEnd", livingAreaEnd);
+        model.addAttribute("numberRooms", numberRooms);
         model.addAttribute("currentStatus", Status.values()[Integer.parseInt(status)]);
         model.addAttribute("statuses", Status.values());
         return "apartmentsList";
@@ -70,8 +97,6 @@ public class ApartmentController {
     public String addApartment(Model model, @ModelAttribute Apartment apartment,
                               RedirectAttributes redirectAttributes, @PathVariable Building building) {
         apartment.setBuilding(building);
-        List<Apartment> listApartments = new LinkedList<>(apartmentService.getAll());
-        model.addAttribute("apartment", listApartments);
         if (!apartmentService.isDataCorrectly(apartment)) {
             redirectAttributes.addFlashAttribute("message", "Введены некорректные данные");
             redirectAttributes.addFlashAttribute("apartmentToAdd", apartment);

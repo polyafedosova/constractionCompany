@@ -1,22 +1,16 @@
 package fedosova_p.constractioncompany.controller;
 
-import fedosova_p.constractioncompany.model.Client;
 import fedosova_p.constractioncompany.model.Contract;
-import fedosova_p.constractioncompany.model.Employee;
 import fedosova_p.constractioncompany.model.enums.Status;
 import fedosova_p.constractioncompany.model.enums.Type;
 import fedosova_p.constractioncompany.service.ApartmentService;
 import fedosova_p.constractioncompany.service.ClientService;
 import fedosova_p.constractioncompany.service.ContractService;
 import fedosova_p.constractioncompany.service.EmployeeService;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.LinkedList;
-import java.util.List;
 
 @Controller
 public class ContractController {
@@ -32,6 +26,7 @@ public class ContractController {
         this.employeeService = employeeService;
         this.contractService = contractService;
     }
+    /*
 
     @GetMapping("clients/{client}/contracts")
     public String getClientContracts(Model model, @PathVariable Client client) {
@@ -56,6 +51,7 @@ public class ContractController {
         model.addAttribute("employee", employee);
         return "contracts";
     }
+    */
 
     @GetMapping("contracts/{contract}/deleteContract")
     public String deleteContract(@PathVariable Contract contract, RedirectAttributes redirectAttributes) {

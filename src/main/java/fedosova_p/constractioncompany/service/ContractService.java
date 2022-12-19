@@ -1,13 +1,14 @@
 package fedosova_p.constractioncompany.service;
 
-import fedosova_p.constractioncompany.model.*;
+import fedosova_p.constractioncompany.model.Apartment;
+import fedosova_p.constractioncompany.model.Client;
+import fedosova_p.constractioncompany.model.Contract;
+import fedosova_p.constractioncompany.model.Employee;
 import fedosova_p.constractioncompany.model.enums.Status;
 import fedosova_p.constractioncompany.repository.ContractRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
 
 @Service
 public class ContractService {
@@ -18,8 +19,8 @@ public class ContractService {
         this.contractRepository = contractRepository;
     }
 
-    public List<Contract> getAll() {
-        return contractRepository.findAll();
+    public Page<Contract> getAll(Pageable pageable) {
+        return contractRepository.findAllPage(pageable);
     }
     public Contract findById(Long contract_ID) {
         if (contractRepository.findById(contract_ID).isPresent()) {
@@ -51,34 +52,20 @@ public class ContractService {
         } return false;
     }
 
-    public List<Contract> getDoneContracts() {
-        return contractRepository.findByStatus(Status.done);
+    public Page<Contract> findByApartment(Apartment apartment, Pageable pageable) {
+        return contractRepository.findByApartment(apartment, pageable);
     }
-
-    public List<Apartment> getApartments(Building building) {
-        List<Apartment> apartments = new LinkedList<>();
-        for (Contract contract : getDoneContracts()) {
-            if (Objects.equals(building.getBuilding_id(), contract.getApartment().getBuilding().getBuilding_id())) {
-                apartments.add(contract.getApartment());
-            }
-        }
-        return apartments;
-    }
-
-    public List<Contract> findByApartment(Apartment apartment) {
-        return contractRepository.findByApartment(apartment);
-    }
-    public List<Contract> findByClient(Client client) {
-        return contractRepository.findByClient(client);
+    public Page<Contract> findByClient(Client client, Pageable pageable) {
+        return contractRepository.findByClient(client, pageable);
     }
     public Contract findOneByClient(Client client) {
         return contractRepository.findOneByClient(client);
     }
-    public List<Contract> findByEmployee(Employee employee) {
-        return contractRepository.findByEmployee(employee);
+    public Page<Contract> findByEmployee(Employee employee, Pageable pageable) {
+        return contractRepository.findByEmployee(employee, pageable);
     }
-    public List<Contract> findByStatus(Status status) {
-        return contractRepository.findByStatus(status);
+    public Page<Contract> findByStatus(Status status, Pageable pageable) {
+        return contractRepository.findByStatus(status, pageable);
     }
 
 

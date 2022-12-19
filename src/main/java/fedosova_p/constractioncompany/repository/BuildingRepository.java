@@ -9,8 +9,6 @@ import java.util.List;
 
 public interface BuildingRepository extends JpaRepository<Building, Long> {
 
-    //@Query(value = "SELECT * FROM buildings b", nativeQuery = true)
-    //List<Building> findAll();
     @Query(value = "SELECT b FROM buildings b WHERE b.city LIKE %?1% AND " +
             "b.street LIKE %?2% AND b.number LIKE %?3% AND b.name LIKE %?4% " +
             "AND b.constraction_start_date between ?5 and ?6")

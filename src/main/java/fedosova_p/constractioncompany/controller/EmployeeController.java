@@ -1,9 +1,14 @@
 package fedosova_p.constractioncompany.controller;
 
+import fedosova_p.constractioncompany.lib.PageableLib;
 import fedosova_p.constractioncompany.model.Employee;
 import fedosova_p.constractioncompany.model.enums.Post;
 import fedosova_p.constractioncompany.model.enums.Role;
 import fedosova_p.constractioncompany.service.EmployeeService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +16,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.LinkedList;
 import java.util.List;
 
 @Controller
@@ -23,21 +27,36 @@ public class EmployeeController {
     }
 
     @GetMapping("employees")
-    public String getEmployee(Model model) {
-        List<Employee> listEmployees = new LinkedList<>(employeeService.getAll());
-        model.addAttribute("employees", listEmployees);
+    public String getEmployee(Model model,
+                              @PageableDefault(sort = { "employee_id" }, direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<Employee> page = employeeService.getAll(pageable);
+        List<Integer> body = PageableLib.getCountPage(page);
+        model.addAttribute("page", page);
+        model.addAttribute("body", body);
+        model.addAttribute("url", "/employees?");
         return "employeesList";
     }
 
-    //@RequestParam String post_em, @RequestParam(required = false) String isAdmin
     @GetMapping("employees/findEmployee")
     public String findEmployee(Model model, @ModelAttribute Employee employee, @RequestParam String dateStart,
-                               @RequestParam String dateEnd) throws ParseException {
-        List<Employee> listEmployees = new LinkedList<>(employeeService.find(employee.getSecond_name(),
+                               @RequestParam String dateEnd,
+                               @PageableDefault(sort = { "employee_id" }, direction = Sort.Direction.DESC) Pageable pageable) throws ParseException {
+        Page<Employee> page = employeeService.find(employee.getSecond_name(),
                 employee.getFirst_name(), employee.getMiddle_name(), employee.getPhone(),
                 new SimpleDateFormat("yyyy-MM-dd").parse(dateStart), new SimpleDateFormat("yyyy-MM-dd").parse(dateEnd),
-                employee.getPassport()));
-        model.addAttribute("employees", listEmployees);
+                employee.getPassport(), pageable);
+        List<Integer> body = PageableLib.getCountPage(page);
+        model.addAttribute("page", page);
+        model.addAttribute("body", body);
+        model.addAttribute("url", "/employees/findEmployee?second_name=" +
+                employee.getSecond_name() + "&first_name=" +
+                employee.getFirst_name() + "&middle_name=" +
+                employee.getMiddle_name() + "&phone=" +
+                employee.getPhone() + "&dateStart=" + dateStart +
+                "&dateEnd=" + dateEnd + "&passport=" + employee.getPassport() + "&");
+        model.addAttribute("employeeToFind", employee);
+        model.addAttribute("dateStart", dateStart);
+        model.addAttribute("dateEnd", dateEnd);
         return "employeesList";
     }
 
