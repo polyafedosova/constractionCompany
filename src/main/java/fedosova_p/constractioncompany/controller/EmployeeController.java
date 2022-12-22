@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,13 +28,14 @@ public class EmployeeController {
     }
 
     @GetMapping("employees")
-    public String getEmployee(Model model,
+    public String getEmployee(Model model, @AuthenticationPrincipal Employee employee,
                               @PageableDefault(sort = { "employee_id" }, direction = Sort.Direction.DESC) Pageable pageable) {
         Page<Employee> page = employeeService.getAll(pageable);
         List<Integer> body = PageableLib.getCountPage(page);
         model.addAttribute("page", page);
         model.addAttribute("body", body);
         model.addAttribute("url", "/employees?");
+        model.addAttribute("employee", employee);
         return "employeesList";
     }
 
@@ -61,8 +63,10 @@ public class EmployeeController {
     }
 
     @GetMapping("employees/{employee}/editEmployee")
-    public String getEditEmployeePage(Model model, @PathVariable(required = false) Employee employee) {
+    public String getEditEmployeePage(Model model, @AuthenticationPrincipal Employee employeeIn,
+                                      @PathVariable(required = false) Employee employee) {
         model.addAttribute("employee", employee);
+        model.addAttribute("employeeIn", employeeIn);
         return "employeeEdit";
     }
 

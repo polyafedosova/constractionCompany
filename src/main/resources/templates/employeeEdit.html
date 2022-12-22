@@ -1,80 +1,116 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+  <link rel="stylesheet" type="text/css" media="all"  th:href="@{/css/group.css}"/>
+  <link rel="stylesheet" type="text/css" media="all"  th:href="@{/css/index.css}"/>
+  <link rel="stylesheet" type="text/css" media="all"  th:href="@{/css/apartamentEdit.css}"/>
   <meta charset="UTF-8">
   <title>Title</title>
 </head>
 <body>
-<h1 class="auth-title">Редактирование</h1>
+<header>
+  <div class="navbar">
+    <div class="navbar-menu">
+      <a href="/buildings">
+        Список домов
+      </a>
+      <a th:if="${employeeIn?.isEnabled()}" href="/clients">
+        Список клиентов
+      </a>
+      <a th:if="${employeeIn?.isEnabled()}" href="/employees">
+        Список сотрудников
+      </a>
+      <a th:if="${employeeIn?.isEnabled()}" href="/contracts">
+        Мои контракты
+      </a>
+    </div>
+    <div class="login-form">
+      <form th:if="!${employee?.isEnabled()}" th:action="@{/login}" method="post">
+        <input type="submit" value="Вход"/>
+      </form>
+      <form th:if="${employee?.isEnabled()}" th:action="@{/logout}" method="post">
+        <input type="submit" value="Выход"/>
+      </form>
+      <!--<a th:if="${employee?.isAdmin()}" href="/admin/addEmployee"> Зарегистрировать нового сотрудника</a>-->
+    </div>
+  </div>
 
-<div th:text="${message}">
-  {
+</header>
+<div class="section-3">
+  <div class="center">
+    <div class="container-title2">
+      <h1 class="auth-title">Редактирование</h1>
+    </div>
+  </div>
+  <div th:text="${message}"></div>
+  <div class="form1">
+    <form class="post" action="" method="post">
+      <!--CSRF Token-->
+      <input
+              type="hidden"
+              th:name="${_csrf.parameterName}"
+              th:value="${_csrf.token}" />
+      <div class="form group">
+        <input class="input" type="text" name="second_name"
+               placeholder="" th:value="${employee?.second_name}" required>
+        <span class="span login">Редактировать фамилию</span>
+      </div>
+      <div class="form group">
+        <input class="input" type="text" name="first_name"
+               placeholder="" th:value="${employee?.first_name}" required>
+        <span class="span login">Редактировать имя</span>
+      </div>
+      <div class="form group">
+        <input class="input" type="text" name="middle_name"
+               placeholder="" th:value="${employee?.middle_name}" required>
+        <span class="span login">Редактировать отчество</span>
+      </div>
+      <div class="form group">
+        <input class="input" type="text" name="phone"
+               placeholder="" th:value="${employee?.phone}" required>
+        <span class="span login">Редактировать номер телефона</span>
+      </div>
+      <div class="form group">
+        <input class="input" type="date" name="birth_date"
+               placeholder="" th:value="${employee?.birth_date}" required>
+        <span class="span login">Редактировать дату рождения</span>
+      </div>
+      <div class="form group">
+        <input class="input" type="text" name="passport"
+               placeholder="" th:value="${employee?.passport}" required>
+        <span class="span login">Редактировать серию и номер паспорта</span>
+      </div>
+      <div class="form group">
+        <select class="input" th:value="${employee?.post}" name="post_em">
+          <option disabled>Выберите должность</option>
+          <option selected value="0">Менеджер</option>
+          <option value="1">Консультант по продажам</option>
+          <option value="2">Главный консультант</option>
+          <option value="3">Руководитель отдела</option>
+        </select>
+      </div>
+      <div class="form group">
+        <input class="input" type="text" name="username"
+               placeholder="" th:value="${employee?.username}" required>
+        <span class="span login">Введите логин</span>
+      </div>
+      <div class="form group">
+        <input class="input" type="text" name="passport"
+               placeholder="" th:value="${employee?.password}" required>
+        <span class="span login">Введите пароль</span>
+      </div>
+      <div>
+        <input class="input checkbox" type="checkbox" name="isAdmin" id="isAdmin" required>
+        <label class="text-li" for="isAdmin" style="display: inline-block">Админ</label>
+      </div>
+      <div class="form group">
+        <button class="btn" type="submit">Редактировать</button>
+      </div>
+      <div class="form group">
+        <a class="text" href="/employees" >Назад</a>
+      </div>
+    </form>
+  </div>
 </div>
-
-<form action="" method="post">
-  <!--CSRF Token-->
-  <input
-          type="hidden"
-          th:name="${_csrf.parameterName}"
-          th:value="${_csrf.token}" />
-
-  <div class="form-group"> Фамилия:
-    <input class="input" type="text" name="second_name"
-           placeholder="Редактировать фамилию" th:value="${employee?.second_name}">
-  </div>
-
-  <div class="form-group"> Имя:
-    <input class="input" type="text" name="first_name"
-           placeholder="Редактировать имя" th:value="${employee?.first_name}">
-  </div>
-
-  <div class="form-group"> Отчество:
-    <input class="input" type="text" name="middle_name"
-           placeholder="Редактировать отчество" th:value="${employee?.middle_name}">
-  </div>
-
-  <div class="form-group"> Телефон:
-    <input class="input" type="text" name="phone"
-           placeholder="Редактировать номер телефона" th:value="${employee?.phone}">
-  </div>
-
-  <div class="form-group"> Дата рождения:
-    <input class="input" type="date" name="birth_date"
-           placeholder="Редактировать дату рождения" th:value="${employee?.birth_date}">
-  </div>
-
-  <div class="form-group"> Серия и номер паспорта:
-    <input class="input" type="text" name="passport"
-           placeholder="Редактировать серию и номер паспорта" th:value="${employee?.passport}">
-  </div>
-
-  <div class="form-group"> Должность:
-    <select th:value="${employee?.post}" name="post_em">
-      <option disabled>Выберите должность</option>
-      <option selected value="0">Менеджер</option>
-      <option value="1">Консультант по продажам</option>
-      <option value="2">Главный консультант</option>
-      <option value="3">Руководитель отдела</option>
-    </select>
-  </div>
-
-  <div class="form-group"> Логин:
-    <input type="text" name="username"
-           placeholder="Введите логин" th:value="${employee?.username}">
-  </div>
-
-  <div class="form-group"> Пароль:
-    <input type="text" name="password"
-           placeholder="Введите пароль" th:value="${employee?.password}">
-  </div>
-
-  <div class="form-group">:
-    <input type="checkbox" name="isAdmin" id="isAdmin">
-    <label for="isAdmin">Админ</label>
-  </div>
-
-  <button class="btn" type="submit">Редактировать</button>
-</form>
-<a href="/employees" >Назад</a>
 </body>
 </html>

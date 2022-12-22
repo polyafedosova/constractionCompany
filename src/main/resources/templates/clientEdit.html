@@ -1,55 +1,94 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+  <link rel="stylesheet" type="text/css" media="all"  th:href="@{/css/group.css}"/>
+  <link rel="stylesheet" type="text/css" media="all"  th:href="@{/css/index.css}"/>
+  <link rel="stylesheet" type="text/css" media="all"  th:href="@{/css/apartamentEdit.css}"/>
   <meta charset="UTF-8">
   <title>Title</title>
 </head>
 <body>
-<h1 class="auth-title">Редактирование</h1>
+<header>
+  <div class="navbar">
+    <div class="navbar-menu">
+      <a href="/buildings">
+        Список домов
+      </a>
+      <a th:if="${employee?.isEnabled()}" href="/clients">
+        Список клиентов
+      </a>
+      <a th:if="${employee?.isEnabled()}" href="/employees">
+        Список сотрудников
+      </a>
+      <a th:if="${employee?.isEnabled()}" href="/contracts">
+        Мои контракты
+      </a>
+    </div>
+    <div class="login-form">
+      <form th:if="!${employee?.isEnabled()}" th:action="@{/login}" method="post">
+        <input type="submit" value="Вход"/>
+      </form>
+      <form th:if="${employee?.isEnabled()}" th:action="@{/logout}" method="post">
+        <input type="submit" value="Выход"/>
+      </form>
+      <!--<a th:if="${employee?.isAdmin()}" href="/admin/addEmployee"> Зарегистрировать нового сотрудника</a>-->
+    </div>
+  </div>
 
-<div th:text="${message}">
-  {
+</header>
+<div class="section-3" style="padding: 47px 0;">
+  <div class="center">
+    <div class="container-title2">
+      <h1 class="auth-title">Редактирование</h1>
+    </div>
+  </div>
+  <div th:text="${message}"></div>
+  <div class="form1">
+    <form class="post" action="" method="post">
+      <!--CSRF Token-->
+      <input
+              type="hidden"
+              th:name="${_csrf.parameterName}"
+              th:value="${_csrf.token}" />
+      <div class="form group">
+        <input class="input" type="text" name="second_name"
+               placeholder="" th:value="${client?.second_name}" required>
+        <span class="span login">Фамилия:</span>
+      </div>
+      <div class="form group">
+        <input class="input" type="text" name="first_name"
+               placeholder="" th:value="${client?.first_name}" required>
+        <span class="span login">Имя:</span>
+      </div>
+      <div class="form group">
+        <input class="input" type="text" name="middle_name"
+               placeholder="" th:value="${client?.middle_name}" required>
+        <span class="span login">Отчество:</span>
+      </div>
+      <div class="form group">
+        <input class="input" type="text" name="phone"
+               placeholder="" th:value="${client?.phone}" required>
+        <span class="span login">Телефон:</span>
+      </div>
+      <div class="form group">
+        <input class="input" type="date" name="birth_date"
+               placeholder="" th:value="${client?.birth_date}" required>
+        <span class="span login">Дата рождения:</span>
+      </div>
+      <div class="form group">
+        <input class="input" type="text" name="passport"
+               placeholder="" th:value="${client?.passport}" required>
+        <span class="span login">Серия и номер паспорта:</span>
+      </div>
+
+      <div class="form group">
+        <button class="btn" type="submit">Редактировать</button>
+      </div>
+      <div class="form group">
+        <a class="text" href="/clients" >Главная</a>
+      </div>
+    </form>
+  </div>
 </div>
-
-<form action="" method="post">
-  <!--CSRF Token-->
-  <input
-          type="hidden"
-          th:name="${_csrf.parameterName}"
-          th:value="${_csrf.token}" />
-
-  <div class="form-group"> Фамилия:
-    <input class="input" type="text" name="second_name"
-           placeholder="Редактировать фамилию" th:value="${client?.second_name}">
-  </div>
-
-  <div class="form-group"> Имя:
-    <input class="input" type="text" name="first_name"
-           placeholder="Редактировать имя" th:value="${client?.first_name}">
-  </div>
-
-  <div class="form-group"> Отчество:
-    <input class="input" type="text" name="middle_name"
-           placeholder="Редактировать отчество" th:value="${client?.middle_name}">
-  </div>
-
-  <div class="form-group"> Телефон:
-    <input class="input" type="text" name="phone"
-           placeholder="Редактировать номер телефона" th:value="${client?.phone}">
-  </div>
-
-  <div class="form-group"> Дата рождения:
-    <input class="input" type="date" name="birth_date"
-           placeholder="Редактировать дату рождения" th:value="${client?.birth_date}">
-  </div>
-
-  <div class="form-group"> Серия и номер паспорта:
-    <input class="input" type="text" name="passport"
-           placeholder="Редактировать серию и номер паспорта" th:value="${client?.passport}">
-  </div>
-
-  <button class="btn" type="submit">Редактировать</button>
-</form>
-<a href="/clients" >Главная</a>
 </body>
 </html>

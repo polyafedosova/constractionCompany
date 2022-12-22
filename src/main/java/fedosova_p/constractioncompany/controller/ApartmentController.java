@@ -3,6 +3,7 @@ package fedosova_p.constractioncompany.controller;
 import fedosova_p.constractioncompany.lib.PageableLib;
 import fedosova_p.constractioncompany.model.Apartment;
 import fedosova_p.constractioncompany.model.Building;
+import fedosova_p.constractioncompany.model.Employee;
 import fedosova_p.constractioncompany.model.enums.Status;
 import fedosova_p.constractioncompany.service.ApartmentService;
 import fedosova_p.constractioncompany.service.ContractService;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,11 +31,12 @@ public class ApartmentController {
     }
 
     @GetMapping("buildings/{building}/apartments")
-    public String getApartments(Model model, @PathVariable Building building,
+    public String getApartments(Model model, @PathVariable Building building, @AuthenticationPrincipal Employee employee,
                                 @PageableDefault(sort = { "apartment_id" }, direction = Sort.Direction.DESC) Pageable pageable) {
         Page<Apartment> page = apartmentService.findByBuilding(building, pageable);
         List<Integer> body = PageableLib.getCountPage(page);
         model.addAttribute("building", building);
+        model.addAttribute("employee", employee);
         model.addAttribute("page", page);
         model.addAttribute("body", body);
         model.addAttribute("statuses", Status.values());
@@ -78,8 +81,10 @@ public class ApartmentController {
     }
 
     @GetMapping("buildings/{building}/apartments/{apartment}/editApartment")
-    public String getEditApartmentPage(Model model, @PathVariable(required = false) Apartment apartment) {
+    public String getEditApartmentPage(Model model, @AuthenticationPrincipal Employee employee,
+                                       @PathVariable(required = false) Apartment apartment) {
         model.addAttribute("apartment", apartment);
+        model.addAttribute("employee", employee);
         return "apartmentEdit";
     }
 

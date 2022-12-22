@@ -38,7 +38,7 @@ public class ContractController {
     }
 
     @GetMapping("clients/{client}/contracts")
-    public String getClientContracts(Model model, @PathVariable Client client,
+    public String getClientContracts(Model model, @AuthenticationPrincipal Employee employee, @PathVariable Client client,
                                      @PageableDefault(sort = { "contract_id" }, direction = Sort.Direction.DESC) Pageable pageable) {
         Page<Contract> page = contractService.findByClient(client, pageable);
         List<Integer> body = PageableLib.getCountPage(page);
@@ -46,6 +46,7 @@ public class ContractController {
         model.addAttribute("body", body);
         model.addAttribute("url", "/clients/" + client.getClient_id() + "/contracts?");
         model.addAttribute("client", client);
+        model.addAttribute("employee", employee);
         return "contracts";
     }
 
@@ -83,8 +84,10 @@ public class ContractController {
     }
 
     @GetMapping("contracts/{contract}/editContract")
-    public String getEditEmployeePage(Model model, @PathVariable(required = false) Contract contract) {
+    public String getEditEmployeePage(Model model, @AuthenticationPrincipal Employee employee,
+                                      @PathVariable(required = false) Contract contract) {
         model.addAttribute("contract", contract);
+        model.addAttribute("employee", employee);
         return "contractEdit";
     }
 

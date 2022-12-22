@@ -1,144 +1,258 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link rel="stylesheet" type="text/css" media="all"  th:href="@{/css/group.css}"/>
+    <link rel="stylesheet" type="text/css" media="all"  th:href="@{/css/index.css}"/>
+    <link rel="stylesheet" type="text/css" media="all"  th:href="@{/css/apartamentEdit.css}"/>
     <title>Getting Started: Serving Web Content</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<div>Добавить клиента</div>
-<div>
-    <form method="post" action="clients/addClient">
-        <!--CSRF Token-->
-        <input
-                type="hidden"
-                th:name="${_csrf.parameterName}"
-                th:value="${_csrf.token}" />
-        <div th:text="${message}">
-            {
+<header>
+    <div class="navbar">
+        <div class="navbar-menu">
+            <a href="/buildings">
+                Список домов
+            </a>
+            <a th:if="${employee?.isEnabled()}" href="/clients">
+                Список клиентов
+            </a>
+            <a th:if="${employee?.isEnabled()}" href="/employees">
+                Список сотрудников
+            </a>
+            <a th:if="${employee?.isEnabled()}" href="/contracts">
+                Мои контракты
+            </a>
         </div>
-        <input th:value="${buildingToAdd?.second_name}" type="text" name="second_name"
-               placeholder="Введите фамилию">
-        <input th:value="${buildingToAdd?.first_name}" type="text" name="first_name"
-               placeholder="Введите имя">
-        <input th:value="${buildingToAdd?.middle_name}" type="text" name="middle_name"
-               placeholder="Введите отчество">
-        <input th:value="${buildingToAdd?.phone}" type="text" name="phone"
-               placeholder="Введите номер телефона">
-        <input th:value="${buildingToAdd?.birth_date}" type="date" name="birth_date"
-               placeholder="Введите дату рождения">
-        <input th:value="${buildingToAdd?.passport}" type="text" name="passport"
-               placeholder="Введите серию и номер паспорта">
-        <button type="submit">Добавить</button>
-    </form>
-</div>
-<div>Найти клиента</div>
-<div>
-    <form method="get" action="/clients/findClient">
-        <!--CSRF Token-->
-        <input
-                type="hidden"
-                th:name="${_csrf.parameterName}"
-                th:value="${_csrf.token}" />
-
-        <div th:text="${message}">
-            {
+        <div class="login-form">
+            <form th:if="!${employee?.isEnabled()}" th:action="@{/login}" method="post">
+                <input type="submit" value="Вход"/>
+            </form>
+            <form th:if="${employee?.isEnabled()}" th:action="@{/logout}" method="post">
+                <input type="submit" value="Выход"/>
+            </form>
+            <!--<a th:if="${employee?.isAdmin()}" href="/admin/addEmployee"> Зарегистрировать нового сотрудника</a>-->
         </div>
-        <input th:value="${clientToFind?.second_name}" type="text" name="second_name"
-               placeholder="Введите фамилию">
-        <input th:value="${clientToFind?.first_name}" type="text" name="first_name"
-               placeholder="Введите имя">
-        <input th:value="${clientToFind?.middle_name}" type="text" name="middle_name"
-               placeholder="Введите отчество">
-        <input th:value="${clientToFind?.phone}" type="text" name="phone"
-               placeholder="Введите название номер телефона">
-        <input th:value="1900-01-01" type="date" name="dateStart"
-               placeholder="Введите начало промежутка даты рождения">
-        <input th:value="2023-01-01" type="date" name="dateEnd"
-               placeholder="Введите конец промежутка даты рождения">
-        <input th:value="${clientToFind?.passport}" type="text" name="passport"
-               placeholder="Введите серию и номер паспорта">
-        <button type="submit">Найти</button>
-    </form>
-    <a href="/clients">
-        Сбросить фильтры
-    </a>
+    </div>
+
+</header>
+<div class="section-1">
+    <div class="table">
+        <div class="container-title2">
+            <h1 class="auth-title">Добавить клиента</h1>
+        </div>
+        <div class="form1">
+
+            <form class="post" action="clients/addClient" method="post">
+                <!--CSRF Token-->
+                <input  class="input"
+                        type="hidden"
+                        th:name="${_csrf.parameterName}"
+                        th:value="${_csrf.token}" />
+                <div th:text="${message}"></div>
+
+                <div class="form group">
+                    <input class="input" type="text" name="second_name"
+                           placeholder="" th:value="${buildingToAdd?.second_name}" required>
+                    <span class="span login">Фамилия:</span>
+                </div>
+                <div class="form group">
+                    <input class="input" type="text" name="first_name"
+                           placeholder="" th:value="${buildingToAdd?.first_name}" required>
+                    <span class="span login">Имя:</span>
+                </div>
+                <div class="form group">
+                    <input class="input" type="text" name="middle_name"
+                           placeholder="" th:value="${buildingToAdd?.middle_name}" required>
+                    <span class="span login">Отчество:</span>
+                </div>
+                <div class="form group">
+                    <input class="input" type="text" name="phone"
+                           placeholder="" th:value="${buildingToAdd?.phone}" required>
+                    <span class="span login">Телефон:</span>
+                </div>
+                <div class="form group">
+                    <input class="input" type="date" name="birth_date"
+                           placeholder="" th:value="${buildingToAdd?.birth_date}" required>
+                    <span class="span login">Дата рождения:</span>
+                </div>
+                <div class="form group">
+                    <input class="input" type="text" name="passport"
+                           placeholder="" th:value="${buildingToAdd?.passport}" required>
+                    <span class="span login">Серия и номер паспорта:</span>
+                </div>
+
+                <div class="form group">
+                    <button class="btn" type="submit">Добавить</button>
+                </div>
+                <div class="form group">
+                    <a class="text" href="/clients" >Главная</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="table">
+        <div class="container-title2">
+            <h1 class="auth-title">Найти клиента</h1>
+        </div>
+        <div class="form1">
+            <form class="post" action="/clients/findClient" method="post">
+                <!--CSRF Token-->
+                <input  class="input"
+                        type="hidden"
+                        th:name="${_csrf.parameterName}"
+                        th:value="${_csrf.token}" />
+                <div th:text="${message}"></div>
+
+                <div class="form group">
+                    <input class="input" type="text" name="second_name"
+                           placeholder="" th:value="${clientToFind?.second_name}" required>
+                    <span class="span login">Введите фамилию</span>
+                </div>
+                <div class="form group">
+                    <input class="input" type="text" name="first_name"
+                           placeholder="" th:value="${clientToFind?.first_name}" required>
+                    <span class="span login">Введите имя</span>
+                </div>
+                <div class="form group">
+                    <input class="input" type="text" name="middle_name"
+                           placeholder="" th:value="${clientToFind?.middle_name}" required>
+                    <span class="span login">Введите отчество</span>
+                </div>
+                <div class="form group">
+                    <input class="input" type="text" name="phone"
+                           placeholder="" th:value="${clientToFind?.phone}" required>
+                    <span class="span login">Введите название номер телефона</span>
+                </div>
+                <div class="form group">
+                    <input class="input" type="date" name="dateStart"
+                           placeholder="" th:value="1900-01-01" required>
+                    <span class="span login">Введите начало промежутка даты рождения</span>
+                </div>
+                <div class="form group">
+                    <input class="input" type="date" name="dateEnd"
+                           placeholder="" th:value="2023-01-01" required>
+                    <span class="span login">Введите конец промежутка даты рождения</span>
+                </div>
+                <div class="form group">
+                    <input class="input" type="text" name="passport"
+                           placeholder="" th:value="${clientToFind?.passport}" required>
+                    <span class="span login">Серия и номер паспорта:</span>
+                </div>
+                <div class="form group">
+                    <button class="btn" type="submit">Найти</button>
+                </div>
+                <div class="form group">
+                    <a class="text" href="/clients" >Сбросить фильтры</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
 </div>
-<div>Список клиентов</div>
-
-<div>
-    <ul class="pagination">
-        <li class="page-item disabled">
-            <a class="page-link" href="#" tabindex="-1">Страницы</a>
-        </li>
-
-        <th:block th:each="p: ${body}">
-            <div th:if="${page.getNumber()} == ${p - 1}">
-                <li class="page-item active">
-                    <a class="page-link" tabindex="-1" th:text="${p}">.</a>
-                </li>
+<div class="section-2">
+    <div class="center">
+        <div class="container-title2">
+            <h1 class="text">Список клиентов</h1>
+            <div class="container-pagination">
+                <div class="pagination">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">Страницы</a>
+                    </li>
+                    <th:block th:each="p: ${body}">
+                        <div class="th-center">
+                            <div th:if="${page.getNumber()} == ${p - 1}">
+                                <li class="page-item active">
+                                    <a class="page-link" tabindex="-1" th:text="${p}">.</a>
+                                </li>
+                            </div>
+                            <div th:if="${page.getNumber()} != ${p - 1} and -1 != ${p}">
+                                <li class="page-item">
+                                    <a class="page-link" th:href="@{__${url}__page=__${p - 1}__}" tabindex="-1" th:text="${p}">.</a>
+                                </li>
+                            </div>
+                            <div th:if="-1 == ${p}">
+                                <li class="page-item disabled">
+                                    <a class="page-link" tabindex="-1">...</a>
+                                </li>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
             </div>
-            <div th:if="${page.getNumber()} != ${p - 1} and -1 != ${p}">
-                <li class="page-item">
-                    <a class="page-link" th:href="@{__${url}__page=__${p - 1}__}" tabindex="-1" th:text="${p}">.</a>
-                </li>
+        </div>
+    </div>
+    <div class="table">
+        <th:block th:each="client: ${page?.content}">
+            <div class="content-table">
+                <h2 class="text">Фамилия: </h2>
+                <li class="text-li" th:utext="${client?.second_name}">..</li>
             </div>
-            <div th:if="-1 == ${p}">
-                <li class="page-item disabled">
-                    <a class="page-link" tabindex="-1">...</a>
-                </li>
+            <div class="content-table">
+                <h2 class="text">Имя: </h2>
+                <li class="text-li" th:utext="${client?.first_name}">Улица</li>
             </div>
+            <div class="content-table">
+                <h2 class="text">Отчество: </h2>
+                <li class="text-li" th:utext="${client?.middle_name}">..</li>
+            </div>
+            <div class="content-table">
+                <h2 class="text">Телефон: </h2>
+                <li class="text-li" th:utext="${client?.phone}">..</li>
+            </div>
+            <div class="content-table">
+                <h2 class="text">Дата рождения: </h2>
+                <li class="text-li" th:utext="${client?.birth_date}">..</li>
+            </div>
+            <div class="content-table">
+                <h2 class="text">Серия и номер паспорта: </h2>
+                <li class="text-li" th:utext="${client?.passport}">..</li>
+            </div>
+            <div class="content-reg">
+                <a class="content-reg-btn" href="/contracts" th:attrprepend="href='clients/'+${client?.client_id}">
+                    Контракты клиента
+                </a>
+                <a class="content-reg-btn" href="/editClient" th:attrprepend="href='clients/'+${client?.client_id}">
+                    Редактировать данные клиента
+                </a>
+                <a class="content-reg-btn" href="/deleteClient" th:attrprepend="href='clients/'+${client?.client_id}">
+                    Удалить данные о клиенте
+                </a>
+            </div>
+            <div class="border"></div>
         </th:block>
-    </ul>
-</div>
-
-<ul>
-    <th:block th:each="client: ${page?.content}">
-        Фамилия: <li th:utext="${client?.second_name}">..</li>
-        Имя: <li th:utext="${client?.first_name}">..</li>
-        Отчество: <li th:utext="${client?.middle_name}">..</li>
-        Телефон: <li th:utext="${client?.phone}">..</li>
-        Дата рождения: <li th:utext="${client?.birth_date}">..</li>
-        Серия и номер паспорта: <li th:utext="${client?.passport}">..</li>
-        <div>
-            <a href="/contracts" th:attrprepend="href='clients/'+${client?.client_id}">
-                Контракты клиента
-            </a>
-            <a href="/editClient" th:attrprepend="href='clients/'+${client?.client_id}">
-                Редактировать данные клиента
-            </a>
-            <a href="/deleteClient" th:attrprepend="href='clients/'+${client?.client_id}">
-                Удалить данные о клиенте
-            </a>
+        <div class="container-title2">
+            <div class="container-pagination">
+                <div class="pagination">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">Страницы</a>
+                    </li>
+                    <th:block th:each="p: ${body}">
+                        <div class="th-center">
+                            <div th:if="${page.getNumber()} == ${p - 1}">
+                                <li class="page-item active">
+                                    <a class="page-link" tabindex="-1" th:text="${p}">.</a>
+                                </li>
+                            </div>
+                            <div th:if="${page.getNumber()} != ${p - 1} and -1 != ${p}">
+                                <li class="page-item">
+                                    <a class="page-link" th:href="@{__${url}__page=__${p - 1}__}" tabindex="-1" th:text="${p}">.</a>
+                                </li>
+                            </div>
+                            <div th:if="-1 == ${p}">
+                                <li class="page-item disabled">
+                                    <a class="page-link" tabindex="-1">...</a>
+                                </li>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
         </div>
-        <p>-----------------------------------------</p>
-    </th:block>
-</ul>
-
-<div>
-    <ul class="pagination">
-        <li class="page-item disabled">
-            <a class="page-link" href="#" tabindex="-1">Страницы</a>
-        </li>
-
-        <th:block th:each="p: ${body}">
-            <div th:if="${page.getNumber()} == ${p - 1}">
-                <li class="page-item active">
-                    <a class="page-link" tabindex="-1" th:text="${p}">.</a>
-                </li>
-            </div>
-            <div th:if="${page.getNumber()} != ${p - 1} and -1 != ${p}">
-                <li class="page-item">
-                    <a class="page-link" th:href="@{__${url}__page=__${p - 1}__}" tabindex="-1" th:text="${p}">.</a>
-                </li>
-            </div>
-            <div th:if="-1 == ${p}">
-                <li class="page-item disabled">
-                    <a class="page-link" tabindex="-1">...</a>
-                </li>
-            </div>
-        </th:block>
-    </ul>
+    </div>
 </div>
+
 
 </body>
 </html>

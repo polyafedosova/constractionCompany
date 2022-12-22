@@ -1,92 +1,199 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link rel="stylesheet" type="text/css" media="all"  th:href="@{/css/group.css}"/>
+    <link rel="stylesheet" type="text/css" media="all"  th:href="@{/css/index.css}"/>
+    <link rel="stylesheet" type="text/css" media="all"  th:href="@{/css/apartamentEdit.css}"/>
     <title>Getting Started: Serving Web Content</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<div>
-    <form method="post" action="buildings/addBuilding">
-        <!--CSRF Token-->
-        <input
-                type="hidden"
-                th:name="${_csrf.parameterName}"
-                th:value="${_csrf.token}" />
+<header>
+    <div class="navbar">
+        <div class="navbar-menu">
+            <a href="/buildings">
+                Список домов
+            </a>
+            <a th:if="${employee?.isEnabled()}" href="/clients">
+                Список клиентов
+            </a>
+            <a th:if="${employee?.isEnabled()}" href="/employees">
+                Список сотрудников
+            </a>
+            <a th:if="${employee?.isEnabled()}" href="/contracts">
+                Мои контракты
+            </a>
+        </div>
+        <div class="login-form">
+            <form th:if="!${employee?.isEnabled()}" th:action="@{/login}" method="post">
+                <input type="submit" value="Вход"/>
+            </form>
+            <form th:if="${employee?.isEnabled()}" th:action="@{/logout}" method="post">
+                <input type="submit" value="Выход"/>
+            </form>
+            <!--<a th:if="${employee?.isAdmin()}" href="/admin/addEmployee"> Зарегистрировать нового сотрудника</a>-->
+        </div>
+    </div>
+</header>
 
-        <div th:text="${message}">
-            {
-        </div>
-        <input th:value="${buildingToAdd?.city}" type="text" name="city"
-               placeholder="Введите город">
-        <input th:value="${buildingToAdd?.street}" type="text" name="street"
-               placeholder="Введите улицу">
-        <input th:value="${buildingToAdd?.number}" type="text" name="number"
-               placeholder="Введите номер">
-        <input th:value="${buildingToAdd?.name}" type="text" name="name"
-               placeholder="Введите название комплекса">
-        <input th:value="${buildingToAdd?.constraction_start_date}" type="date" name="constraction_start_date"
-               placeholder="Введите дату начала строительства">
-        <input th:value="${buildingToAdd?.expected_commissioning_date}" type="date" name="expected_commissioning_date"
-               placeholder="Введите ожидаемую дату окончания строительства">
-        <input th:value="${buildingToAdd?.commissioning_date}" type="date" name="commissioning_date"
-               placeholder="Введите дату сдачи объекта">
-        <button type="submit">Добавить</button>
-    </form>
-</div>
-<div>
-    <form method="get" action="/buildings/findBuilding">
-        <!--CSRF Token-->
-        <input
-                type="hidden"
-                th:name="${_csrf.parameterName}"
-                th:value="${_csrf.token}" />
+<div class="section-1">
+    <div class="form1">
+        <form class="post" method="post" action="buildings/addBuilding">
+            <!--CSRF Token-->
+            <input class="input"
+                   type="hidden"
+                   th:name="${_csrf.parameterName}"
+                   th:value="${_csrf.token}" />
 
-        <div th:text="${message}">
-            {
+            <div th:text="${message}"></div>
+            <div class="form group">
+                <input class="input buildings" th:value="${buildingToAdd?.city}" type="text" name="city"
+                       placeholder="" required>
+                <span class="span login">Город</span>
+            </div>
+            <div class="form group">
+                <input class="input buildings" th:value="${buildingToAdd?.street}" type="text" name="street"
+                       placeholder="" required>
+                <span class="span login">Улица</span>
+            </div>
+            <div class="form group">
+                <input class="input buildings" th:value="${buildingToAdd?.number}" type="text" name="number"
+                       placeholder="" required>
+                <span class="span login">Номер дома</span>
+            </div>
+            <div class="form group">
+                <input class="input buildings" th:value="${buildingToAdd?.name}" type="text" name="name"
+                       placeholder="" required>
+                <span class="span login">Название комплекса</span>
+            </div>
+            <div class="form group">
+                <input class="input buildings" th:value="${buildingToAdd?.constraction_start_date}" type="date" name="constraction_start_date"
+                       placeholder="" required>
+                <span class="span login">Дата начала строительства</span>
+            </div>
+            <div class="form group">
+                <input class="input buildings" th:value="${buildingToAdd?.expected_commissioning_date}" type="date" name="expected_commissioning_date"
+                       placeholder="" required>
+                <span class="span login">Ожидаемая дата окончания строительства</span>
+            </div>
+            <div class="form group">
+                <input class="input buildings" th:value="${buildingToAdd?.commissioning_date}" type="date" name="commissioning_date"
+                       placeholder=""  required>
+                <span class="span login">Дата сдачи</span>
+            </div>
+            <div class="form group">
+                <button class="btn" type="submit">Добавить</button>
+            </div>
+        </form>
+    </div>
+    <div class="form2">
+        <form class="get" method="get" action="/buildings/findBuilding">
+            <!--CSRF Token-->
+            <input class="input"
+                   type="hidden"
+                   th:name="${_csrf.parameterName}"
+                   th:value="${_csrf.token}" />
+
+            <div th:text="${message}"></div>
+            <div class="form group">
+                <input class="input buildings" th:value="${buildingToFind?.city}" type="text" name="city"
+                       placeholder="" required>
+                <span class="span login">Город</span>
+            </div>
+            <div class="form group">
+                <input class="input buildings" th:value="${buildingToFind?.street}" type="text" name="street"
+                       placeholder="" required>
+                <span class="span login">Улицу</span>
+            </div>
+            <div class="form group">
+                <input class="input buildings" th:value="${buildingToFind?.number}" type="text" name="number"
+                       placeholder="" required>
+                <span class="span login">Номер дома</span>
+            </div>
+            <div class="form group">
+                <input class="input buildings" th:value="${buildingToFind?.name}" type="text" name="name"
+                       placeholder="" required>
+                <span class="span login">Название ЖК</span>
+            </div>
+            <div class="form group">
+                <input class="input buildings" th:value="1900-01-01" type="date" name="dateStart"
+                       placeholder="" required>
+                <span class="span login">Дата начала стр-ва ОТ</span>
+            </div>
+            <div class="form group">
+                <input class="input buildings" th:value="2023-01-01" type="date" name="dateEnd"
+                       placeholder="" required>
+                <span class="span login">Дата начала стр-ва ДО</span>
+            </div>
+            <div>
+                <input class="input checkbox" type="checkbox" name="isCommission" id="isCommission" required>
+                <label class="text-li" for="isCommission" style="display: inline-block">Дом сдан</label>
+            </div>
+            <div class="form group">
+                <button class="btn" type="submit">Найти</button>
+            </div>
+        </form>
+        <div class="content-reg">
+            <a class="content-reg-btn" href="/buildings">
+                Сбросить фильтры
+            </a>
         </div>
-        <input th:value="${buildingToFind?.city}" type="text" name="city"
-               placeholder="Введите город">
-        <input th:value="${buildingToFind?.street}" type="text" name="street"
-               placeholder="Введите улицу">
-        <input th:value="${buildingToFind?.number}" type="text" name="number"
-               placeholder="Введите номер дома">
-        <input th:value="${buildingToFind?.name}" type="text" name="name"
-               placeholder="Введите название ЖК">
-        <input th:value="1900-01-01" type="date" name="dateStart"
-               placeholder="Введите начало промежутка даты начала строительства">
-        <input th:value="2023-01-01" type="date" name="dateEnd"
-               placeholder="Введите конец промежутка даты начала строительства">
-        <input type="checkbox" name="isCommission" id="isCommission">
-        <label for="isCommission">Дом сдан</label>
-        <button type="submit">Найти</button>
-    </form>
-    <a href="/buildings">
-        Сбросить фильтры
-    </a>
+
+    </div>
 </div>
-<div>Список строений</div>
-<ul>
-    <th:block th:each="building: ${buildings}">
-        Город: <li th:utext="${building?.city}">..</li>
-        Улица: <li th:utext="${building?.street}">..</li>
-        Номер дома: <li th:utext="${building?.number}">..</li>
-        Название: <li th:utext="${building?.name}">..</li>
-        Дата начала строительства: <li th:utext="${building?.constraction_start_date}">..</li>
-        Предполагаемая дата окончания строительства: <li th:utext="${building?.expected_commissioning_date}">..</li>
-        Дата сдачи объекта: <li th:utext="${building?.commissioning_date}">..</li>
-        <div>
-            <a href="/apartments" th:attrprepend="href='buildings/'+${building?.building_id}">
-                Посмотреть апартаменты
-            </a>
-            <a href="/editBuilding" th:attrprepend="href='buildings/'+${building?.building_id}">
-                Редактировать строение
-            </a>
-            <a href="/deleteBuilding" th:attrprepend="href='buildings/'+${building?.building_id}">
-                Удалить строение
-            </a>
+<div class="section-2">
+
+    <div class="center">
+        <div class="container-title2">
+            <h1 class="text">Список строений</h1>
         </div>
-        <p>-----------------------------------------</p>
-    </th:block>
-</ul>
+    </div>
+    <div class="table">
+        <th:block th:each="building: ${buildings}">
+            <div class="content-table">
+                <h2 class="text">Город: </h2>
+                <li class="text-li" th:utext="${building?.city}">..</li>
+            </div>
+            <div class="content-table">
+                <h2 class="text">Улица: </h2>
+                <li class="text-li" th:utext="${building?.street}">Улица</li>
+            </div>
+            <div class="content-table">
+                <h2 class="text">Номер дома: </h2>
+                <li class="text-li" th:utext="${building?.number}">..</li>
+            </div>
+            <div class="content-table">
+                <h2 class="text">Название: </h2>
+                <li class="text-li" th:utext="${building?.name}">..</li>
+            </div>
+            <div class="content-table">
+                <h2 class="text">Дата начала строительства: </h2>
+                <li class="text-li" th:utext="${building?.constraction_start_date}">..</li>
+            </div>
+            <div class="content-table">
+                <h2 class="text">Предполагаемая дата окончания строительства: </h2>
+                <li class="text-li" th:utext="${building?.expected_commissioning_date}">..</li>
+            </div>
+            <div class="content-table">
+                <h2 class="text">Дата сдачи объекта:</h2>
+                <li class="text-li" th:utext="${building?.commissioning_date}">..</li>
+            </div>
+            <div class="content-reg">
+                <a class="content-reg-btn" href="/apartments" th:attrprepend="href='buildings/'+${building?.building_id}">
+                    Посмотреть апартаменты
+                </a>
+                <a class="content-reg-btn" href="/editBuilding" th:attrprepend="href='buildings/'+${building?.building_id}">
+                    Редактировать строение
+                </a>
+                <a class="content-reg-btn" href="/deleteBuilding" th:attrprepend="href='buildings/'+${building?.building_id}">
+                    Удалить строение
+                </a>
+            </div>
+            <div class="border"></div>
+        </th:block>
+    </div>
+</div>
+
+
 </body>
 </html>

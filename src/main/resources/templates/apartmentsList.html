@@ -1,165 +1,290 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+  <link rel="stylesheet" type="text/css" media="all"  th:href="@{/css/group.css}"/>
+  <link rel="stylesheet" type="text/css" media="all"  th:href="@{/css/index.css}"/>
   <title>Getting Started: Serving Web Content</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<div>
-  <ul>
-    <li th:utext="${building?.city}">..</li>
-    <li th:utext="${building?.street}">..</li>
-    <li th:utext="${building?.number}">..</li>
-    <li th:utext="${building?.name}">..</li>
-    <li th:utext="${building?.constraction_start_date}">..</li>
-    <li th:utext="${building?.expected_commissioning_date}">..</li>
-    <li th:utext="${building?.commissioning_date}">..</li>
-  </ul>
-</div>
-<div>
-  <form method="post" th:action="@{/buildings/__${building?.building_id}__/apartments/addApartment}">
-    <!--CSRF Token-->
-    <input
-            type="hidden"
-            th:name="${_csrf.parameterName}"
-            th:value="${_csrf.token}" />
-
-    <div th:text="${message}">
-      {
+<header>
+  <div class="navbar">
+    <div class="navbar-menu">
+      <a href="/buildings">
+        Список домов
+      </a>
+      <a th:if="${employee?.isEnabled()}" href="/clients">
+        Список клиентов
+      </a>
+      <a th:if="${employee?.isEnabled()}" href="/employees">
+        Список сотрудников
+      </a>
+      <a th:if="${employee?.isEnabled()}" href="/contracts">
+        Мои контракты
+      </a>
     </div>
-    <input th:value="${apartmentToAdd?.number}" type="text" name="number"
-           placeholder="Введите номер квартиры">
-    <input th:value="${apartmentToAdd?.floor}" type="text" name="floor"
-           placeholder="Введите этаж">
-    <input th:value="${apartmentToAdd?.entrance}" type="text" name="entrance"
-           placeholder="Введите подъезд">
-    <input th:value="${apartmentToAdd?.total_area}" type="text" name="total_area"
-           placeholder="Введите общую площадь">
-    <input th:value="${apartmentToAdd?.living_area}" type="text" name="living_area"
-           placeholder="Введите жилую площадь">
-    <input th:value="${apartmentToAdd?.number_rooms}" type="number" min=1 max=5 name="number_rooms"
-           placeholder="Введите количество комнат">
-    <button type="submit">Добавить</button>
-  </form>
-</div>
-<div>
-  <form method="get" th:action="@{/buildings/__${building?.building_id}__/apartments/findApartment}">
-    <!--CSRF Token-->
-    <input
-            type="hidden"
-            th:name="${_csrf.parameterName}"
-            th:value="${_csrf.token}" />
-
-    <div th:text="${message}">
-      {
+    <div class="login-form">
+      <form th:if="!${employee?.isEnabled()}" th:action="@{/login}" method="post">
+        <input type="submit" value="Вход"/>
+      </form>
+      <form th:if="${employee?.isEnabled()}" th:action="@{/logout}" method="post">
+        <input type="submit" value="Выход"/>
+      </form>
+      <!--<a th:if="${employee?.isAdmin()}" href="/admin/addEmployee"> Зарегистрировать нового сотрудника</a>-->
     </div>
-    <input th:value="${number}" type="text" name="number"
-           placeholder="Введите номер квартиры">
-    <input th:value="${floor}" type="text" name="floor"
-           placeholder="Введите этаж">
-    <input th:value="${entrance}" type="text" name="entrance"
-           placeholder="Введите подъезд">
-    <input th:value="${totalAreaStart}" type="text" name="totalAreaStart"
-           placeholder="Введите общую площадь">
-    <input th:value="${totalAreaEnd}" type="text" name="totalAreaEnd"
-           placeholder="Введите общую площадь">
-    <input th:value="${livingAreaStart}" type="text" name="livingAreaStart"
-           placeholder="Введите общую площадь">
-    <input th:value="${livingAreaEnd}" type="text" name="livingAreaEnd"
-           placeholder="Введите общую площадь">
-    <input th:value="${numberRooms}" type="number" min=1 max=5 name="numberRooms"
-           placeholder="Введите количество комнат">
-    <select th:if="${not #lists.isEmpty(statuses)}" name="status">
-      <option th:each="status : ${statuses}"
-              th:value="${status?.ordinal()}"
-              th:text="${status?.value}"
-              th:selected="${status == currentStatus}">
-      </option>
-    </select>
-    <button type="submit">Найти</button>
-  </form>
-  <a href="">
-    Сбросить фильтры
-  </a>
+  </div>
+
+</header>
+<div class="section-1">
+  <div class="form1">
+    <form method="post" th:action="@{/buildings/__${building?.building_id}__/apartments/addApartment}">
+      <!--CSRF Token-->
+      <input  class="input"
+              type="hidden"
+              th:name="${_csrf.parameterName}"
+              th:value="${_csrf.token}" />
+
+      <div th:text="${message}"></div>
+
+      <div class="form group">
+        <input class="input buildings" th:value="${apartmentToAdd?.number}" type="text" name="number"
+               placeholder="" required>
+        <span class="span login">Введите номер квартиры</span>
+      </div>
+      <div class="form group">
+        <input class="input buildings" th:value="${apartmentToAdd?.floor}" type="text" name="floor"
+               placeholder="" required>
+        <span class="span login">Введите этаж</span>
+      </div>
+      <div class="form group">
+        <input class="input buildings" th:value="${apartmentToAdd?.entrance}" type="text" name="entrance"
+               placeholder="" required>
+        <span class="span login">Введите подъезд</span>
+      </div>
+      <div class="form group">
+        <input class="input buildings" th:value="${apartmentToAdd?.total_area}" type="text" name="total_area"
+               placeholder="" required>
+        <span class="span login">Введите общую площадь</span>
+      </div>
+      <div class="form group">
+        <input class="input buildings" th:value="${apartmentToAdd?.living_area}" type="text" name="living_area"
+               placeholder="" required>
+        <span class="span login">Введите жилую площадь</span>
+      </div>
+      <div class="form group">
+        <input class="input buildings" th:value="${apartmentToAdd?.number_rooms}" type="number" min=1 max=5 name="number_rooms"
+               placeholder="" required>
+        <span class="span login">Введите количество комнат</span>
+      </div>
+      <div class="form group">
+        <button class="btn" type="submit">Добавить</button>
+      </div>
+    </form>
+  </div>
+  <div class="form2">
+    <form method="get" th:action="@{/buildings/__${building?.building_id}__/apartments/findApartment}">
+      <!--CSRF Token-->
+      <input  class="input buildings"
+              type="hidden"
+              th:name="${_csrf.parameterName}"
+              th:value="${_csrf.token}" />
+
+      <div th:text="${message}"></div>
+      <div class="form group">
+        <input class="input buildings" th:value="${number}" type="text" name="number"
+               placeholder="" required>
+        <span class="span login">Введите номер квартиры</span>
+      </div>
+      <div class="form group">
+        <input class="input buildings" th:value="${floor}" type="text" name="floor"
+               placeholder="" required>
+        <span class="span login">Введите этаж</span>
+      </div>
+      <div class="form group">
+        <input class="input buildings" th:value="${entrance}" type="text" name="entrance"
+               placeholder="" required>
+        <span class="span login">Введите подъезд</span>
+      </div>
+      <div class="form group">
+        <input class="input buildings" th:value="${totalAreaStart}" type="text" name="totalAreaStart"
+               placeholder="" required>
+        <span class="span login">Введите общую площадь</span>
+      </div>
+      <div class="form group">
+        <input class="input buildings" th:value="${totalAreaEnd}" type="text" name="totalAreaEnd"
+               placeholder="" required>
+        <span class="span login">Введите общую площадь</span>
+      </div>
+      <div class="form group">
+        <input class="input buildings" th:value="${livingAreaStart}" type="text" name="livingAreaStart"
+               placeholder="" required>
+        <span class="span login">Введите общую площадь</span>
+      </div>
+      <div class="form group">
+        <input class="input buildings" th:value="${livingAreaEnd}" type="text" name="livingAreaEnd"
+               placeholder="" required>
+        <span class="span login">Введите общую площадь</span>
+      </div>
+      <div class="form group">
+        <input class="input buildings" th:value="${numberRooms}" type="number" min=1 max=5 name="numberRooms"
+               placeholder="" required>
+        <span class="span login">Введите количество комнат</span>
+      </div>
+      <div class="form group">
+        <select class="input" th:if="${not #lists.isEmpty(statuses)}" name="status">
+          <option th:each="status : ${statuses}"
+                  th:value="${status?.ordinal()}"
+                  th:text="${status?.value}"
+                  th:selected="${status == currentStatus}">
+          </option>
+        </select>
+      </div>
+      <div class="form group">
+        <button class="btn" type="submit">Найти</button>
+      </div>
+    </form>
+    <div class="content-reg">
+      <a class="content-reg-btn" href="">
+        Сбросить фильтры
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="section-2">
+  <div class="center">
+    <div class="container-title2">
+      <h1 class="text">Строение</h1>
+    </div>
+  </div>
+  <div class="table">
+    <div class="content-table">
+      <h2 class="text">Город: </h2>
+      <li class="text-li" th:utext="${building?.city}">..</li>
+    </div>
+    <div class="content-table">
+      <h2 class="text">Улица: </h2>
+      <li class="text-li" th:utext="${building?.street}">Улица</li>
+    </div>
+    <div class="content-table">
+      <h2 class="text">Номер дома: </h2>
+      <li class="text-li" th:utext="${building?.number}">..</li>
+    </div>
+    <div class="content-table">
+      <h2 class="text">Название: </h2>
+      <li class="text-li" th:utext="${building?.name}">..</li>
+    </div>
+    <div class="content-table">
+      <h2 class="text">Дата начала строительства: </h2>
+      <li class="text-li" th:utext="${building?.constraction_start_date}">..</li>
+    </div>
+    <div class="content-table">
+      <h2 class="text">Предполагаемая дата окончания строительства: </h2>
+      <li class="text-li" th:utext="${building?.expected_commissioning_date}">..</li>
+    </div>
+    <div class="content-table">
+      <h2 class="text">Дата сдачи объекта:</h2>
+      <li class="text-li" th:utext="${building?.commissioning_date}">..</li>
+    </div>
+  </div>
+  <div class="center">
+    <div class="container-title2">
+      <h1 class="text">Список апартаментов</h1>
+      <div class="pagination">
+        <li class="page-item disabled">
+          <a class="page-link" href="#" tabindex="-1">Страницы</a>
+        </li>
+        <th:block th:each="p: ${body}">
+          <div class="th-center">
+            <div th:if="${page.getNumber()} == ${p - 1}">
+              <li class="page-item active">
+                <a class="page-link" tabindex="-1" th:text="${p}">.</a>
+              </li>
+            </div>
+            <div th:if="${page.getNumber()} != ${p - 1} and -1 != ${p}">
+              <li class="page-item">
+                <a class="page-link" th:href="@{__${url}__page=__${p - 1}__}" tabindex="-1" th:text="${p}">.</a>
+              </li>
+            </div>
+            <div th:if="-1 == ${p}">
+              <li class="page-item disabled">
+                <a class="page-link" tabindex="-1">...</a>
+              </li>
+            </div>
+          </div>
+        </th:block>
+      </div>
+    </div>
+  </div>
+  <div class="table">
+    <th:block th:each="apartment: ${page?.content}">
+      <div class="content-table">
+        <h2 class="text">Номер:</h2>
+        <li class="text-li" th:utext="${apartment?.number}">..</li>
+      </div>
+      <div class="content-table">
+        <h2 class="text">Этаж:</h2>
+        <li class="text-li" th:utext="${apartment?.floor}">..</li>
+      </div>
+      <div class="content-table">
+        <h2 class="text">Подъезд:</h2>
+        <li class="text-li" th:utext="${apartment?.entrance}">..</li>
+      </div>
+      <div class="content-table">
+        <h2 class="text">Общая площадь:</h2>
+        <li class="text-li" th:utext="${apartment?.total_area}">..</li>
+      </div>
+      <div class="content-table">
+        <h2 class="text">Жилая площадь:</h2>
+        <li class="text-li" th:utext="${apartment?.living_area}">..</li>
+      </div>
+      <div class="content-table">
+        <h2 class="text">Количество комнат:</h2>
+        <li class="text-li" th:utext="${apartment?.number_rooms}">..</li>
+      </div>
+
+      <div class="content-reg">
+        <a class="content-reg-btn" th:href="@{/buildings/__${building?.building_id}__/apartments/__${apartment?.apartment_id}__/editApartment}">
+          Редактировать квартиру
+        </a>
+        <a class="content-reg-btn" href="/deleteApartment" th:attrprepend="href='apartments/'+${apartment?.apartment_id}">
+          Удалить квартиру
+        </a>
+      </div>
+      <div class="border"></div>
+    </th:block>
+  </div>
+  <div class="container-pagination">
+    <div class="pagination">
+      <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1">Страницы</a>
+      </li>
+      <th:block th:each="p: ${body}">
+        <div class="th-center">
+          <div th:if="${page.getNumber()} == ${p - 1}">
+            <li class="page-item active">
+              <a class="page-link" tabindex="-1" th:text="${p}">.</a>
+            </li>
+          </div>
+          <div th:if="${page.getNumber()} != ${p - 1} and -1 != ${p}">
+            <li class="page-item">
+              <a class="page-link" th:href="@{__${url}__page=__${p - 1}__}" tabindex="-1" th:text="${p}">.</a>
+            </li>
+          </div>
+          <div th:if="-1 == ${p}">
+            <li class="page-item disabled">
+              <a class="page-link" tabindex="-1">...</a>
+            </li>
+          </div>
+        </div>
+      </th:block>
+    </div>
+  </div>
 </div>
 <!--<div>
   <a th:href="@{/buildings/__${building.building_id}__/apartments?doneStatus=true}">Сданные квартиры</a>
   <a th:href="@{/buildings/__${building.building_id}__/apartments}">Сбросить фильтр</a>
 </div>
 -->
-<div>Список апартаментов</div>
-
-<div>
-  <ul class="pagination">
-    <li class="page-item disabled">
-      <a class="page-link" href="#" tabindex="-1">Страницы</a>
-    </li>
-
-    <th:block th:each="p: ${body}">
-      <div th:if="${page.getNumber()} == ${p - 1}">
-        <li class="page-item active">
-          <a class="page-link" tabindex="-1" th:text="${p}">.</a>
-        </li>
-      </div>
-      <div th:if="${page.getNumber()} != ${p - 1} and -1 != ${p}">
-        <li class="page-item">
-          <a class="page-link" th:href="@{__${url}__page=__${p - 1}__}" tabindex="-1" th:text="${p}">.</a>
-        </li>
-      </div>
-      <div th:if="-1 == ${p}">
-        <li class="page-item disabled">
-          <a class="page-link" tabindex="-1">...</a>
-        </li>
-      </div>
-    </th:block>
-  </ul>
-</div>
-
-<ul>
-  <th:block th:each="apartment: ${page?.content}">
-    Номер:<li th:utext="${apartment?.number}">..</li>
-    Этаж: <li th:utext="${apartment?.floor}">..</li>
-    Подъезд: <li th:utext="${apartment?.entrance}">..</li>
-    Общая площадь: <li th:utext="${apartment?.total_area}">..</li>
-    Жилая площадь: <li th:utext="${apartment?.living_area}">..</li>
-    Количество комнат: <li th:utext="${apartment?.number_rooms}">..</li>
-    <div>
-      <a th:href="@{/buildings/__${building?.building_id}__/apartments/__${apartment?.apartment_id}__/editApartment}">
-        Редактировать квартиру
-      </a>
-      <a href="/deleteApartment" th:attrprepend="href='apartments/'+${apartment?.apartment_id}">
-        Удалить квартиру
-      </a>
-    </div>
-    <p>-----------------------------------------</p>
-  </th:block>
-</ul>
-
-<div>
-  <ul class="pagination">
-    <li class="page-item disabled">
-      <a class="page-link" href="#" tabindex="-1">Страницы</a>
-    </li>
-
-    <th:block th:each="p: ${body}">
-      <div th:if="${page.getNumber()} == ${p - 1}">
-        <li class="page-item active">
-          <a class="page-link" tabindex="-1" th:text="${p}">.</a>
-        </li>
-      </div>
-      <div th:if="${page.getNumber()} != ${p - 1} and -1 != ${p}">
-        <li class="page-item">
-          <a class="page-link" th:href="@{__${url}__page=__${p - 1}__}" tabindex="-1" th:text="${p}">.</a>
-        </li>
-      </div>
-      <div th:if="-1 == ${p}">
-        <li class="page-item disabled">
-          <a class="page-link" tabindex="-1">...</a>
-        </li>
-      </div>
-    </th:block>
-  </ul>
-</div>
-
 </body>
 </html>

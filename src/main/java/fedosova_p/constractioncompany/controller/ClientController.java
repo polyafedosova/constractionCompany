@@ -2,11 +2,13 @@ package fedosova_p.constractioncompany.controller;
 
 import fedosova_p.constractioncompany.lib.PageableLib;
 import fedosova_p.constractioncompany.model.Client;
+import fedosova_p.constractioncompany.model.Employee;
 import fedosova_p.constractioncompany.service.ClientService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,12 +28,13 @@ public class ClientController {
     }
 
     @GetMapping("clients")
-    public String getClient(Model model,
+    public String getClient(Model model, @AuthenticationPrincipal Employee employee,
                             @PageableDefault(sort = { "client_id" }, direction = Sort.Direction.DESC) Pageable pageable) {
         Page<Client> page = clientService.getAll(pageable);
         List<Integer> body = PageableLib.getCountPage(page);
         model.addAttribute("page", page);
         model.addAttribute("body", body);
+        model.addAttribute("employee", employee);
         model.addAttribute("url", "/clients?");
         return "clientsList";
     }
@@ -60,8 +63,10 @@ public class ClientController {
     }
 
     @GetMapping("clients/{client}/editClient")
-    public String getEditClientPage(Model model, @PathVariable(required = false) Client client) {
+    public String getEditClientPage(Model model, @AuthenticationPrincipal Employee employee,
+                                    @PathVariable(required = false) Client client) {
         model.addAttribute("client", client);
+        model.addAttribute("employee", employee);
         return "clientEdit";
     }
 

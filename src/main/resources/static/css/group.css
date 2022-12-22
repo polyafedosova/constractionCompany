@@ -1,0 +1,211 @@
+body{
+    margin: 0;
+    /*background: url("https://kartinkin.net/uploads/posts/2021-07/1626191602_8-kartinkin-com-p-svetlaya-shtukaturka-tekstura-besshovnaya-10.jpg");*/
+    background-size: cover;
+}
+.section-1{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    padding: 80px 0;
+    background: var(--color6);
+}
+.section-2{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    background: var(--color6);
+}
+.form1, .form2{
+    position: relative;
+    padding: 70px 40px;
+    border: 1px solid var(--color5);
+    background: var(--color1);
+    /*border-radius: 20px;*/
+    /*box-shadow: 0 5px rgba(0, 0, 0, 0.2);*/
+    /*width: 70vw;*/
+    /*margin-left: auto;*/
+    /*margin-right: auto;*/
+}
+.post, .get{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.form{
+    position: relative;
+    display: block;
+    width: 400px;
+    height: 46px;
+    margin: 10px 5px;
+
+}
+.input, .btn{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border: 1px solid var(--color5);
+    background: transparent;
+    padding: 10px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    outline: none;
+    font-size: 16px;
+    color: var(--color5);
+    font-weight: 300;
+}
+.btn{
+    height: 43px;
+    transition: 0.2s;
+}
+.checkbox{
+    position: relative;
+    width: 13px;
+}
+.btn:hover{
+    color: var(--color5);
+    background: var(--color4);
+}
+.span{
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    padding: 10px;
+    display: inline-block;
+    font-size: 16px;
+    color: var(--color5);
+    font-weight: 300;
+    transition: 0.5s;
+    pointer-events: none;
+}
+.input:focus:invalid ~ .span {
+    transform: translateY(-32px);
+}
+.input:valid ~ .span{
+    transform: translateY(-32px);
+}
+
+input[type="date"]:focus::-webkit-datetime-edit-year-field,
+input[type="date"]:focus::-webkit-datetime-edit-month-field,
+input[type="date"]:focus::-webkit-datetime-edit-day-field,
+input[type="date"]:focus::-webkit-datetime-edit-text
+{ 	color: #c0bfdc; }
+input[type="date"]::-webkit-datetime-edit-year-field,
+input[type="date"]::-webkit-datetime-edit-month-field,
+input[type="date"]::-webkit-datetime-edit-day-field,
+input[type="date"]::-webkit-datetime-edit-text
+{ 	color: transparent; }
+
+.text, .text-li{
+    font-family: Hind,sans-serif;
+    font-weight: 700;
+    color: var(--color5);
+    line-height: 2;
+    font-size: 18px;
+    margin: 0;
+}
+.text-li{
+    text-align: center;
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--color5);
+    display: flex;
+    align-items: center;
+    font-family: Hind,sans-serif;
+}
+.table{
+    padding: 47px 106px;
+    width: 47vw;
+    /*background: rgba(117, 128, 140, 0.33);*/
+}
+.content-table{
+    display: flex;
+}
+li{
+    list-style-type: none;
+    padding-left: 20px;
+    margin: 0;
+}
+.content-reg{
+    margin-top: 10px;
+
+}
+.border{
+    width: 100%;
+    margin-top: 40px;
+    border-bottom: 1px solid var(--color5);
+}
+.content-reg-btn{
+    text-decoration: none;
+    display: inline-flex;
+    text-align: center;
+    justify-content: center;
+    color: var(--color5);
+    background: var(--color4);
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: 500;
+    letter-spacing: .08em;
+    box-sizing: border-box;
+    padding: 12px 16px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    border: none;
+    align-items: center;
+    cursor: pointer;
+    transition: all .3s;
+}
+.content-reg-btn:hover{
+    background: var(--color2);
+}
+.container-title2{
+    margin-right: auto;
+    margin-left: auto;
+    padding-top: 40px;
+    padding-bottom: 20px;
+    text-align: center;
+    border-bottom: 1px solid var(--color5);
+}
+.container-title2 .text{
+    text-transform: uppercase;
+    font-size: 32px;
+}
+.pagination{
+    display: flex;
+    justify-content: center;
+}
+.page-link{
+    font-size: 14px;
+    display: block;
+    color: var(--color5);
+    text-align: center;
+    padding: 8px 18px;
+    text-decoration: none;
+    font-family: Hind,sans-serif;
+    font-weight: 700;
+    background-color: var(--color6);
+    border: 1px solid var(--color5);
+
+}
+.page-link:hover{
+    background-color: var(--color2);
+
+}
+.pagination li {
+    display: flex;
+    padding-left: 10px;
+}
+.th-center{
+    display: flex;
+}
+.container-pagination{
+    margin-right: auto;
+    margin-left: auto;
+    padding-bottom: 20px;
+    text-align: center;
+}

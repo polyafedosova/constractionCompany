@@ -1,7 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
   <meta charset="utf-8">
-  <link rel="stylesheet" type="text/css" media="all"  href="../static/css/style.css"/>
+  <link rel="stylesheet" type="text/css" media="all"  th:href="@{/css/style.css}"/>
   <title>Вход</title>
 </head>
 <body>
@@ -10,14 +10,14 @@
   <h1 class="auth-title">Вход</h1>
 
   <form class="form-central" action="/login" method="post">
-    <div class="form-group">
-      <input class="input-login" type="text" name="username" placeholder="" required>
-      <span class="span-login">Введите логин</span>
+    <div class="form group">
+      <input class="input login" type="text" name="username" placeholder="" required>
+      <span class="span login">Введите логин</span>
     </div>
 
-    <div class="form-group">
-      <input class="input-login" type="password" name="password" placeholder="" required>
-      <span class="span-login">Введите пароль</span>
+    <div class="form group">
+      <input class="input login" type="password" name="password" placeholder="" required>
+      <span class="span login">Введите пароль</span>
     </div>
     <!--CSRF Token-->
     <input

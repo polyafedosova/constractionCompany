@@ -1,7 +1,9 @@
 package fedosova_p.constractioncompany.controller;
 
 import fedosova_p.constractioncompany.model.Building;
+import fedosova_p.constractioncompany.model.Employee;
 import fedosova_p.constractioncompany.service.BuildingService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,9 +24,10 @@ public class BuildingController {
     }
 
     @GetMapping("buildings")
-    public String getBuildings(Model model) {
+    public String getBuildings(Model model, @AuthenticationPrincipal Employee employee) {
         List<Building> listBuildings = new LinkedList<>(buildingService.getAll());
         model.addAttribute("buildings", listBuildings);
+        model.addAttribute("employee", employee);
         return "buildingsList";
     }
 
@@ -49,8 +52,10 @@ public class BuildingController {
     }
 
     @GetMapping("buildings/{building}/editBuilding")
-    public String getEditBuildingPage(Model model, @PathVariable(required = false) Building building) {
+    public String getEditBuildingPage(Model model, @AuthenticationPrincipal Employee employee,
+                                      @PathVariable(required = false) Building building) {
         model.addAttribute("building", building);
+        model.addAttribute("employee", employee);
         return "buildingEdit";
     }
 

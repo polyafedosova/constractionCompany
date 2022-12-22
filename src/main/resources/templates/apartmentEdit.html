@@ -1,54 +1,93 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link rel="stylesheet" type="text/css" media="all"  th:href="@{/css/group.css}"/>
+    <link rel="stylesheet" type="text/css" media="all"  th:href="@{/css/index.css}"/>
+    <link rel="stylesheet" type="text/css" media="all"  th:href="@{/css/apartamentEdit.css}"/>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-<h1 class="auth-title">Редактирование</h1>
+<header>
+    <div class="navbar">
+        <div class="navbar-menu">
+            <a href="/buildings">
+                Список домов
+            </a>
+            <a th:if="${employee?.isEnabled()}" href="/clients">
+                Список клиентов
+            </a>
+            <a th:if="${employee?.isEnabled()}" href="/employees">
+                Список сотрудников
+            </a>
+            <a th:if="${employee?.isEnabled()}" href="/contracts">
+                Мои контракты
+            </a>
+        </div>
+        <div class="login-form">
+            <form th:if="!${employee?.isEnabled()}" th:action="@{/login}" method="post">
+                <input type="submit" value="Вход"/>
+            </form>
+            <form th:if="${employee?.isEnabled()}" th:action="@{/logout}" method="post">
+                <input type="submit" value="Выход"/>
+            </form>
+            <!--<a th:if="${employee?.isAdmin()}" href="/admin/addEmployee"> Зарегистрировать нового сотрудника</a>-->
+        </div>
+    </div>
 
-<div th:text="${message}">
-    {
+</header>
+<div class="section-3">
+    <div class="center">
+        <div class="container-title2">
+            <h1 class="auth-title">Редактирование</h1>
+        </div>
+    </div>
+    <div th:text="${message}"></div>
+    <div class="form1">
+        <form class="post" action="" method="post">
+            <!--CSRF Token-->
+            <input
+                    type="hidden"
+                    th:name="${_csrf.parameterName}"
+                    th:value="${_csrf.token}" />
+            <div class="form group">
+                <input class="input" type="text" name="number"
+                       placeholder="" th:value="${apartment?.number}" required>
+                <span class="span login">Редактировать номер квартиры</span>
+            </div>
+            <div class="form group">
+                <input class="input" type="text" name="floor"
+                       placeholder="" th:value="${apartment?.floor}" required>
+                <span class="span login">Редактировать этаж</span>
+            </div>
+            <div class="form group">
+                <input class="input" type="text" name="entrance"
+                       placeholder="" th:value="${apartment?.entrance}" required>
+                <span class="span login">Редактировать подъезд</span>
+            </div>
+            <div class="form group">
+                <input class="input" type="text" name="total_area"
+                       placeholder="" th:value="${apartment?.total_area}" required>
+                <span class="span login">Редактировать общую площадь</span>
+            </div>
+            <div class="form group">
+                <input class="input" type="text" name="living_area"
+                       placeholder="" th:value="${apartment?.living_area}" required>
+                <span class="span login">Редактировать жилую площадь</span>
+            </div>
+            <div class="form group">
+                <input class="input" type="number" min=1 max=5 name="number_rooms"
+                       placeholder="" th:value="${apartment?.number_rooms}" required>
+                <span class="span login">Редактировать количество комнат</span>
+            </div>
+            <div class="form group">
+                <button class="btn" type="submit">Редактировать</button>
+            </div>
+            <div class="form group">
+                <a class="text" th:href="@{/buildings/__${apartment?.getBuilding().building_id}__/apartments}" >Назад</a>
+            </div>
+        </form>
+    </div>
 </div>
-
-<form action="" method="post">
-    <!--CSRF Token-->
-    <input
-            type="hidden"
-            th:name="${_csrf.parameterName}"
-            th:value="${_csrf.token}" />
-    <div class="form-group"> Номер квартиры
-        <input class="input" type="text" name="number"
-               placeholder="Редактировать номер квартиры" th:value="${apartment?.number}">
-    </div>
-
-    <div class="form-group"> Этаж
-        <input class="input" type="text" name="floor"
-               placeholder="Редактировать этаж" th:value="${apartment?.floor}">
-    </div>
-
-    <div class="form-group"> Подъезд
-        <input class="input" type="text" name="entrance"
-               placeholder="Редактировать подъезд" th:value="${apartment?.entrance}">
-    </div>
-
-    <div class="form-group"> Общая площадь
-        <input class="input" type="text" name="total_area"
-               placeholder="Редактировать общую площадь" th:value="${apartment?.total_area}">
-    </div>
-
-    <div class="form-group"> Жилая площадь
-        <input class="input" type="text" name="living_area"
-               placeholder="Редактировать жилую площадь" th:value="${apartment?.living_area}">
-    </div>
-
-    <div class="form-group"> Количество комнат
-        <input class="input" type="number" min=1 max=5 name="number_rooms"
-               placeholder="Редактировать количество комнат" th:value="${apartment?.number_rooms}">
-    </div>
-
-    <button class="btn" type="submit">Редактировать</button>
-</form>
-<a th:href="@{/buildings/__${apartment?.getBuilding().building_id}__/apartments}" >Назад</a>
 </body>
 </html>

@@ -1,162 +1,356 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+  <link rel="stylesheet" type="text/css" media="all"  th:href="@{/css/group.css}"/>
+  <link rel="stylesheet" type="text/css" media="all"  th:href="@{/css/index.css}"/>
   <title>Getting Started: Serving Web Content</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<div th:text="${message}">
-  {
-</div>
-<div>
-  <form method="post" action="/contracts/addContracts">
-    <!--CSRF Token-->
-    <input
-            type="hidden"
-            th:name="${_csrf.parameterName}"
-            th:value="${_csrf.token}" />
-
-    <div th:text="${message}">
-      {
+<header>
+  <div class="navbar">
+    <div class="navbar-menu">
+      <a href="/buildings">
+        Список домов
+      </a>
+      <a th:if="${employee?.isEnabled()}" href="/clients">
+        Список клиентов
+      </a>
+      <a th:if="${employee?.isEnabled()}" href="/employees">
+        Список сотрудников
+      </a>
+      <a th:if="${employee?.isEnabled()}" href="/contracts">
+        Мои контракты
+      </a>
     </div>
-    <input th:value="${contract?.price}" class="input" type="text" name="price"
-           placeholder="Введите сумму">
-    <input th:value="${contract?.date}" class="input" type="date" name="date"
-           placeholder="Введите дату">
-    <select th:value="${contract?.status}" name="statusC">
-      <option disabled>Выберите статус</option>
-      <option value="0">завершен</option>
-      <option selected value="1">в процессе</option>
-      <option value="2">сорван</option>
-    </select>
-    <select th:value="${contract?.type}" name="typeC">
-      <option disabled>Выберите тип</option>
-      <option selected value="0">аренда</option>
-      <option value="1">продажа</option>
-    </select>
-    <input th:value="${contract?.apartment_id}" type="text" name="apartment_id"
-           placeholder="Введите id квартиры">
-    <input th:value="${contract?.client_id}" type="text" name="client_id"
-           placeholder="Введите id клиента">
-    <input th:value="${contract?.employee_id}" type="text" name="employee_id"
-           placeholder="Введите id сотрудника">
-    <button type="submit">Добавить</button>
-  </form>
-</div>
-<div th:unless="${employee?.isEnabled()}">
-  <ul>
-    Фамилия:<li th:utext="${client?.second_name}">..</li>
-    Имя:<li th:utext="${client?.first_name}">..</li>
-    Отчество:<li th:utext="${client?.middle_name}">..</li>
-    Телефон: <li th:utext="${client?.phone}">..</li>
-    Дата рождения: <li th:utext="${client?.birth_date}">..</li>
-    Номер и серия паспорта: <li th:utext="${client?.passport}">..</li>
-  </ul>
-  <!--endif-->
-</div>
-<div th:if="${employee?.isEnabled()}">
-  <ul>
-    <p>Личная информация о сотруднике</p>
-    Фамилия:<li th:utext="${employee?.second_name}">..</li>
-    Имя:<li th:utext="${employee?.first_name}">..</li>
-    Отчество:<li th:utext="${employee?.middle_name}">..</li>
-    Телефон: <li th:utext="${employee?.phone}">..</li>
-    Дата рождения: <li th:utext="${employee?.birth_date}">..</li>
-    Номер и серия паспорта: <li th:utext="${employee?.passport}">..</li>
-  </ul>
-</div>
-<div>Контракты</div>
+    <div class="login-form">
+      <form th:if="!${employee?.isEnabled()}" th:action="@{/login}" method="post">
+        <input type="submit" value="Вход"/>
+      </form>
+      <form th:if="${employee?.isEnabled()}" th:action="@{/logout}" method="post">
+        <input type="submit" value="Выход"/>
+      </form>
+      <!--<a th:if="${employee?.isAdmin()}" href="/admin/addEmployee"> Зарегистрировать нового сотрудника</a>-->
+    </div>
+  </div>
 
-<div>
-  <ul class="pagination">
-    <li class="page-item disabled">
-      <a class="page-link" href="#" tabindex="-1">Страницы</a>
-    </li>
+</header>
+<div th:text="${message}"></div>
+<div class="section-1">
+  <div class="form1">
+    <form class="post" method="post" action="/contracts/addContracts">
+      <!--CSRF Token-->
+      <input class="input"
+              type="hidden"
+              th:name="${_csrf.parameterName}"
+              th:value="${_csrf.token}" />
 
-    <th:block th:each="p: ${body}">
-      <div th:if="${page.getNumber()} == ${p - 1}">
-        <li class="page-item active">
-          <a class="page-link" tabindex="-1" th:text="${p}">.</a>
-        </li>
+      <div th:text="${message}"></div>
+      <div class="form group">
+        <input class="input" th:value="${contract?.price}" type="text" name="price"
+               placeholder="" required>
+        <span class="span login">Введите сумму</span>
       </div>
-      <div th:if="${page.getNumber()} != ${p - 1} and -1 != ${p}">
-        <li class="page-item">
-          <a class="page-link" th:href="@{__${url}__page=__${p - 1}__}" tabindex="-1" th:text="${p}">.</a>
-        </li>
+      <div class="form group">
+        <input class="input" th:value="${contract?.date}" type="date" name="date"
+               placeholder="" required>
+        <span class="span login">Введите дату</span>
       </div>
-      <div th:if="-1 == ${p}">
-        <li class="page-item disabled">
-          <a class="page-link" tabindex="-1">...</a>
-        </li>
+      <div class="form group">
+        <select class="input" th:value="${contract?.status}" name="statusC">
+          <option disabled>Выберите статус</option>
+          <option value="0">завершен</option>
+          <option selected value="1">в процессе</option>
+          <option value="2">сорван</option>
+        </select>
       </div>
+      <div class="form group">
+        <select class="input" th:value="${contract?.type}" name="typeC">
+          <option disabled>Выберите тип</option>
+          <option selected value="0">аренда</option>
+          <option value="1">продажа</option>
+        </select>
+      </div>
+      <div class="form group">
+        <input class="input" th:value="${contract?.apartment_id}" type="text" name="apartment_id"
+               placeholder="" required>
+        <span class="span login">Введите id квартиры</span>
+      </div>
+      <div class="form group">
+        <input class="input" th:value="${contract?.client_id}" type="text" name="client_id"
+               placeholder="" required>
+        <span class="span login">Введите id клиента</span>
+      </div>
+      <div class="form group">
+        <input class="input" th:value="${contract?.employee_id}" type="text" name="employee_id"
+               placeholder="" required>
+        <span class="span login">Введите id сотрудника</span>
+      </div>
+      <div class="form group">
+        <button class="btn" type="submit">Добавить</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="section-2" th:unless="${employee?.isEnabled()}">
+  <div class="center">
+    <div class="container-title2">
+      <h1 class="text">Личная информация о клиенте</h1>
+    </div>
+  </div>
+  <div class="table">
+    <div th:unless="${employee?.isEnabled()}">
+      <div class="content-table">
+        <h2 class="text">Фамилия:</h2>
+        <li th:utext="${client?.second_name}">..</li>
+      </div>
+      <div class="content-table">
+        <h2 class="text">Имя:</h2>
+        <li th:utext="${client?.first_name}">..</li>
+      </div>
+      <div class="content-table">
+        <h2 class="text">Отчество:</h2>
+        <li th:utext="${client?.middle_name}">..</li>
+      </div>
+      <div class="content-table">
+        <h2 class="text">Телефон:</h2>
+        <li th:utext="${client?.phone}">..</li>
+      </div>
+      <div class="content-table">
+        <h2 class="text">Дата рождения:</h2>
+        <li th:utext="${client?.birth_date}">..</li>
+      </div>
+      <div class="content-table">
+        <h2 class="text">Номер и серия паспорта:</h2>
+        <li th:utext="${client?.passport}">..</li>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="section-2" th:if="${employee?.isEnabled()}">
+  <div class="center">
+    <div class="container-title2">
+      <h1 class="text">Личная информация о сотруднике</h1>
+    </div>
+  </div>
+  <div class="table">
+    <div th:if="${employee?.isEnabled()}">
+      <div class="content-table">
+        <h2 class="text">Фамилия:</h2>
+        <li th:utext="${employee?.second_name}">..</li>
+      </div>
+      <div class="content-table">
+        <h2 class="text">Имя:</h2>
+        <li th:utext="${employee?.first_name}">..</li>
+      </div>
+      <div class="content-table">
+        <h2 class="text">Отчество:</h2>
+        <li th:utext="${employee?.middle_name}">..</li>
+      </div>
+      <div class="content-table">
+        <h2 class="text">Телефон:</h2>
+        <li th:utext="${employee?.phone}">..</li>
+      </div>
+      <div class="content-table">
+        <h2 class="text">Дата рождения:</h2>
+        <li th:utext="${employee?.birth_date}">..</li>
+      </div>
+      <div class="content-table">
+        <h2 class="text">Номер и серия паспорта:</h2>
+        <li th:utext="${employee?.passport}">..</li>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="section-2">
+  <div class="center">
+    <div class="container-title2">
+      <h1 class="text">Контракты</h1>
+      <div class="container-pagination">
+        <div class="pagination">
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Страницы</a>
+          </li>
+          <th:block th:each="p: ${body}">
+            <div class="th-center">
+              <div th:if="${page.getNumber()} == ${p - 1}">
+                <li class="page-item active">
+                  <a class="page-link" tabindex="-1" th:text="${p}">.</a>
+                </li>
+              </div>
+              <div th:if="${page.getNumber()} != ${p - 1} and -1 != ${p}">
+                <li class="page-item">
+                  <a class="page-link" th:href="@{__${url}__page=__${p - 1}__}" tabindex="-1" th:text="${p}">.</a>
+                </li>
+              </div>
+              <div th:if="-1 == ${p}">
+                <li class="page-item disabled">
+                  <a class="page-link" tabindex="-1">...</a>
+                </li>
+              </div>
+            </div>
+          </th:block>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="table">
+    <th:block th:each="contract: ${page?.content}">
+      <div class="content-table">
+        <h2 class="text">Сумма (руб.):</h2>
+        <li th:utext="${contract?.price}">..</li>
+      </div>
+      <div class="content-table">
+        <h2 class="text">Дата:</h2>
+        <li th:utext="${contract?.date}">..</li>
+      </div>
+      <div class="content-table">
+        <h2 class="text">Статус контракта:</h2>
+        <li th:utext="${contract?.status}">..</li>
+      </div>
+      <div class="content-table">
+        <h2 class="text">Название: </h2>
+        <li class="text-li" th:utext="${building?.name}">..</li>
+      </div>
+      <div class="content-table">
+        <h2 class="text">Тип контракта:</h2>
+        <li th:utext="${contract?.type}">..</li>
+      </div>
+      <div class="border"></div>
+      <div class="container-title2">
+        <h1 class="text">Информация о квартире</h1>
+      </div>
+      <div class="content-table">
+        <h2 class="text">Номер:</h2>
+        <li class="text-li" th:utext="${contract?.apartment?.number}">..</li>
+      </div>
+      <div class="content-table">
+        <h2 class="text">Этаж:</h2>
+        <li class="text-li" th:utext="${contract?.apartment?.floor}">..</li>
+      </div>
+      <div class="content-table">
+        <h2 class="text">Подъезд:</h2>
+        <li class="text-li" th:utext="${contract?.apartment?.entrance}">..</li>
+      </div>
+      <div class="content-table">
+        <h2 class="text">Общая площадь:</h2>
+        <li class="text-li" th:utext="${contract?.apartment?.total_area}">..</li>
+      </div>
+      <div class="content-table">
+        <h2 class="text">Жилая площадь:</h2>
+        <li class="text-li" th:utext="${contract?.apartment?.living_area}">..</li>
+      </div>
+      <div class="content-table">
+        <h2 class="text">Количество комнат:</h2>
+        <li class="text-li" th:utext="${contract?.apartment?.number_rooms}">..</li>
+      </div>
+
+
+      <div class="center" th:if="${employee?.isEnabled()}">
+        <div class="container-title2">
+          <h1 class="text">Информация о клиенте</h1>
+        </div>
+      </div>
+      <div class="table" th:if="${employee?.isEnabled()}">
+        <div>
+          <div class="content-table">
+            <h2 class="text">Фамилия:</h2>
+            <li th:utext="${contract?.client?.second_name}">..</li>
+          </div>
+          <div class="content-table">
+            <h2 class="text">Имя:</h2>
+            <li th:utext="${contract?.client?.first_name}">..</li>
+          </div>
+          <div class="content-table">
+            <h2 class="text">Отчество:</h2>
+            <li th:utext="${contract?.client?.middle_name}">..</li>
+          </div>
+          <div class="content-table">
+            <h2 class="text">Телефон:</h2>
+            <li th:utext="${contract?.client?.phone}">..</li>
+          </div>
+          <div class="content-table">
+            <h2 class="text">Дата рождения:</h2>
+            <li th:utext="${contract?.client?.birth_date}">..</li>
+          </div>
+          <div class="content-table">
+            <h2 class="text">Номер и серия паспорта:</h2>
+            <li th:utext="${contract?.client?.passport}">..</li>
+          </div>
+        </div>
+      </div>
+
+      <div class="center" th:unless="${employee?.isEnabled()}">
+        <div class="container-title2">
+          <h1 class="text">Информация о сотруднике, оформившем договор</h1>
+        </div>
+      </div>
+      <div class="table" th:unless="${employee?.isEnabled()}">
+        <div>
+          <div class="content-table">
+            <h2 class="text">Фамилия:</h2>
+            <li th:utext="${contract?.employee?.second_name}">..</li>
+          </div>
+          <div class="content-table">
+            <h2 class="text">Имя:</h2>
+            <li th:utext="${contract?.employee?.first_name}">..</li>
+          </div>
+          <div class="content-table">
+            <h2 class="text">Отчество:</h2>
+            <li th:utext="${contract?.employee?.middle_name}">..</li>
+          </div>
+          <div class="content-table">
+            <h2 class="text">Телефон:</h2>
+            <li th:utext="${contract?.employee?.phone}">..</li>
+          </div>
+          <div class="content-table">
+            <h2 class="text">Дата рождения:</h2>
+            <li th:utext="${contract?.employee?.birth_date}">..</li>
+          </div>
+          <div class="content-table">
+            <h2 class="text">Номер и серия паспорта:</h2>
+            <li th:utext="${contract?.employee?.passport}">..</li>
+          </div>
+        </div>
+      </div>
+      <div class="content-table">
+        <a class="content-reg-btn" th:href="@{/contracts/__${contract?.contract_id}__/editContract}">Редактировать контракт</a>
+      </div>
+      <div class="content-table">
+        <a class="content-reg-btn" th:href="@{/contracts/__${contract?.contract_id}__/deleteContract}">Удалить контракт</a>
+      </div>
+      <div class="border"></div>
     </th:block>
-  </ul>
+  </div>
+  <div class="container-pagination">
+    <div class="pagination">
+      <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1">Страницы</a>
+      </li>
+      <th:block th:each="p: ${body}">
+        <div class="th-center">
+          <div th:if="${page.getNumber()} == ${p - 1}">
+            <li class="page-item active">
+              <a class="page-link" tabindex="-1" th:text="${p}">.</a>
+            </li>
+          </div>
+          <div th:if="${page.getNumber()} != ${p - 1} and -1 != ${p}">
+            <li class="page-item">
+              <a class="page-link" th:href="@{__${url}__page=__${p - 1}__}" tabindex="-1" th:text="${p}">.</a>
+            </li>
+          </div>
+          <div th:if="-1 == ${p}">
+            <li class="page-item disabled">
+              <a class="page-link" tabindex="-1">...</a>
+            </li>
+          </div>
+        </div>
+      </th:block>
+    </div>
+  </div>
 </div>
 
-<ul>
-  <th:block th:each="contract: ${page?.content}">
-    Сумма (руб.): <li th:utext="${contract?.price}">..</li>
-    Дата: <li th:utext="${contract?.date}">..</li>
-    Статус контракта: <li th:utext="${contract?.status}">..</li>
-    Тип контракта: <li th:utext="${contract?.type}">..</li>
-    <ul>
-      <p>Информация о квартире</p>
-      Номер: <li th:utext="${contract?.apartment?.number}">..</li>
-      Этаж: <li th:utext="${contract?.apartment?.floor}">..</li>
-      Подъезд: <li th:utext="${contract?.apartment?.entrance}">..</li>
-      Общая площадь: <li th:utext="${contract?.apartment?.total_area}">..</li>
-      Жилая площадь: <li th:utext="${contract?.apartment?.living_area}">..</li>
-      Количество комнат: <li th:utext="${contract?.apartment?.number_rooms}">..</li>
-    </ul>
-    <ul th:if="${employee?.isEnabled()}">
-      <p>Информация о клиенте</p>
-      Фамилия:<li th:utext="${contract?.client?.second_name}">..</li>
-      Имя:<li th:utext="${contract?.client?.first_name}">..</li>
-      Отчество:<li th:utext="${contract?.client?.middle_name}">..</li>
-      Телефон: <li th:utext="${contract?.client?.phone}">..</li>
-      Дата рождения: <li th:utext="${contract?.client?.birth_date}">..</li>
-      Номер и серия паспорта: <li th:utext="${contract?.client?.passport}">..</li>
-    </ul>
-    <ul th:unless="${employee?.isEnabled()}">
-      <p>Информация о сотруднике, оформившем договор</p>
-      Фамилия:<li th:utext="${contract?.employee?.second_name}">..</li>
-      Имя:<li th:utext="${contract?.employee?.first_name}">..</li>
-      Отчество:<li th:utext="${contract?.employee?.middle_name}">..</li>
-      Телефон: <li th:utext="${contract?.employee?.phone}">..</li>
-      Дата рождения: <li th:utext="${contract?.employee?.birth_date}">..</li>
-      Номер и серия паспорта: <li th:utext="${contract?.employee?.passport}">..</li>
-    </ul>
-    <a th:href="@{/contracts/__${contract?.contract_id}__/editContract}">Редактировать контракт</a>
-    <a th:href="@{/contracts/__${contract?.contract_id}__/deleteContract}">Удалить контракт</a>
-    <p>-----------------------------------------</p>
-  </th:block>
-</ul>
-
-<div>
-  <ul class="pagination">
-    <li class="page-item disabled">
-      <a class="page-link" href="#" tabindex="-1">Страницы</a>
-    </li>
-
-    <th:block th:each="p: ${body}">
-      <div th:if="${page.getNumber()} == ${p - 1}">
-        <li class="page-item active">
-          <a class="page-link" tabindex="-1" th:text="${p}">.</a>
-        </li>
-      </div>
-      <div th:if="${page.getNumber()} != ${p - 1} and -1 != ${p}">
-        <li class="page-item">
-          <a class="page-link" th:href="@{__${url}__page=__${p - 1}__}" tabindex="-1" th:text="${p}">.</a>
-        </li>
-      </div>
-      <div th:if="-1 == ${p}">
-        <li class="page-item disabled">
-          <a class="page-link" tabindex="-1">...</a>
-        </li>
-      </div>
-    </th:block>
-  </ul>
-</div>
 
 </body>
 </html>
